@@ -1,0 +1,14 @@
+# requirements.txt
+Django==4.2.16
+scapy==2.5.0
+python-nmap==0.7.1
+celery==5.3.6
+redis==5.0.1
+requests==2.31.0
+psycopg2-binary==2.9.9
+django-crispy-forms==2.1
+crispy-bootstrap5==0.7
+channels==4.0.0
+daphne==4.0.0
+waitress==2.1.2
+python-dotenv==1.0.0
