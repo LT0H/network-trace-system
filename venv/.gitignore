@@ -1,27 +1,2 @@
-# Python
-venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-
-# Database
-*.sqlite3
-*.db
-
-# Django
-*.log
-staticfiles/
-media/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Environment variables
-.env
-.env.local
+# Created by venv; see https://docs.python.org/3/library/venv.html
+*

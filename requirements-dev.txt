@@ -1,0 +1,13 @@
+# requirements-dev.txt - 开发环境依赖（无需PostgreSQL）
+Django==4.2.16
+scapy==2.5.0
+python-nmap==0.7.1
+celery==5.3.6
+redis==5.0.1
+requests==2.31.0
+django-crispy-forms==2.1
+crispy-bootstrap5==0.7
+python-dotenv==1.0.0
+django-celery-results==2.5.1
+django-celery-beat==2.5.0
+# 移除了 psycopg2-binary，使用SQLite

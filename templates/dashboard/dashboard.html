@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}系统仪表盘 - 网络扫描溯源系统{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-tachometer-alt"></i> 系统仪表盘</h1>
+</div>
+
+<!-- 统计卡片 -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ total_tasks }}</h4>
+                        <p>总任务数</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-tasks fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ completed_tasks }}</h4>
+                        <p>已完成</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ running_tasks }}</h4>
+                        <p>进行中</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-sync-alt fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h4>{{ unique_hosts }}</h4>
+                        <p>发现主机</p>
+                    </div>
+                    <div class="align-self-center">
+                        <i class="fas fa-desktop fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- 任务趋势图 -->
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>扫描任务趋势</h5>
+            </div>
+            <div class="card-body">
+                <div id="taskTrendChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 任务状态分布 -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>任务状态分布</h5>
+            </div>
+            <div class="card-body">
+                <div id="statusPieChart" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <!-- 最近任务 -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5>最近任务</h5>
+                <a href="{% url 'task_list' %}" class="btn btn-sm btn-outline-primary">查看全部</a>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for task in recent_tasks %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">{{ task.name }}</h6>
+                            <small class="text-muted">{{ task.created_at|timesince }}前</small>
+                        </div>
+                        <p class="mb-1">目标: {{ task.target|truncatechars:30 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-{{ task.status|lower }}">{{ task.get_status_display }}</small>
+                            {% if task.status == 'RUNNING' or task.status == 'PENDING' %}
+                            <div class="progress scan-progress" style="width: 100px;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                     style="width: {{ task.progress }}%">{{ task.progress }}%</div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">暂无任务</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 最近结果 -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5>最近发现</h5>
+                <a href="{% url 'result_list' %}" class="btn btn-sm btn-outline-primary">查看全部</a>
+            </div>
+            <div class="card-body">
+                <div class="list-group">
+                    {% for result in recent_results %}
+                    <div class="list-group-item">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">
+                                <span class="badge bg-{% if result.state == 'open' %}success{% else %}secondary{% endif %}">
+                                    {{ result.ip_address }}{% if result.port %}:{{ result.port }}{% endif %}
+                                </span>
+                            </h6>
+                            <small class="text-muted">{{ result.discovered_at|timesince }}前</small>
+                        </div>
+                        <p class="mb-1">
+                            状态: <span class="badge bg-{% if result.state == 'open' %}success{% else %}warning{% endif %}">
+                                {{ result.state }}
+                            </span>
+                            {% if result.service %}服务: {{ result.service }}{% endif %}
+                        </p>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">暂无结果</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // 初始化图表
+    document.addEventListener('DOMContentLoaded', function() {
+        const chartData = {{ chart_data|safe }};
+        
+        // 任务趋势图
+        const trendChart = echarts.init(document.getElementById('taskTrendChart'));
+        trendChart.setOption({
+            title: { text: '近30天任务趋势', left: 'center' },
+            tooltip: { trigger: 'axis' },
+            xAxis: {
+                type: 'category',
+                data: chartData.task_trend.days
+            },
+            yAxis: { type: 'value' },
+            series: [{
+                data: chartData.task_trend.counts,
+                type: 'line',
+                smooth: true,
+                areaStyle: {}
+            }]
+        });
+        
+        // 状态分布饼图
+        const statusChart = echarts.init(document.getElementById('statusPieChart'));
+        statusChart.setOption({
+            title: { text: '任务状态分布', left: 'center' },
+            tooltip: { trigger: 'item' },
+            series: [{
+                type: 'pie',
+                radius: '70%',
+                data: [
+                    { value: {{ completed_tasks }}, name: '已完成' },
+                    { value: {{ running_tasks }}, name: '进行中' },
+                    { value: {{ total_tasks|add:-completed_tasks|add:-running_tasks }}, name: '其他状态' }
+                ],
+                emphasis: {
+                    itemStyle: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                }
+            }]
+        });
+        
+        // 响应窗口大小变化
+        window.addEventListener('resize', function() {
+            trendChart.resize();
+            statusChart.resize();
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

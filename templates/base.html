@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}网络扫描溯源系统{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- ECharts -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    
+    <!-- 自定义CSS -->
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .sidebar .nav-link {
+            color: #333;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .sidebar .nav-link:hover, .sidebar .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .scan-progress {
+            height: 20px;
+            margin: 5px 0;
+        }
+        .result-card {
+            transition: transform 0.2s;
+        }
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .topology-graph {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-network-wired"></i> 扫描溯源系统
+                    </h4>
+                    
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" 
+                               href="{% url 'dashboard' %}">
+                                <i class="fas fa-tachometer-alt"></i> 仪表盘
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'task' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'task_list' %}">
+                                <i class="fas fa-tasks"></i> 扫描任务
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'result' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'result_list' %}">
+                                <i class="fas fa-search"></i> 扫描结果
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if 'topology' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'topology_view' %}">
+                                <i class="fas fa-project-diagram"></i> 网络拓扑
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <hr>
+                    
+                    <!-- 快速操作 -->
+                    <div class="mt-4">
+                        <h6>快速操作</h6>
+                        <button class="btn btn-primary btn-sm w-100 mb-2" data-bs-toggle="modal" data-bs-target="#createTaskModal">
+                            <i class="fas fa-plus"></i> 新建扫描
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 主内容区 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <!-- 消息提示 -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <!-- 页面内容 -->
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- 新建任务模态框 -->
+    <div class="modal fade" id="createTaskModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">新建扫描任务</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form id="createTaskForm" method="post" action="{% url 'task_create' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">任务名称</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">扫描目标</label>
+                            <input type="text" class="form-control" name="target" 
+                                   placeholder="例如: 192.168.1.1, 192.168.1.0/24, example.com" required>
+                            <div class="form-text">支持IP地址、网段或域名，多个目标用逗号分隔</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">扫描类型</label>
+                                <select class="form-select" name="scan_type" required>
+                                    <option value="SYN_SCAN">SYN端口扫描</option>
+                                    <option value="UDP_SCAN">UDP端口扫描</option>
+                                    <option value="OS_DETECTION">操作系统检测</option>
+                                    <option value="SERVICE_DETECTION">服务版本检测</option>
+                                    <option value="FULL_SCAN">全面扫描</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">端口范围</label>
+                                <input type="text" class="form-control" name="ports" 
+                                       value="1-1000" placeholder="例如: 80,443,1-1000">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-primary">创建任务</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- 自定义JavaScript -->
+    <script>
+        // 实时更新任务状态
+        function updateTaskStatus(taskId) {
+            $.get(`/api/tasks/${taskId}/status/`, function(data) {
+                $(`#task-${taskId}-progress`).css('width', data.progress + '%').text(data.progress + '%');
+                $(`#task-${taskId}-status`).text(data.status_text);
+                
+                if (data.status === 'RUNNING' || data.status === 'PENDING') {
+                    setTimeout(() => updateTaskStatus(taskId), 3000); // 3秒后再次更新
+                } else if (data.status === 'COMPLETED') {
+                    // 任务完成，刷新页面显示结果
+                    location.reload();
+                }
+            });
+        }
+
+        // 表单提交处理
+        $(document).ready(function() {
+            $('#createTaskForm').on('submit', function(e) {
+                e.preventDefault();
+                const formData = $(this).serialize();
+                
+                $.post($(this).attr('action'), formData)
+                    .done(function(data) {
+                        if (data.success) {
+                            $('#createTaskModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert('创建任务失败: ' + data.error);
+                        }
+                    })
+                    .fail(function() {
+                        alert('网络错误，请重试');
+                    });
+            });
+
+            // 自动更新运行中的任务状态
+            $('.task-running, .task-pending').each(function() {
+                const taskId = $(this).data('task-id');
+                updateTaskStatus(taskId);
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

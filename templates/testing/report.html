@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测试报告 - 网络扫描溯源系统</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-case { margin: 10px 0; padding: 10px; border-left: 4px solid #ccc; }
+        .pass { border-color: green; background: #f0fff0; }
+        .fail { border-color: red; background: #fff0f0; }
+        .summary { background: #f5f5f5; padding: 15px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>系统测试报告</h1>
+    <div class="summary">
+        <h3>测试概要</h3>
+        <p>运行时间: {{ timestamp }}</p>
+        <p>总测试数: {{ total_tests }}</p>
+        <p>通过: <span style="color: green">{{ passed_tests }}</span></p>
+        <p>失败: <span style="color: red">{{ failed_tests }}</span></p>
+        <p>成功率: {{ success_rate }}%</p>
+    </div>
+    
+    <h3>详细结果</h3>
+    {% for test in test_results %}
+    <div class="test-case {{ 'pass' if test.passed else 'fail' }}">
+        <strong>{{ test.name }}</strong>
+        <p>状态: {{ '通过' if test.passed else '失败' }}</p>
+        {% if not test.passed %}
+        <p>错误: {{ test.error }}</p>
+        {% endif %}
+        <p>耗时: {{ test.duration }}秒</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
