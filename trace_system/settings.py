@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-iti03+7m6ouwvj5v+k)g)0rtmdbd4^jv$#ospiodauzxp_*kdo
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition

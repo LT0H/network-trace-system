@@ -8,16 +8,10 @@ from pathlib import Path
 from .base import *
 
 # 安全警告：生产环境不要开启调试模式！
-DEBUG = False
+DEBUG = True
 
 # 允许的主机名
-ALLOWED_HOSTS = [
-    'yourdomain.com',  # 您的域名
-    'localhost',
-    '127.0.0.1',
-    '::1',
-    '.yourdomain.com',  # 允许所有子域名
-]
+ALLOWED_HOSTS = ['*']
 
 # 安全密钥（生产环境必须设置独立的密钥）
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
