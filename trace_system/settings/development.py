@@ -6,6 +6,8 @@ DEBUG = True
 
 # 允许本地访问
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+SECRET_KEY = 'django-insecure-iti03+7m6ouwvj5v+k)g)0rtmdbd4^jv$#ospiodauzxp_*kdo'  # 与base.py保持一致
+ROOT_URLCONF = 'trace_system.urls'
 
 # 开发环境数据库（默认SQLite）
 DATABASES = {

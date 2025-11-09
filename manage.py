@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trace_system.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trace_system.settings.development')
     try:
         from django.core.management import execute_from_command_line
         # 正确的配置模块路径查看方式（修复错误行）
