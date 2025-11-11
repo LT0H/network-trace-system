@@ -119,7 +119,6 @@ class ScanResult(models.Model):
             return f"{self.ip_address}:{self.port} ({self.state})"
         return f"{self.ip_address} ({self.state})"
 
-
 class NetworkTopology(models.Model):
     """
     网络拓扑模型
@@ -136,3 +135,18 @@ class NetworkTopology(models.Model):
     class Meta:
         verbose_name = "网络拓扑"
         verbose_name_plural = "网络拓扑"
+
+class TrafficAnalysisResult(models.Model):
+    """流量分析结果模型"""
+    pcap_file_path = models.CharField(max_length=500, verbose_name="PCAP文件路径")
+    analysis_result = models.JSONField(default=dict, verbose_name="分析结果")
+    packet_count = models.IntegerField(default=0, verbose_name="数据包数量")
+    protocol_distribution = models.JSONField(default=dict, verbose_name="协议分布")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    
+    class Meta:
+        verbose_name = "流量分析结果"
+        verbose_name_plural = "流量分析结果"
+        
+    def __str__(self):
+        return f"流量分析结果 {self.id} - {self.created_at}"

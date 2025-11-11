@@ -3,6 +3,9 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from scanner.models import ScanTask, ScanResult
 from scanner.serializers import ScanTaskSerializer, ScanResultSerializer
+from scanner.models import TrafficAnalysisResult
+from django.utils import timezone
+from datetime import timedelta
 import json
 
 @api_view(['GET'])
@@ -97,3 +100,57 @@ def topology_data_api(request):
             'success': False,
             'error': str(e)
         }, status=500)
+
+@api_view(['GET'])
+def traffic_analysis_results(request):
+    """获取流量分析结果API"""
+    # 支持按时间范围筛选
+    days = int(request.GET.get('days', 7))
+    start_date = timezone.now() - timedelta(days=days)
+    
+    results = TrafficAnalysisResult.objects.filter(created_at__gte=start_date)
+    
+    # 序列化结果
+    data = [{
+        'id': res.id,
+        'pcap_file_path': res.pcap_file_path,
+        'packet_count': res.packet_count,
+        'protocol_distribution': res.protocol_distribution,
+        'created_at': res.created_at
+    } for res in results]
+    
+    return Response({
+        'success': True,
+        'data': data,
+        'total': results.count()
+    })
+
+@api_view(['POST'])
+def control_traffic_monitor(request):
+    """控制流量监听服务API"""
+    action = request.data.get('action')
+    
+    if action == 'start':
+        duration = request.data.get('duration')
+        from scanner.tasks import start_traffic_monitoring
+        result = start_traffic_monitoring.delay(duration)
+        return Response({
+            'success': True,
+            'message': '流量监听已启动',
+            'task_id': result.id
+        })
+        
+    elif action == 'stop':
+        from scanner.tasks import stop_traffic_monitoring
+        result = stop_traffic_monitoring.delay()
+        return Response({
+            'success': True,
+            'message': '流量监听已停止',
+            'task_id': result.id
+        })
+        
+    else:
+        return Response({
+            'success': False,
+            'error': '无效的操作，支持的操作: start, stop'
+        }, status=400)

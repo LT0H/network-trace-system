@@ -3,6 +3,7 @@ from django.utils.html import format_html
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .models import ScanTask, ScanResult, NetworkTopology
+from .models import ScanTask, TrafficAnalysisResult
 
 @admin.register(ScanTask)
 class ScanTaskAdmin(admin.ModelAdmin):
@@ -128,6 +129,13 @@ class ScanTaskAdmin(admin.ModelAdmin):
         if not obj.pk:  # 新建对象
             obj.created_by = request.user
         super().save_model(request, obj, form, change)
+
+@admin.register(TrafficAnalysisResult)
+class TrafficAnalysisResultAdmin(admin.ModelAdmin):
+    list_display = ('id', 'pcap_file_path', 'packet_count', 'created_at')
+    search_fields = ('pcap_file_path',)
+    list_filter = ('created_at',)
+    readonly_fields = ('created_at',)  # 时间字段设为只读
 
 @admin.register(ScanResult)
 class ScanResultAdmin(admin.ModelAdmin):

@@ -14,7 +14,15 @@ start "Celery Worker" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\
 echo 2. 等待3秒让Celery启动...
 timeout /t 3 /nobreak >nul
 
-echo 3. 启动Django开发服务器...
+echo 3. 启动流量监听服务? (y/n)
+set /p start_monitor=
+if /i "%start_monitor%"=="y" (
+    echo 启动流量监听服务...
+    start "Traffic Monitor" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\Scripts\activate.bat && set DJANGO_ENV=development && python manage.py start_traffic_monitor"
+    timeout /t 2 /nobreak >nul
+)
+
+echo 4. 启动Django开发服务器...
 echo   访问: http://127.0.0.1:8000/
 echo.
 cd /d C:\Users\z1395\network_trace_system
