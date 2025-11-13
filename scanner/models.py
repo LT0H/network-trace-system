@@ -138,8 +138,11 @@ class NetworkTopology(models.Model):
 
 class TrafficAnalysisResult(models.Model):
     """流量分析结果模型"""
-    pcap_file_path = models.CharField(max_length=500, verbose_name="PCAP文件路径")
-    analysis_result = models.JSONField(default=dict, verbose_name="分析结果")
+    pcap_file_path = models.CharField(max_length=512, verbose_name="PCAP文件路径")
+    analyzer_type = models.CharField(max_length=20, verbose_name="分析器类型", 
+                                    choices=[("ws", "ws-traffic-analyze-kit"), 
+                                             ("cic", "CICFlowMeter")])
+    analysis_result = models.JSONField(verbose_name="分析结果")
     packet_count = models.IntegerField(default=0, verbose_name="数据包数量")
     protocol_distribution = models.JSONField(default=dict, verbose_name="协议分布")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
@@ -149,4 +152,4 @@ class TrafficAnalysisResult(models.Model):
         verbose_name_plural = "流量分析结果"
         
     def __str__(self):
-        return f"流量分析结果 {self.id} - {self.created_at}"
+        return f"{self.analyzer_type} - {self.pcap_file_path}"

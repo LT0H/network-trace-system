@@ -23,64 +23,38 @@ public class Cmd {
     private static String[] animationChars = new String[]{"|", "/", "-", "\\"};
 
     public static void main(String[] args) {
-
         long flowTimeout = 120000000L;
         long activityTimeout = 5000000L;
-        String rootPath = System.getProperty("user.dir");
-        String pcapPath;
-        String outPath;
-
-        /* Select path for reading all .pcap files */
-        /*if(args.length<1 || args[0]==null) {
-            pcapPath = rootPath+"/data/in/";
-        }else {
-        }*/
-
-        /* Select path for writing all .csv files */
-        /*if(args.length<2 || args[1]==null) {
-            outPath = rootPath+"/data/out/";
-        }else {
-        }*/
-
-        if (args.length < 1) {
-            logger.info("Please select pcap!");
-            return;
-        }
-        pcapPath = args[0];
-        File in = new File(pcapPath);
-
-        if(in==null || !in.exists()){
-            logger.info("The pcap file or folder does not exist! -> {}",pcapPath);
-            return;
-        }
-
+        
+        // 简化命令行参数处理，只需要输入文件和输出目录
         if (args.length < 2) {
-            logger.info("Please select output folder!");
+            logger.info("用法: java -jar cicflowmeter.jar <pcap文件路径> <输出目录>");
             return;
         }
-        outPath = args[1];
-        File out = new File(outPath);
-        if (out == null || out.isFile()) {
-            logger.info("The out folder does not exist! -> {}",outPath);
+        
+        String pcapPath = args[0];
+        String outPath = args[1];
+        
+        File inFile = new File(pcapPath);
+        if (!inFile.exists() || !inFile.isFile()) {
+            logger.error("PCAP文件不存在: {}", pcapPath);
             return;
         }
-
-        logger.info("You select: {}",pcapPath);
-        logger.info("Out folder: {}",outPath);
-
-
-        if (in.isDirectory()) {
-            readPcapDir(in,outPath,flowTimeout,activityTimeout);
-        } else {
-
-            if (!SwingUtils.isPcapFile(in)) {
-                logger.info("Please select pcap file!");
-            } else {
-                logger.info("CICFlowMeter received 1 pcap file");
-                readPcapFile(in.getPath(), outPath,flowTimeout,activityTimeout);
-            }
+        
+        File outDir = new File(outPath);
+        if (!outDir.exists()) {
+            outDir.mkdirs();
         }
-
+        
+        if (!SwingUtils.isPcapFile(inFile)) {
+            logger.error("请提供有效的PCAP文件");
+            return;
+        }
+        
+        logger.info("处理PCAP文件: {}", pcapPath);
+        logger.info("输出目录: {}", outPath);
+        
+        readPcapFile(pcapPath, outPath, flowTimeout, activityTimeout);
     }
 
     private static void readPcapDir(File inputPath, String outPath, long flowTimeout, long activityTimeout) {
