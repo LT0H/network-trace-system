@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'scanner',
     'dashboard', 
     'api',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

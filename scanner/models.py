@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 import json
 
 class ScanTask(models.Model):
@@ -146,10 +147,11 @@ class TrafficAnalysisResult(models.Model):
     packet_count = models.IntegerField(default=0, verbose_name="数据包数量")
     protocol_distribution = models.JSONField(default=dict, verbose_name="协议分布")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
+    is_analyzed = models.BooleanField(default=False, verbose_name="是否已分析")
     
     class Meta:
         verbose_name = "流量分析结果"
         verbose_name_plural = "流量分析结果"
         
     def __str__(self):
-        return f"{self.analyzer_type} - {self.pcap_file_path}"
+        return f"{self.analyzer_type} - {self.pcap_file_path} - {self.created_at}"

@@ -1,0 +1,143 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<div class="admin-traffic-monitor">
+    <h1>网络流量监控</h1>
+    
+    <div class="control-panel">
+        <h2>监控控制</h2>
+        <button id="start-monitor" class="btn btn-success">启动监控</button>
+        <button id="stop-monitor" class="btn btn-danger" disabled>停止监控</button>
+        <div id="status-indicator" class="status">状态: 未运行</div>
+    </div>
+    
+    <div class="records-panel">
+        <h2>流量记录管理</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>PCAP文件</th>
+                    <th>分析工具</th>
+                    <th>包数量</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="records-table-body">
+                <!-- 记录将通过JavaScript动态加载 -->
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="analysis-panel" style="display: none;">
+        <h2>流量分析结果</h2>
+        <div id="analysis-result">
+            <!-- 分析结果将通过JavaScript动态加载 -->
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+// 更新状态显示
+function updateStatus(isRunning) {
+    const statusEl = document.getElementById('status-indicator');
+    const startBtn = document.getElementById('start-monitor');
+    const stopBtn = document.getElementById('stop-monitor');
+    
+    if (isRunning) {
+        statusEl.textContent = '状态: 运行中';
+        statusEl.style.color = 'green';
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+    } else {
+        statusEl.textContent = '状态: 未运行';
+        statusEl.style.color = 'red';
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    }
+}
+
+// 加载流量记录
+function loadRecords() {
+    $.getJSON("{% url 'get_traffic_records' %}", function(data) {
+        if (data.status === 'success') {
+            const tbody = document.getElementById('records-table-body');
+            tbody.innerHTML = '';
+            
+            data.data.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${record.id}</td>
+                    <td>${record.pcap_file}</td>
+                    <td>${record.analyzer_type}</td>
+                    <td>${record.packet_count}</td>
+                    <td>${record.created_at}</td>
+                    <td>
+                        <button class="analyze-btn" data-id="${record.id}">分析</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // 绑定分析按钮事件
+            $('.analyze-btn').click(function() {
+                const recordId = $(this).data('id');
+                loadAnalysis(recordId);
+            });
+        }
+    });
+}
+
+// 加载分析结果
+function loadAnalysis(recordId) {
+    $.getJSON(`{% url 'analyze_traffic_record' 0 %}`.replace('0', recordId), function(data) {
+        if (data.status === 'success') {
+            const panel = document.querySelector('.analysis-panel');
+            const resultEl = document.getElementById('analysis-result');
+            
+            resultEl.innerHTML = `
+                <h3>记录 #${data.data.id} 分析结果</h3>
+                <p><strong>包数量:</strong> ${data.data.packet_count}</p>
+                <h4>协议分布:</h4>
+                <pre>${JSON.stringify(data.data.protocol_distribution, null, 2)}</pre>
+                <h4>详细分析:</h4>
+                <pre>${JSON.stringify(data.data.analysis_result, null, 2)}</pre>
+            `;
+            
+            panel.style.display = 'block';
+        }
+    });
+}
+
+// 页面加载时初始化
+$(document).ready(function() {
+    // 初始加载记录
+    loadRecords();
+    
+    // 启动监控按钮
+    $('#start-monitor').click(function() {
+        $.post("{% url 'start_traffic_monitor' %}", function(data) {
+            alert(data.message);
+            if (data.status === 'success') {
+                updateStatus(true);
+            }
+        });
+    });
+    
+    // 停止监控按钮
+    $('#stop-monitor').click(function() {
+        $.post("{% url 'stop_traffic_monitor' %}", function(data) {
+            alert(data.message);
+            if (data.status === 'success') {
+                updateStatus(false);
+                loadRecords(); // 刷新记录列表
+            }
+        });
+    });
+    
+    // 定时刷新记录
+    setInterval(loadRecords, 30000); // 每30秒刷新一次
+});
+</script>
+{% endblock %}

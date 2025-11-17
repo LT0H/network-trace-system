@@ -1,14 +1,19 @@
 from celery import shared_task
+from celery.schedules import crontab
+from trace_system.celery import app
+import os
 import logging
+import json
 import time  # 新增必要导入
 from .models import ScanTask, TrafficAnalysisResult
 from .traffic_monitor import TrafficMonitor
 from django.utils import timezone
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 traffic_monitor = TrafficMonitor()  # 确保此处初始化不会引发导入问题
 
-@shared_task
+@app.task
 def run_scan_task(task_id):
     """运行扫描任务（修复语法错误和逻辑错误）"""
     task = None  # 提前初始化task变量，避免未定义问题
@@ -63,7 +68,7 @@ def run_scan_task(task_id):
             'message': str(e)
         }
 
-@shared_task
+@app.task
 def start_traffic_monitoring(duration=None):
     """启动流量监听任务"""
     try:
@@ -79,7 +84,7 @@ def start_traffic_monitoring(duration=None):
             'error': str(e)
         }
 
-@shared_task
+@app.task
 def stop_traffic_monitoring():
     """停止流量监听任务"""
     try:
@@ -94,3 +99,100 @@ def stop_traffic_monitoring():
             'status': 'failed',
             'error': str(e)
         }
+
+@app.task(name="analyze_traffic_periodically")
+def analyze_traffic_periodically():
+    """每2小时执行一次流量分析"""
+    logger.info("开始执行定时流量分析任务")
+    
+    try:
+        # 1. 先确保监控是停止的，避免文件被占用
+        if traffic_monitor.is_running:
+            traffic_monitor.stop_monitoring()
+            logger.info("为执行定时分析，已临时停止流量监控")
+        
+        # 2. 获取未分析的pcap文件或需要重新分析的文件
+        records = TrafficAnalysisResult.objects.filter(
+            is_analyzed=False
+        ).order_by('created_at')
+        
+        if not records:
+            logger.info("没有需要分析的流量记录")
+            # 重新启动监控
+            traffic_monitor.start_monitoring()
+            return
+        
+        # 3. 创建数据集目录
+        dataset_dir = os.path.join(settings.BASE_DIR, 'datasets', f"dataset_{datetime.now().strftime('%Y%m%d_%H%M%S')}")
+        os.makedirs(dataset_dir, exist_ok=True)
+        logger.info(f"创建数据集目录: {dataset_dir}")
+        
+        # 4. 分析记录并构建数据集
+        analysis_summary = {
+            'timestamp': datetime.now().isoformat(),
+            'record_count': len(records),
+            'success_count': 0,
+            'fail_count': 0,
+            'records': []
+        }
+        
+        for record in records:
+            try:
+                # 复制分析结果到数据集目录
+                if record.analyzer_type == 'ws' and 'analysis_result' in record.analysis_result:
+                    result_file = os.path.join(dataset_dir, f"ws_analysis_{record.id}.json")
+                    with open(result_file, 'w') as f:
+                        json.dump(record.analysis_result, f, indent=2)
+                
+                elif record.analyzer_type == 'cic' and 'csv_path' in record.analysis_result:
+                    import shutil
+                    csv_path = record.analysis_result['csv_path']
+                    if os.path.exists(csv_path):
+                        shutil.copy2(csv_path, dataset_dir)
+                
+                # 标记为已分析
+                record.is_analyzed = True
+                record.save()
+                
+                # 更新摘要
+                analysis_summary['success_count'] += 1
+                analysis_summary['records'].append({
+                    'id': record.id,
+                    'status': 'success'
+                })
+                
+                # 删除pcap文件
+                if os.path.exists(record.pcap_file_path):
+                    os.remove(record.pcap_file_path)
+                    logger.info(f"已删除pcap文件: {record.pcap_file_path}")
+                
+            except Exception as e:
+                logger.error(f"分析记录 {record.id} 失败: {e}")
+                analysis_summary['fail_count'] += 1
+                analysis_summary['records'].append({
+                    'id': record.id,
+                    'status': 'failed',
+                    'error': str(e)
+                })
+        
+        # 5. 保存数据集摘要
+        summary_file = os.path.join(dataset_dir, 'summary.json')
+        with open(summary_file, 'w') as f:
+            json.dump(analysis_summary, f, indent=2)
+        
+        # 6. 记录分析日志
+        logger.info(f"定时流量分析完成: 共{len(records)}条记录，成功{analysis_summary['success_count']}条，失败{analysis_summary['fail_count']}条")
+        
+        # 7. 重新启动监控
+        traffic_monitor.start_monitoring()
+        
+        return analysis_summary
+        
+    except Exception as e:
+        logger.error(f"定时流量分析任务出错: {e}")
+        # 尝试重新启动监控
+        try:
+            traffic_monitor.start_monitoring()
+        except:
+            pass
+        raise e
