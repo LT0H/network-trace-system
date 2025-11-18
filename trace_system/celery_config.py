@@ -12,9 +12,9 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     # 任务名称（自定义）
-    'analyze_traffic_periodically': {
-        'task': 'scanner.tasks.your_periodic_task',  # 任务路径（对应上面定义的函数）
-        'schedule': crontab(minute=0, hour='*/2'),   # 执行周期（秒），可使用 celery.schedules.crontab 定义复杂周期
+    'analyze-traffic-every-2-hours': {
+        'task': 'scanner.tasks.analyze_traffic_periodically',  # 匹配实际任务函数
+        'schedule': crontab(minute=0, hour='*/2'),   # 每2小时执行一次
     },
 }
 

@@ -17,6 +17,7 @@ def traffic_monitor_admin(request):
     """流量监控管理员页面"""
     return render(request, 'scanner/traffic_monitor_admin.html')
 
+@staff_member_required
 def start_traffic_monitor(request):
     """启动流量监控API"""
     if request.method == 'POST':
@@ -34,6 +35,7 @@ def start_traffic_monitor(request):
             }, status=500)
     return JsonResponse({'status': 'error', 'message': '无效请求'}, status=400)
 
+@staff_member_required
 def stop_traffic_monitor(request):
     """停止流量监控API"""
     if request.method == 'POST':
@@ -51,6 +53,7 @@ def stop_traffic_monitor(request):
             }, status=500)
     return JsonResponse({'status': 'error', 'message': '无效请求'}, status=400)
 
+@staff_member_required
 def get_traffic_records(request):
     """获取流量记录列表"""
     records = TrafficAnalysisResult.objects.all().order_by('-id')
@@ -64,6 +67,7 @@ def get_traffic_records(request):
     } for record in records]
     return JsonResponse({'status': 'success', 'data': data})
 
+@staff_member_required
 def analyze_traffic_record(request, record_id):
     """分析特定流量记录"""
     try:

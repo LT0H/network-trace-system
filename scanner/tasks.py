@@ -1,6 +1,6 @@
 from celery import shared_task
 from celery.schedules import crontab
-from trace_system.celery import app
+from trace_system.celery_config import app
 import os
 import logging
 import json
