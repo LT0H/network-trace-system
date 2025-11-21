@@ -8,6 +8,8 @@ urlpatterns = [
     path('start-monitor/', views.start_traffic_monitor, name='start_traffic_monitor'),
     # 停止监控API
     path('stop-monitor/', views.stop_traffic_monitor, name='stop_traffic_monitor'),
+    # 获取监控状态API
+    path('monitor-status/', views.get_monitor_status, name='get_monitor_status'),
     # 获取记录列表API
     path('get-records/', views.get_traffic_records, name='get_traffic_records'),
     # 分析记录API

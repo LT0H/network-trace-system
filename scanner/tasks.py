@@ -5,6 +5,7 @@ import os
 import logging
 import json
 import time  # 新增必要导入
+from django.conf import settings
 from .models import ScanTask, TrafficAnalysisResult
 from .traffic_monitor import TrafficMonitor
 from django.utils import timezone

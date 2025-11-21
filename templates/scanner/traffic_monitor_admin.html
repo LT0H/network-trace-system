@@ -1,143 +1,251 @@
-{% extends "admin/base_site.html" %}
-{% block content %}
-<div class="admin-traffic-monitor">
-    <h1>网络流量监控</h1>
-    
-    <div class="control-panel">
-        <h2>监控控制</h2>
-        <button id="start-monitor" class="btn btn-success">启动监控</button>
-        <button id="stop-monitor" class="btn btn-danger" disabled>停止监控</button>
-        <div id="status-indicator" class="status">状态: 未运行</div>
-    </div>
-    
-    <div class="records-panel">
-        <h2>流量记录管理</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>PCAP文件</th>
-                    <th>分析工具</th>
-                    <th>包数量</th>
-                    <th>创建时间</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="records-table-body">
-                <!-- 记录将通过JavaScript动态加载 -->
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="analysis-panel" style="display: none;">
-        <h2>流量分析结果</h2>
-        <div id="analysis-result">
-            <!-- 分析结果将通过JavaScript动态加载 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流量监控管理</title>
+    <!-- 引入jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 基础样式优化 -->
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .control-buttons {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        #statusDisplay {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+        .success {
+            color: green;
+            background-color: #f0fff4;
+        }
+        .error {
+            color: red;
+            background-color: #fff0f0;
+        }
+        .warning {
+            color: orange;
+            background-color: #fffbf0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>流量监控管理</h1>
+        
+        <!-- 控制按钮区域 -->
+        <div class="control-buttons">
+            <button id="startMonitor">启动监控</button>
+            <button id="stopMonitor">停止监控</button>
+            <button id="refreshRecords">刷新记录</button>
+        </div>
+        
+        <!-- 状态显示区域 -->
+        <div id="statusDisplay"></div>
+        
+        <!-- 流量记录表格区域 -->
+        <div id="trafficRecords">
+            <div class="loading">加载中...</div>
         </div>
     </div>
-</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-// 更新状态显示
-function updateStatus(isRunning) {
-    const statusEl = document.getElementById('status-indicator');
-    const startBtn = document.getElementById('start-monitor');
-    const stopBtn = document.getElementById('stop-monitor');
-    
-    if (isRunning) {
-        statusEl.textContent = '状态: 运行中';
-        statusEl.style.color = 'green';
-        startBtn.disabled = true;
-        stopBtn.disabled = false;
-    } else {
-        statusEl.textContent = '状态: 未运行';
-        statusEl.style.color = 'red';
-        startBtn.disabled = false;
-        stopBtn.disabled = true;
-    }
-}
+    <script>
+        // ==============================================
+        // 定义API URL（使用Django模板标签生成正确路径）
+        // ==============================================
+        const API_URLS = {
+            startMonitor: "{% url 'start_traffic_monitor' %}",
+            stopMonitor: "{% url 'stop_traffic_monitor' %}",
+            monitorStatus: "{% url 'get_monitor_status' %}",
+            trafficRecords: "{% url 'get_traffic_records' %}"
+        };
 
-// 加载流量记录
-function loadRecords() {
-    $.getJSON("{% url 'get_traffic_records' %}", function(data) {
-        if (data.status === 'success') {
-            const tbody = document.getElementById('records-table-body');
-            tbody.innerHTML = '';
-            
-            data.data.forEach(record => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${record.id}</td>
-                    <td>${record.pcap_file}</td>
-                    <td>${record.analyzer_type}</td>
-                    <td>${record.packet_count}</td>
-                    <td>${record.created_at}</td>
-                    <td>
-                        <button class="analyze-btn" data-id="${record.id}">分析</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-            
-            // 绑定分析按钮事件
-            $('.analyze-btn').click(function() {
-                const recordId = $(this).data('id');
-                loadAnalysis(recordId);
-            });
+        // ==============================================
+        // 1. CSRF保护配置（关键：必须放在所有AJAX请求之前）
+        // ==============================================
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // 判断是否是CSRF令牌的cookie
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
-    });
-}
-
-// 加载分析结果
-function loadAnalysis(recordId) {
-    $.getJSON(`{% url 'analyze_traffic_record' 0 %}`.replace('0', recordId), function(data) {
-        if (data.status === 'success') {
-            const panel = document.querySelector('.analysis-panel');
-            const resultEl = document.getElementById('analysis-result');
-            
-            resultEl.innerHTML = `
-                <h3>记录 #${data.data.id} 分析结果</h3>
-                <p><strong>包数量:</strong> ${data.data.packet_count}</p>
-                <h4>协议分布:</h4>
-                <pre>${JSON.stringify(data.data.protocol_distribution, null, 2)}</pre>
-                <h4>详细分析:</h4>
-                <pre>${JSON.stringify(data.data.analysis_result, null, 2)}</pre>
-            `;
-            
-            panel.style.display = 'block';
-        }
-    });
-}
-
-// 页面加载时初始化
-$(document).ready(function() {
-    // 初始加载记录
-    loadRecords();
-    
-    // 启动监控按钮
-    $('#start-monitor').click(function() {
-        $.post("{% url 'start_traffic_monitor' %}", function(data) {
-            alert(data.message);
-            if (data.status === 'success') {
-                updateStatus(true);
+        
+        // 设置所有AJAX请求的CSRF令牌
+        const csrftoken = getCookie('csrftoken');
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                // 仅对非跨域的POST/PUT/DELETE请求添加CSRF令牌
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url)) &&
+                    (settings.type !== 'GET' && !this.crossDomain)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
             }
         });
-    });
-    
-    // 停止监控按钮
-    $('#stop-monitor').click(function() {
-        $.post("{% url 'stop_traffic_monitor' %}", function(data) {
-            alert(data.message);
-            if (data.status === 'success') {
-                updateStatus(false);
-                loadRecords(); // 刷新记录列表
-            }
+
+        // ==============================================
+        // 2. 工具函数：更新状态显示
+        // ==============================================
+        function updateStatus(message, type = 'info') {
+            const statusEl = $('#statusDisplay');
+            statusEl.text(message);
+            statusEl.removeClass('success error warning');
+            statusEl.addClass(type);
+        }
+
+        // ==============================================
+        // 3. 加载流量记录
+        // ==============================================
+        function loadTrafficRecords() {
+            $('#trafficRecords').html('<div class="loading">加载流量记录中...</div>');
+            
+            $.get(API_URLS.trafficRecords, function(response) {
+                if (response.status === 'success' && response.data.length > 0) {
+                    let recordsHtml = `
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>PCAP文件</th>
+                                <th>包数量</th>
+                                <th>创建时间</th>
+                            </tr>
+                    `;
+                    
+                    response.data.forEach(function(record) {
+                        recordsHtml += `
+                            <tr>
+                                <td>${record.id}</td>
+                                <td>${record.pcap_file || 'N/A'}</td>
+                                <td>${record.packet_count || 0}</td>
+                                <td>${record.created_at || 'N/A'}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    recordsHtml += '</table>';
+                    $('#trafficRecords').html(recordsHtml);
+                } else {
+                    $('#trafficRecords').html('<div>暂无流量记录</div>');
+                }
+            }).fail(function(xhr) {
+                $('#trafficRecords').html('<div class="error">加载记录失败</div>');
+                updateStatus('加载记录失败: ' + (xhr.responseJSON?.message || '网络错误'), 'error');
+            });
+        }
+
+        // ==============================================
+        // 4. 获取监控状态
+        // ==============================================
+        function checkMonitorStatus() {
+            $.get(API_URLS.monitorStatus, function(response) {
+                if (response.status === 'success') {
+                    const statusText = response.is_running ? '监控正在运行中' : '监控已停止';
+                    updateStatus(statusText, response.is_running ? 'success' : 'info');
+                    
+                    // 根据状态禁用/启用按钮
+                    $('#startMonitor').prop('disabled', response.is_running);
+                    $('#stopMonitor').prop('disabled', !response.is_running);
+                }
+            }).fail(function() {
+                // 如果状态接口暂时不可用，静默失败
+            });
+        }
+
+        // ==============================================
+        // 5. 页面加载完成后的初始化
+        // ==============================================
+        $(document).ready(function() {
+            // 初始加载记录
+            loadTrafficRecords();
+            
+            // 初始检查状态
+            checkMonitorStatus();
+            
+            // 定时检查状态（每3秒）
+            setInterval(checkMonitorStatus, 3000);
+
+            // ==============================================
+            // 启动监控按钮事件
+            // ==============================================
+            $('#startMonitor').click(function() {
+                const $btn = $(this);
+                $btn.prop('disabled', true).text('启动中...');
+                
+                $.post(API_URLS.startMonitor, function(response) {
+                    updateStatus(response.message, response.status);
+                    checkMonitorStatus(); // 立即更新状态
+                    loadTrafficRecords(); // 刷新记录
+                }).fail(function(xhr) {
+                    const errorMsg = xhr.responseJSON?.message || '启动请求失败，请检查网络或权限';
+                    updateStatus(errorMsg, 'error');
+                }).always(function() {
+                    $btn.prop('disabled', false).text('启动监控');
+                });
+            });
+
+            // ==============================================
+            // 停止监控按钮事件
+            // ==============================================
+            $('#stopMonitor').click(function() {
+                const $btn = $(this);
+                $btn.prop('disabled', true).text('停止中...');
+                
+                $.post(API_URLS.stopMonitor, function(response) {
+                    updateStatus(response.message, response.status);
+                    checkMonitorStatus(); // 立即更新状态
+                    loadTrafficRecords(); // 刷新记录
+                }).fail(function(xhr) {
+                    const errorMsg = xhr.responseJSON?.message || '停止请求失败，请检查网络或权限';
+                    updateStatus(errorMsg, 'error');
+                }).always(function() {
+                    $btn.prop('disabled', false).text('停止监控');
+                });
+            });
+
+            // ==============================================
+            // 刷新记录按钮事件
+            // ==============================================
+            $('#refreshRecords').click(function() {
+                loadTrafficRecords();
+                updateStatus('正在刷新记录...', 'info');
+            });
         });
-    });
-    
-    // 定时刷新记录
-    setInterval(loadRecords, 30000); // 每30秒刷新一次
-});
-</script>
-{% endblock %}
+    </script>
+</body>
+</html>

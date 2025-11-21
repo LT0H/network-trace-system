@@ -7,9 +7,10 @@ echo.
 
 :: 设置开发环境变量
 set DJANGO_ENV=development
+set DJANGO_SETTINGS_MODULE=trace_system.settings.development  # 新增
 
 echo 1. 启动Celery Worker (异步任务处理)...
-start "Celery Worker" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\Scripts\activate.bat && set DJANGO_ENV=development && celery -A trace_system worker --pool=solo -l info"
+start "Celery Worker" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\Scripts\activate.bat && set DJANGO_ENV=development && set DJANGO_SETTINGS_MODULE=trace_system.settings.development && celery -A trace_system worker --pool=solo -l info"
 
 echo 2. 等待3秒让Celery启动...
 timeout /t 3 /nobreak >nul
@@ -18,7 +19,7 @@ echo 3. 启动流量监听服务? (y/n)
 set /p start_monitor=
 if /i "%start_monitor%"=="y" (
     echo 启动流量监听服务...
-    start "Traffic Monitor" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\Scripts\activate.bat && set DJANGO_ENV=development && python manage.py start_traffic_monitor"
+    start "Traffic Monitor" cmd /k "cd /d C:\Users\z1395\network_trace_system && venv\Scripts\activate.bat && set DJANGO_ENV=development && set DJANGO_SETTINGS_MODULE=trace_system.settings.development && python manage.py start_traffic_monitor"
     timeout /t 2 /nobreak >nul
 )
 
