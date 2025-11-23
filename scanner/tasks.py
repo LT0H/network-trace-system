@@ -73,7 +73,8 @@ def run_scan_task(task_id):
 def start_traffic_monitoring(duration=None):
     """启动流量监听任务"""
     try:
-        traffic_monitor.start_monitoring(duration)
+        # 明确传递 duration 参数
+        traffic_monitor.start_monitoring(duration=duration or 3600)  # 默认1小时
         return {
             'status': 'success',
             'message': '流量监听已启动'
@@ -119,8 +120,8 @@ def analyze_traffic_periodically():
         
         if not records:
             logger.info("没有需要分析的流量记录")
-            # 重新启动监控
-            traffic_monitor.start_monitoring()
+            # 重新启动监控，传递默认时长（如3600秒）
+            traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
             return
         
         # 3. 创建数据集目录
@@ -185,7 +186,7 @@ def analyze_traffic_periodically():
         logger.info(f"定时流量分析完成: 共{len(records)}条记录，成功{analysis_summary['success_count']}条，失败{analysis_summary['fail_count']}条")
         
         # 7. 重新启动监控
-        traffic_monitor.start_monitoring()
+        traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
         
         return analysis_summary
         
@@ -193,7 +194,7 @@ def analyze_traffic_periodically():
         logger.error(f"定时流量分析任务出错: {e}")
         # 尝试重新启动监控
         try:
-            traffic_monitor.start_monitoring()
+            traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
         except:
             pass
         raise e

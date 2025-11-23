@@ -36,13 +36,13 @@ class TrafficMonitor:
             logger.warning(f"无法自动检测网络接口: {e}，使用默认值")
             return "Ethernet"  # 默认接口名，可能需要根据系统调整
     
-    def start_monitoring(self):
+    def start_monitoring(self, duration=None):  # 添加 duration 参数
         try:
             if self.is_running:
                 return {"status": "error", "message": "监控已在运行"}
             
-            # 启动监听线程
-            self.thread = threading.Thread(target=self._monitor_loop)
+            # 启动监听线程时传递 duration 参数
+            self.thread = threading.Thread(target=self._monitor_loop, args=(duration,))
             self.thread.daemon = True
             self.thread.start()
             self.is_running = True
@@ -58,7 +58,7 @@ class TrafficMonitor:
         except Exception as e:
             self.is_running = False
             return {"status": "error", "message": str(e), "is_running": False}
-        
+
     def stop_monitoring(self):
         """停止流量监听"""
         self.is_running = False

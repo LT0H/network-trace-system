@@ -4,9 +4,9 @@ import django
 from celery import Celery
 from celery.schedules import crontab
 
-# 设置默认Django设置模块
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trace_system.settings')
-django.setup()  #手动初始化Django
+# 设置默认Django设置模块 - 使用开发环境配置
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'trace_system.settings.development')
+django.setup()  # 手动初始化Django
 
 app = Celery('trace_system')
 app.config_from_object('django.conf:settings', namespace='CELERY')
