@@ -70,6 +70,7 @@
         
         <!-- 状态显示区域 -->
         <div id="statusDisplay"></div>
+        <div id="errorList" class="error" style="display: none; margin-top: 10px;"></div>
         
         <!-- 流量记录表格区域 -->
         <div id="trafficRecords">
@@ -122,11 +123,22 @@
         // ==============================================
         // 2. 工具函数：更新状态显示
         // ==============================================
-        function updateStatus(message, type = 'info') {
+        function updateStatus(message, type = 'info', errors = []) {
             const statusEl = $('#statusDisplay');
+            const errorEl = $('#errorList');
+            
+            // 更新状态信息
             statusEl.text(message);
             statusEl.removeClass('success error warning');
             statusEl.addClass(type);
+            
+            // 更新错误列表
+            if (errors.length > 0) {
+                errorEl.html(`<strong>错误信息:</strong><br>${errors.join('<br>')}`);
+                errorEl.show();
+            } else {
+                errorEl.hide();
+            }
         }
 
         // ==============================================
@@ -208,12 +220,13 @@
                 $btn.prop('disabled', true).text('启动中...');
                 
                 $.post(API_URLS.startMonitor, function(response) {
-                    updateStatus(response.message, response.status);
+                    updateStatus(response.message, response.status, response.errors || []);
                     checkMonitorStatus(); // 立即更新状态
                     loadTrafficRecords(); // 刷新记录
                 }).fail(function(xhr) {
                     const errorMsg = xhr.responseJSON?.message || '启动请求失败，请检查网络或权限';
-                    updateStatus(errorMsg, 'error');
+                    const errors = xhr.responseJSON?.errors || [];                    
+                    updateStatus(errorMsg, 'error', errors);
                 }).always(function() {
                     $btn.prop('disabled', false).text('启动监控');
                 });
@@ -227,12 +240,13 @@
                 $btn.prop('disabled', true).text('停止中...');
                 
                 $.post(API_URLS.stopMonitor, function(response) {
-                    updateStatus(response.message, response.status);
+                    updateStatus(response.message, response.status, response.errors || []);
                     checkMonitorStatus(); // 立即更新状态
                     loadTrafficRecords(); // 刷新记录
                 }).fail(function(xhr) {
                     const errorMsg = xhr.responseJSON?.message || '停止请求失败，请检查网络或权限';
-                    updateStatus(errorMsg, 'error');
+                    const errors = xhr.responseJSON?.errors || [];                    
+                    updateStatus(errorMsg, 'error', errors);
                 }).always(function() {
                     $btn.prop('disabled', false).text('停止监控');
                 });

@@ -23,37 +23,39 @@ def start_traffic_monitor(request):
     """启动流量监控API"""
     if request.method == 'POST':
         try:
-            # 检查是否已在运行
-            if traffic_monitor.is_running:
-                return JsonResponse({
-                    'status': 'warning',
-                    'message': '流量监控已在运行中'
-                })
-            
-            # 尝试启动监控
-            traffic_monitor.start_monitoring()
-            
-            # 启动后再次检查状态，确认是否真的启动成功
-            if traffic_monitor.is_running:
-                return JsonResponse({
-                    'status': 'success',
-                    'message': '流量监控已启动',
-                    'is_running': True
-                })
+            if not traffic_monitor.is_running:
+                # 启动监控并获取启动结果（包含错误信息）
+                start_result = traffic_monitor.start_monitoring()  # 需要修改TrafficMonitor.start_monitoring返回结果
+                if start_result.get("status") == "success":
+                    return JsonResponse({
+                        'status': 'success',
+                        'message': '流量监控已启动',
+                        'is_running': True,
+                        'errors': []
+                    })
+                else:
+                    return JsonResponse({
+                        'status': 'warning',
+                        'message': f'监控已启动，但部分功能异常: {start_result.get("message", "")}',
+                        'is_running': True,
+                        'errors': [start_result.get("message", "")]
+                    })
             else:
                 return JsonResponse({
-                    'status': 'error',
-                    'message': '流量监控启动失败，内部状态未更新'
-                }, status=500)
-                
+                    'status': 'warning',
+                    'message': '流量监控已在运行中',
+                    'is_running': True,
+                    'errors': []
+                })
         except Exception as e:
-            # 记录详细错误日志
             logger.error(f"启动流量监控失败: {str(e)}", exc_info=True)
             return JsonResponse({
                 'status': 'error',
-                'message': f'启动失败: {str(e)}'
+                'message': f'启动失败: {str(e)}',
+                'is_running': traffic_monitor.is_running,
+                'errors': [str(e)]
             }, status=500)
-    return JsonResponse({'status': 'error', 'message': '无效请求，仅支持POST方法'}, status=400)
+    return JsonResponse({'status': 'error', 'message': '无效请求'}, status=400)
 
 @staff_member_required
 def stop_traffic_monitor(request):

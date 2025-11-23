@@ -36,25 +36,29 @@ class TrafficMonitor:
             logger.warning(f"无法自动检测网络接口: {e}，使用默认值")
             return "Ethernet"  # 默认接口名，可能需要根据系统调整
     
-    def start_monitoring(self, duration=None):
-        """开始流量监听
-        
-        Args:
-            duration: 监听时长(秒)，None表示持续监听
-        """
-        if self.is_running:
-            logger.warning("流量监听已在运行中")
-            return
+    def start_monitoring(self):
+        try:
+            if self.is_running:
+                return {"status": "error", "message": "监控已在运行"}
             
-        self.is_running = True
-        self.thread = threading.Thread(
-            target=self._monitor_loop,
-            args=(duration,),
-            daemon=True
-        )
-        self.thread.start()
-        logger.info(f"开始在接口 {self.interface} 上监听网络流量")
-    
+            # 启动监听线程
+            self.thread = threading.Thread(target=self._monitor_loop)
+            self.thread.daemon = True
+            self.thread.start()
+            self.is_running = True
+            
+            # 检查依赖组件
+            errors = []
+            if not self.cicflowmeter_available:
+                errors.append("CICFlowMeter未找到，流量特征提取功能不可用")
+            
+            if errors:
+                return {"status": "partial", "message": "; ".join(errors), "is_running": True}
+            return {"status": "success", "message": "监控启动成功", "is_running": True}
+        except Exception as e:
+            self.is_running = False
+            return {"status": "error", "message": str(e), "is_running": False}
+        
     def stop_monitoring(self):
         """停止流量监听"""
         self.is_running = False
