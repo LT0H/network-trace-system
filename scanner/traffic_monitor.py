@@ -16,6 +16,8 @@ class TrafficMonitor:
         self.analyzer_path = Path("C:/Users/z1395/network_trace_system/ws-traffic-analyze-kit-main")
         self.cic_flow_meter_path = Path("C:/Users/z1395/network_trace_system/CICFlowMeter-master")
         self.is_running = False
+        self._lock = threading.Lock()
+        self._monitor_thread = None
         self.thread = None
         self.interface = self._detect_default_interface()
         self.output_dir = Path(settings.BASE_DIR) / "traffic_data"
@@ -36,35 +38,34 @@ class TrafficMonitor:
             logger.warning(f"无法自动检测网络接口: {e}，使用默认值")
             return "Ethernet"  # 默认接口名，可能需要根据系统调整
     
-    def start_monitoring(self, duration=None):  # 添加 duration 参数
-        try:
+    def start_monitoring(self, duration=3600):
+        with self._lock:  # 使用锁确保线程安全
             if self.is_running:
-                return {"status": "error", "message": "监控已在运行"}
+                return {"status": "warning", "message": "监控已在运行中"}
             
-            # 启动监听线程时传递 duration 参数
-            self.thread = threading.Thread(target=self._monitor_loop, args=(duration,))
-            self.thread.daemon = True
-            self.thread.start()
-            self.is_running = True
-            
-            # 检查依赖组件
-            errors = []
-            if not self.cicflowmeter_available:
-                errors.append("CICFlowMeter未找到，流量特征提取功能不可用")
-            
-            if errors:
-                return {"status": "partial", "message": "; ".join(errors), "is_running": True}
-            return {"status": "success", "message": "监控启动成功", "is_running": True}
-        except Exception as e:
-            self.is_running = False
-            return {"status": "error", "message": str(e), "is_running": False}
-
+            try:
+                # 实际启动逻辑
+                self._monitor_thread = threading.Thread(
+                    target=self._monitoring_loop, 
+                    args=(duration,),
+                    daemon=True
+                )
+                self._monitor_thread.start()
+                self.is_running = True
+                return {"status": "success", "message": "监控已启动"}
+            except Exception as e:
+                self.is_running = False
+                return {"status": "error", "message": str(e)}
+    
     def stop_monitoring(self):
-        """停止流量监听"""
-        self.is_running = False
-        if self.thread and self.thread.is_alive():
-            self.thread.join()
-        logger.info("已停止网络流量监听")
+        with self._lock:
+            if self.is_running and self._monitor_thread:
+                # 实际停止逻辑
+                self.is_running = False
+                self._monitor_thread.join(timeout=5)
+                self._monitor_thread = None
+                return {"status": "success", "message": "监控已停止"}
+        return {"status": "warning", "message": "监控未在运行"}
     
     def _monitor_loop(self, duration):
         """监听循环"""

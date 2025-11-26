@@ -23,30 +23,32 @@ def start_traffic_monitor(request):
     """启动流量监控API"""
     if request.method == 'POST':
         try:
-            if not traffic_monitor.is_running:
-                # 启动监控并获取启动结果（包含错误信息）
-                start_result = traffic_monitor.start_monitoring()  # 需要修改TrafficMonitor.start_monitoring返回结果
-                if start_result.get("status") == "success":
-                    return JsonResponse({
-                        'status': 'success',
-                        'message': '流量监控已启动',
-                        'is_running': True,
-                        'errors': []
-                    })
-                else:
-                    return JsonResponse({
-                        'status': 'warning',
-                        'message': f'监控已启动，但部分功能异常: {start_result.get("message", "")}',
-                        'is_running': True,
-                        'errors': [start_result.get("message", "")]
-                    })
-            else:
+            # 增加更严格的状态检查
+            if traffic_monitor.is_running:
                 return JsonResponse({
                     'status': 'warning',
                     'message': '流量监控已在运行中',
                     'is_running': True,
                     'errors': []
                 })
+            
+            # 启动监控并获取启动结果
+            start_result = traffic_monitor.start_monitoring()
+            if start_result.get("status") == "success":
+                return JsonResponse({
+                    'status': 'success',
+                    'message': '流量监控已启动',
+                    'is_running': True,
+                    'errors': []
+                })
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': f'启动失败: {start_result.get("message", "")}',
+                    'is_running': traffic_monitor.is_running,
+                    'errors': [start_result.get("message", "")]
+                }, status=500)
+            
         except Exception as e:
             logger.error(f"启动流量监控失败: {str(e)}", exc_info=True)
             return JsonResponse({

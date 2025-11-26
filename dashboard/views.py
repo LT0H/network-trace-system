@@ -19,6 +19,8 @@ def dashboard(request):
     total_tasks = ScanTask.objects.count()
     completed_tasks = ScanTask.objects.filter(status='COMPLETED').count()
     running_tasks = ScanTask.objects.filter(status='RUNNING').count()
+
+    other_tasks = total_tasks - completed_tasks - running_tasks
     
     # 最近7天的任务统计
     seven_days_ago = timezone.now() - timedelta(days=7)
@@ -49,6 +51,7 @@ def dashboard(request):
         'total_tasks': total_tasks,
         'completed_tasks': completed_tasks,
         'running_tasks': running_tasks,
+        'other_tasks': other_tasks,
         'open_ports': open_ports,
         'unique_hosts': unique_hosts,
         'recent_tasks': recent_tasks[:5],

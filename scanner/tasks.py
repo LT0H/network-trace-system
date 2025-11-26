@@ -1,6 +1,7 @@
 from celery import shared_task
 from celery.schedules import crontab
 from trace_system.celery_config import app
+from .scanners import ScapyScanner
 import os
 import logging
 import json
@@ -16,58 +17,80 @@ traffic_monitor = TrafficMonitor()  # 确保此处初始化不会引发导入问
 
 @app.task
 def run_scan_task(task_id):
-    """运行扫描任务（修复语法错误和逻辑错误）"""
-    task = None  # 提前初始化task变量，避免未定义问题
+    """运行扫描任务"""
+    task = None
     try:
-        # 获取任务实例
         task = ScanTask.objects.get(id=task_id)
         logger.info(f"开始执行扫描任务: {task.id} - {task.target}")
         
-        # 检查任务状态
         if task.status == 'RUNNING':
             logger.warning(f"任务 {task.id} 已在运行中")
-            return {
-                'status': 'warning',
-                'message': '任务已在运行'
-            }
+            return {'status': 'warning', 'message': '任务已在运行'}
             
-        # 更新任务状态为运行中
+        # 更新任务状态
         task.status = 'RUNNING'
+        task.started_at = timezone.now()
         task.save()
         
-        # 模拟扫描逻辑（请根据实际扫描需求替换）
-        # 此处添加真实的扫描代码，例如调用扫描工具
-        logger.info(f"正在扫描目标: {task.target}")
-        time.sleep(5)  # 模拟扫描耗时
+        # 初始化扫描器
+        scanner = ScapyScanner(task)
+        results = []
         
-        # 扫描完成后更新状态
+        # 根据扫描类型执行相应扫描
+        targets = [t.strip() for t in task.target.split(',')]
+        total_targets = len(targets)
+        
+        for target_idx, target in enumerate(targets):
+            if task.scan_type == 'SYN_SCAN':
+                scan_results = scanner.syn_scan(target, task.ports)
+            elif task.scan_type == 'UDP_SCAN':
+                scan_results = scanner.udp_scan(target, task.ports)
+            # 其他扫描类型的处理...
+            else:
+                # 对于其他扫描类型，也实现不依赖应答的扫描逻辑
+                scan_results = []
+                
+            results.extend(scan_results)
+            
+            # 更新整体进度
+            target_progress = int((target_idx + 1) / total_targets * 100)
+            task.progress = target_progress
+            task.save()
+        
+        # 保存扫描结果
+        from scanner.models import ScanResult
+        for res in results:
+            ScanResult.objects.create(
+                task=task,
+                ip_address=res['ip_address'],
+                port=res.get('port'),
+                protocol=res.get('protocol', 'tcp'),
+                state=res['state'],
+                discovered_at=timezone.now()
+            )
+        
+        # 完成任务
         task.status = 'COMPLETED'
-        task.completed_at = timezone.now()  # 假设已导入timezone
-        task.save()
-        logger.info(f"扫描任务 {task.id} 完成")
-        
-        return {
-            'status': 'success',
-            'task_id': task.id,
-            'message': '扫描完成'
+        task.completed_at = timezone.now()
+        task.progress = 100
+        task.result_summary = {
+            'total_scanned': len(results),
+            'targets': targets
         }
+        task.save()
+        
+        logger.info(f"扫描任务 {task.id} 完成")
+        return {'status': 'success', 'task_id': task.id, 'message': '扫描完成'}
         
     except ScanTask.DoesNotExist:
         logger.error(f"扫描任务不存在: {task_id}")
-        return {
-            'status': 'error',
-            'message': f"任务ID {task_id} 不存在"
-        }
+        return {'status': 'error', 'message': f"任务ID {task_id} 不存在"}
     except Exception as e:
-        # 异常情况下更新任务状态
         if task:
             task.status = 'FAILED'
             task.save()
         logger.error(f"扫描任务执行失败: {str(e)}", exc_info=True)
-        return {
-            'status': 'error',
-            'message': str(e)
-        }
+        return {'status': 'error', 'message': str(e)}
 
 @app.task
 def start_traffic_monitoring(duration=None):
@@ -85,6 +108,14 @@ def start_traffic_monitoring(duration=None):
             'status': 'failed',
             'error': str(e)
         }
+
+@app.task
+def check_traffic_monitor_status():
+    """检查流量监控状态的任务"""
+    return {
+        'status': 'running' if traffic_monitor.is_running else 'stopped',
+        'timestamp': timezone.now().isoformat()
+    }
 
 @app.task
 def stop_traffic_monitoring():

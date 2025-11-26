@@ -203,7 +203,7 @@
                 data: [
                     { value: {{ completed_tasks }}, name: '已完成' },
                     { value: {{ running_tasks }}, name: '进行中' },
-                    { value: {{ total_tasks|add:-completed_tasks|add:-running_tasks }}, name: '其他状态' }
+                    { value: {{ other_tasks }}, name: '其他状态' }
                 ],
                 emphasis: {
                     itemStyle: {
