@@ -14,4 +14,5 @@ urlpatterns = [
     path('get-records/', views.get_traffic_records, name='get_traffic_records'),
     # 分析记录API
     path('analyze/<int:record_id>/', views.analyze_traffic_record, name='analyze_traffic_record'),
+    path('tasks/create/', views.task_create_view, name='task_create'),
 ]

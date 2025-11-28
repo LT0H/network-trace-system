@@ -60,6 +60,16 @@ def start_traffic_monitor(request):
     return JsonResponse({'status': 'error', 'message': '无效请求'}, status=400)
 
 @staff_member_required
+def task_create_view(request):
+    """创建任务的视图函数"""
+    if request.method == 'POST':
+        # 处理任务创建的逻辑（根据需求实现）
+        # 例如：获取表单数据、验证、保存到数据库等
+        return JsonResponse({'status': 'success', 'message': '任务创建成功'})
+    # GET 请求返回创建任务的页面
+    return render(request, 'scanner/task_create.html')
+
+@staff_member_required
 def stop_traffic_monitor(request):
     """停止流量监控API"""
     if request.method == 'POST':
