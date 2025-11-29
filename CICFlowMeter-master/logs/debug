@@ -1,0 +1,8 @@
+2025-11-29 16:56:59 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-11-29 16:57:29 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    Pcap stop listening
+2025-11-29 16:57:29 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\CICFlowMeter-master\data\daily\2025-11-29_Flow.csv
+2025-11-29 17:10:34 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-11-29 17:10:51 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-11-29 17:10:51 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 189 flow
+2025-11-29 17:10:59 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 238 flow
+2025-11-29 17:11:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 259 flow
