@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}网络拓扑 - 网络扫描溯源系统{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"><i class="fas fa-project-diagram"></i> 网络拓扑</h1>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>网络设备连接关系图</h5>
+            <div>
+                <button class="btn btn-sm btn-primary" id="refreshTopology">
+                    <i class="fas fa-sync-alt"></i> 刷新拓扑
+                </button>
+                <button class="btn btn-sm btn-secondary" id="exportTopology">
+                    <i class="fas fa-download"></i> 导出
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="topology-graph" id="topologyGraph"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化拓扑图
+    const graph = echarts.init(document.getElementById('topologyGraph'));
+    
+    // 加载拓扑数据
+    function loadTopologyData() {
+        fetch('/api/topology/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    renderTopology(graph, data.data);
+                } else {
+                    alert('加载拓扑数据失败: ' + data.error);
+                }
+            })
+            .catch(error => console.error('Error loading topology:', error));
+    }
+    
+    // 渲染拓扑图
+    function renderTopology(chart, data) {
+        const option = {
+            tooltip: {},
+            legend: [{
+                data: ['主机', '交换机', '路由器', '连接']
+            }],
+            series: [{
+                type: 'graph',
+                layout: 'force',
+                force: {
+                    repulsion: 200,
+                    edgeLength: 100
+                },
+                roam: true,
+                label: {
+                    show: true
+                },
+                edgeSymbol: ['none', 'arrow'],
+                edgeSymbolSize: [0, 8],
+                edgeLabel: {
+                    fontSize: 12
+                },
+                data: data.nodes,
+                links: data.links,
+                categories: [
+                    { name: '主机' },
+                    { name: '交换机' },
+                    { name: '路由器' }
+                ]
+            }]
+        };
+        chart.setOption(option);
+    }
+    
+    // 初始化加载
+    loadTopologyData();
+    
+    // 刷新按钮事件
+    document.getElementById('refreshTopology').addEventListener('click', loadTopologyData);
+    
+    // 窗口大小变化时重绘
+    window.addEventListener('resize', function() {
+        graph.resize();
+    });
+});
+</script>
+{% endblock %}

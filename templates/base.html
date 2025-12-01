@@ -83,6 +83,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {% if 'traffic' in request.resolver_match.url_name %}active{% endif %}" 
+                               href="{% url 'traffic_monitor' %}">
+                                <i class="fas fa-random"></i> 流量监控
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {% if 'topology' in request.resolver_match.url_name %}active{% endif %}" 
                                href="{% url 'topology' %}">
                                 <i class="fas fa-project-diagram"></i> 网络拓扑
@@ -193,21 +199,44 @@
         $(document).ready(function() {
             $('#createTaskForm').on('submit', function(e) {
                 e.preventDefault();
-                const formData = $(this).serialize();
+                const formData = $(this).serializeArray();
+                const data = {};
                 
-                $.post($(this).attr('action'), formData)
-                    .done(function(data) {
-                        if (data.success) {
+                // 转换为键值对格式
+                formData.forEach(item => {
+                    data[item.name] = item.value;
+                });
+                
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    headers: {
+                        'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
                             $('#createTaskModal').modal('hide');
+                            // 显示成功消息
+                            alert('任务创建成功！');
+                            // 刷新页面
                             location.reload();
                         } else {
-                            alert('创建任务失败: ' + data.error);
+                            alert('创建任务失败: ' + (response.error || '未知错误'));
                         }
-                    })
-                    .fail(function() {
-                        alert('网络错误，请重试');
-                    });
+                    },
+                    error: function(xhr) {
+                        try {
+                            const response = JSON.parse(xhr.responseText);
+                            alert('创建任务失败: ' + (response.error || '网络错误'));
+                        } catch (e) {
+                            alert('创建任务失败: 网络错误或服务器异常');
+                        }
+                    }
+                });
             });
+        });
 
             // 自动更新运行中的任务状态
             $('.task-running, .task-pending').each(function() {

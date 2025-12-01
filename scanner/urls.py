@@ -14,5 +14,12 @@ urlpatterns = [
     path('get-records/', views.get_traffic_records, name='get_traffic_records'),
     # 分析记录API
     path('analyze/<int:record_id>/', views.analyze_traffic_record, name='analyze_traffic_record'),
+    path('tasks/', views.task_list_view, name='task_list'),
     path('tasks/create/', views.task_create_view, name='task_create'),
+    path('tasks/<int:task_id>/', views.task_detail_view, name='task_detail'),
+    path('results/', views.scan_results_view, name='scan_results'),
+    path('traffic/', views.traffic_monitor_view, name='traffic_monitor'),
+    path('api/traffic/capture/', views.start_traffic_capture, name='start_traffic_capture'),
+    path('api/traffic/analyze/', views.analyze_traffic, name='analyze_traffic'),
+    path('api/traffic/recent/', views.get_traffic_records, name='get_traffic_records'),
 ]

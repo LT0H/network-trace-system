@@ -128,35 +128,57 @@ class TrafficMonitor:
             logger.error(f"WS流量分析过程出错: {e}")
     
     def _analyze_with_cic_flow_meter(self, pcap_file):
-        try:
-            cic_jar = self.cic_flow_meter_path / "target" / "cicflowmeter-1.0.jar"
-            if not cic_jar.exists():
-                logger.warning(f"CICFlowMeter JAR文件不存在，尝试构建...")
-                build_cmd = ["gradlew.bat", "build"]
-                build_result = subprocess.run(
-                    build_cmd,
-                    cwd=str(self.cic_flow_meter_path),
-                    capture_output=True,
-                    text=True
-                )
-                if build_result.returncode != 0:
-                    logger.error(f"CICFlowMeter构建失败: {build_result.stderr}")
-                    return
-            
-            output_file = self.cic_output_dir / f"cic_analysis_{pcap_file.stem}.csv"
-            cmd = [
-                "java", "-jar", str(cic_jar),
-                str(pcap_file),
-                str(self.cic_output_dir)
+    try:
+        # 修正JAR文件路径：根据build.gradle的version=4.0，JAR文件名为CICFlowMeter-4.0.jar
+        cic_jar = self.cic_flow_meter_path / "target" / "CICFlowMeter-4.0.jar"
+        logger.debug(f"检查CICFlowMeter JAR路径: {cic_jar}")
+        
+        if not cic_jar.exists():
+            logger.warning(f"CICFlowMeter JAR文件不存在，尝试构建...")
+            # 替换构建命令：使用系统gradle而非gradlew.bat，添加--warning-mode none参数
+            build_cmd = [
+                "gradle",  # 使用系统环境中的gradle命令
+                "build", 
+                "--warning-mode", "none"  # 与手动执行的指令一致
             ]
-            
-            result = subprocess.run(
-                cmd,
+            # 执行构建命令（指定CICFlowMeter目录为工作目录）
+            build_result = subprocess.run(
+                build_cmd,
+                cwd=str(self.cic_flow_meter_path),  # 确保在CICFlowMeter目录下执行
                 capture_output=True,
                 text=True
             )
+            # 输出构建日志便于调试
+            logger.debug(f"构建输出: {build_result.stdout}")
+            logger.debug(f"构建错误: {build_result.stderr}")
             
-            if result.returncode == 0:
-                logger.info(f"CICFlowMeter分析完成: {pcap_file}")
-            else:
-                logger.error(f"CICFlowMeter分析失败: {result.stderr}")
+            # 检查构建是否成功
+            if build_result.returncode != 0:
+                logger.error(f"CICFlowMeter构建失败，返回码: {build_result.returncode}")
+                return
+            # 构建后再次检查JAR是否存在
+            if not cic_jar.exists():
+                logger.error(f"构建后仍未找到JAR文件: {cic_jar}")
+                return
+        
+        # 执行CICFlowMeter分析（使用正确的JAR路径）
+        output_file = self.cic_output_dir / f"cic_analysis_{pcap_file.stem}.csv"
+        cmd = [
+            "java", "-jar", str(cic_jar),
+            str(pcap_file),
+            str(self.cic_output_dir)
+        ]
+        
+        result = subprocess.run(
+            cmd,
+            capture_output=True,
+            text=True
+        )
+        
+        if result.returncode == 0:
+            logger.info(f"CICFlowMeter分析完成: {pcap_file}")
+        else:
+            logger.error(f"CICFlowMeter分析失败: {result.stderr}")
+            
+    except Exception as e:
+        logger.error(f"CICFlowMeter分析过程出错: {e}", exc_info=True)

@@ -3,7 +3,9 @@ name = "common_ip"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+pcap = "2.4.0"
 csv = "1.2.2"
+clap = { version = "4.5", features = ["derive"] }  # 新增
+serde = { version = "1.0", features = ["derive"] }  # 用于JSON序列化
+serde_json = "1.0"  # 用于JSON输出

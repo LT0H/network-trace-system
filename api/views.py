@@ -35,8 +35,18 @@ def task_status_api(request, task_id):
 def create_task_api(request):
     """创建扫描任务API"""
     from scanner.tasks import run_scan_task
+    from django.http import JsonResponse
     
     try:
+        # 验证必要参数
+        required_fields = ['name', 'target', 'scan_type']
+        for field in required_fields:
+            if field not in request.data or not request.data[field]:
+                return JsonResponse({
+                    'success': False,
+                    'error': f'缺少必要参数: {field}'
+                }, status=400)
+        
         # 创建扫描任务记录
         task = ScanTask.objects.create(
             name=request.data.get('name'),
@@ -49,14 +59,14 @@ def create_task_api(request):
         # 异步执行扫描任务
         run_scan_task.delay(task.id)
         
-        return Response({
+        return JsonResponse({
             'success': True,
             'task_id': task.id,
             'message': '任务创建成功，正在后台执行'
         })
         
     except Exception as e:
-        return Response({
+        return JsonResponse({
             'success': False,
             'error': str(e)
         }, status=400)

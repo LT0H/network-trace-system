@@ -155,3 +155,34 @@ class TrafficAnalysisResult(models.Model):
         
     def __str__(self):
         return f"{self.analyzer_type} - {self.pcap_file_path} - {self.created_at}"
+
+class TrafficFlow(models.Model):
+    """网络流量流记录，用于存储CICFlowMeter分析结果"""
+    timestamp = models.DateTimeField(verbose_name="时间戳")
+    src_ip = models.GenericIPAddressField(verbose_name="源IP")
+    dst_ip = models.GenericIPAddressField(verbose_name="目的IP")
+    src_port = models.IntegerField(null=True, blank=True, verbose_name="源端口")
+    dst_port = models.IntegerField(null=True, blank=True, verbose_name="目的端口")
+    protocol = models.CharField(max_length=10, verbose_name="协议")
+    flow_duration = models.FloatField(verbose_name="流持续时间")
+    total_fwd_packets = models.IntegerField(verbose_name="正向数据包数")
+    total_backward_packets = models.IntegerField(verbose_name="反向数据包数")
+    total_fwd_bytes = models.IntegerField(verbose_name="正向字节数")
+    total_backward_bytes = models.IntegerField(verbose_name="反向字节数")
+    task = models.ForeignKey(ScanTask, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="关联任务")
+    
+    class Meta:
+        verbose_name = "网络流量流"
+        verbose_name_plural = "网络流量流"
+
+class TrafficAnalysis(models.Model):
+    """流量分析结果，用于存储ws-traffic-analyze-kit的分析结果"""
+    analysis_time = models.DateTimeField(auto_now_add=True, verbose_name="分析时间")
+    analysis_type = models.CharField(max_length=50, verbose_name="分析类型")
+    result_summary = models.JSONField(verbose_name="结果摘要")
+    detailed_report = models.TextField(blank=True, null=True, verbose_name="详细报告")
+    related_flows = models.ManyToManyField(TrafficFlow, blank=True, verbose_name="相关流量流")
+    
+    class Meta:
+        verbose_name = "流量分析结果"
+        verbose_name_plural = "流量分析结果"
