@@ -173,6 +173,12 @@ if not REDIS_AVAILABLE:
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'default'
 
+# 流量监控配置
+WS_ANALYZER_PATH = "C:/Users/z1395/network_trace_system/ws-traffic-analyze-kit-main"
+CIC_FLOW_METER_PATH = "C:/Users/z1395/network_trace_system/CICFlowMeter-master"
+CAPTURE_DURATION = 10  # 每次捕获时长（秒）
+MONITOR_DURATION = 3600  # 默认监控时长（秒）
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 

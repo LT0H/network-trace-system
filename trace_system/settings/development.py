@@ -1,5 +1,6 @@
 """开发环境配置"""
 from .base import *
+import os
 
 # 开发环境必须开启DEBUG
 DEBUG = True
@@ -24,6 +25,20 @@ CACHES = {
         'LOCATION': 'unique-snowflake',
     }
 }
+
+# 1. WS工具路径
+WS_ANALYZER_PATH = "C:/Users/z1395/network_trace_system/ws-traffic-analyze-kit-main"
+# 2. CIC工具路径
+CIC_FLOW_METER_PATH = "C:/Users/z1395/network_trace_system/CICFlowMeter-master"
+# 3. pcap文件存放路径
+PCAP_SAVE_PATH = "C:/Users/z1395/network_trace_system/traffic_data"
+# 4. CIC生成CSV存放路径）
+CIC_CSV_SAVE_PATH = "C:/Users/z1395/network_trace_system/CICFlowMeter-master/data/daily"
+# 5. WS处理结果存放路径
+WS_RESULT_SAVE_PATH = "C:/Users/z1395/network_trace_system/traffic_data/ws_results"
+# 6. 抓包时长（秒）、默认监控总时长（秒，可按需改）
+CAPTURE_DURATION = 10
+MONITOR_DURATION = 3600
 
 # 开发环境日志（输出到控制台）
 LOGGING = {

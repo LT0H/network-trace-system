@@ -20,7 +20,6 @@ public class Cmd {
 
     public static final Logger logger = LoggerFactory.getLogger(Cmd.class);
     private static final String DividingLine = "-------------------------------------------------------------------------------";
-    private static String[] animationChars = new String[]{"|", "/", "-", "\\"};
 
     public static void main(String[] args) {
         long flowTimeout = 120000000L;
@@ -54,125 +53,94 @@ public class Cmd {
         logger.info("处理PCAP文件: {}", pcapPath);
         logger.info("输出目录: {}", outPath);
         
-        readPcapFile(pcapPath, outPath, flowTimeout, activityTimeout);
+        // 确保输出文件名与输入文件一致，便于关联
+        String fileName = FilenameUtils.getBaseName(pcapPath);
+        processPcapFile(pcapPath, outPath, fileName, flowTimeout, activityTimeout);
     }
 
-    private static void readPcapDir(File inputPath, String outPath, long flowTimeout, long activityTimeout) {
-        if(inputPath==null||outPath==null) {
+    private static void processPcapFile(String inputFile, String outPath, String baseFileName, 
+                                       long flowTimeout, long activityTimeout) {
+        if(inputFile == null || outPath == null || baseFileName == null) {
             return;
         }
-        File[] pcapFiles = inputPath.listFiles(SwingUtils::isPcapFile);
-        int file_cnt = pcapFiles.length;
-        System.out.println(String.format("CICFlowMeter found :%d pcap files", file_cnt));
-        for(int i=0;i<file_cnt;i++) {
-            File file = pcapFiles[i];
-            if (file.isDirectory()) {
-                continue;
-            }
-            int cur = i + 1;
-            System.out.println(String.format("==> %d / %d", cur, file_cnt));
-            readPcapFile(file.getPath(),outPath,flowTimeout,activityTimeout);
-
-        }
-        System.out.println("Completed!");
-    }
-
-    private static void readPcapFile(String inputFile, String outPath, long flowTimeout, long activityTimeout) {
-        if(inputFile==null ||outPath==null ) {
-            return;
-        }
-        String fileName = FilenameUtils.getName(inputFile);
 
         if(!outPath.endsWith(FILE_SEP)){
             outPath += FILE_SEP;
         }
 
-        File saveFileFullPath = new File(outPath+fileName+FlowMgr.FLOW_SUFFIX);
+        // 使用与PCAP文件相同的基础名称作为输出CSV文件
+        String outputFileName = baseFileName + "_ISCX.csv";
+        File saveFileFullPath = new File(outPath + outputFileName);
 
-        if (saveFileFullPath.exists()) {
-           if (!saveFileFullPath.delete()) {
-               System.out.println("Save file can not be deleted");
-           }
+        // 如果文件已存在则删除
+        if (saveFileFullPath.exists() && !saveFileFullPath.delete()) {
+            logger.error("无法删除已存在的输出文件: {}", saveFileFullPath);
+            return;
         }
 
         FlowGenerator flowGen = new FlowGenerator(true, flowTimeout, activityTimeout);
-        flowGen.addFlowListener(new FlowListener(fileName,outPath));
+        flowGen.addFlowListener(new FlowListener(baseFileName, outPath, outputFileName));
         boolean readIP6 = false;
         boolean readIP4 = true;
         PacketReader packetReader = new PacketReader(inputFile, readIP4, readIP6);
 
-        System.out.println(String.format("Working on... %s",fileName));
+        logger.info("正在处理... {}", baseFileName);
 
-        int nValid=0;
-        int nTotal=0;
+        int nValid = 0;
+        int nTotal = 0;
         int nDiscarded = 0;
         long start = System.currentTimeMillis();
-        int i=0;
-        while(true) {
-            /*i = (i)%animationChars.length;
-            System.out.print("Working on "+ inputFile+" "+ animationChars[i] +"\r");*/
-            try{
+        
+        try {
+            while(true) {
                 BasicPacketInfo basicPacket = packetReader.nextPacket();
                 nTotal++;
-                if(basicPacket !=null){
+                if(basicPacket != null) {
                     flowGen.addPacket(basicPacket);
                     nValid++;
-                }else{
+                } else {
                     nDiscarded++;
                 }
-            }catch(PcapClosedException e){
-                break;
             }
-            i++;
+        } catch(PcapClosedException e) {
+            // 正常结束
+        } finally {
+            // 处理剩余的流
+            flowGen.dumpLabeledCurrentFlow(saveFileFullPath.getPath(), FlowFeature.getHeader());
         }
 
-        flowGen.dumpLabeledCurrentFlow(saveFileFullPath.getPath(), FlowFeature.getHeader());
-
         long lines = SwingUtils.countLines(saveFileFullPath.getPath());
+        long end = System.currentTimeMillis();
 
-        System.out.println(String.format("%s is done. total %d flows ",fileName,lines));
-        System.out.println(String.format("Packet stats: Total=%d,Valid=%d,Discarded=%d",nTotal,nValid,nDiscarded));
-        System.out.println(DividingLine);
-
-        //long end = System.currentTimeMillis();
-        //logger.info(String.format("Done! in %d seconds",((end-start)/1000)));
-        //logger.info(String.format("\t Total packets: %d",nTotal));
-        //logger.info(String.format("\t Valid packets: %d",nValid));
-        //logger.info(String.format("\t Ignored packets:%d %d ", nDiscarded,(nTotal-nValid)));
-        //logger.info(String.format("PCAP duration %d seconds",((packetReader.getLastPacket()- packetReader.getFirstPacket())/1000)));
-        //int singleTotal = flowGen.dumpLabeledFlowBasedFeatures(outPath, fileName+ FlowMgr.FLOW_SUFFIX, FlowFeature.getHeader());
-        //logger.info(String.format("Number of Flows: %d",singleTotal));
-        //logger.info("{} is done,Total {} flows",inputFile,singleTotal);
-        //System.out.println(String.format("%s is done,Total %d flows", inputFile, singleTotal));
+        logger.info("处理完成! 耗时 {} 秒", ((end - start) / 1000));
+        logger.info("生成 {} 个流记录", lines);
+        logger.info("数据包统计: 总计={}, 有效={}, 丢弃={}", nTotal, nValid, nDiscarded);
+        logger.info(DividingLine);
     }
 
     static class FlowListener implements FlowGenListener {
 
         private String fileName;
-
         private String outPath;
-
+        private String outputFileName;
         private long cnt;
 
-        public FlowListener(String fileName, String outPath) {
+        public FlowListener(String fileName, String outPath, String outputFileName) {
             this.fileName = fileName;
             this.outPath = outPath;
+            this.outputFileName = outputFileName;
+            this.cnt = 0;
         }
 
         @Override
         public void onFlowGenerated(BasicFlow flow) {
-
             String flowDump = flow.dumpFlowBasedFeaturesEx();
             List<String> flowStringList = new ArrayList<>();
             flowStringList.add(flowDump);
-            InsertCsvRow.insert(FlowFeature.getHeader(),flowStringList,outPath,fileName+ FlowMgr.FLOW_SUFFIX);
+            InsertCsvRow.insert(FlowFeature.getHeader(), flowStringList, outPath, outputFileName);
 
             cnt++;
-
-            String console = String.format("%s -> %d flows \r", fileName,cnt);
-
-            System.out.print(console);
+            logger.info("{} 已生成 {} 个流\r", fileName, cnt);
         }
     }
-
 }
