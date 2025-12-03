@@ -238,21 +238,36 @@ def traffic_monitor_view(request):
 def start_traffic_capture(request):
     """启动流量捕获和分析"""
     try:
-        interface = request.data.get('interface', 'eth0')
+        interface = request.data.get('interface', '')
         duration = request.data.get('duration', 300)  # 默认捕获5分钟
         
-        # 启动CICFlowMeter捕获流量
-        cicflow_path = os.path.join(settings.BASE_DIR, 'third_party', 'CICFlowMeter')
-        output_dir = os.path.join(settings.BASE_DIR, 'traffic_data')
+        # 验证接口参数
+        if not interface:
+            return JsonResponse({
+                'success': False,
+                'error': '请指定网络接口'
+            }, status=400)
+        
+        # 检查CICFlowMeter是否存在
+        cicflow_jar = os.path.join(settings.CIC_FLOW_METER_PATH, 'target', 'CICFlowMeter-4.0.jar')
+        if not os.path.exists(cicflow_jar):
+            return JsonResponse({
+                'success': False,
+                'error': f'CICFlowMeter JAR文件不存在: {cicflow_jar}\n请确保已正确编译CICFlowMeter项目'
+            }, status=400)
+        
+        # 确保输出目录存在
+        output_dir = os.path.join(settings.BASE_DIR, 'traffic_data', 'cic_output')
         os.makedirs(output_dir, exist_ok=True)
         
         # 启动后台进程运行CICFlowMeter
-        cmd = f'java -jar {cicflow_path}/target/CICFlowMeter-4.0.jar -i {interface} -o {output_dir}'
+        cmd = f'java -jar "{cicflow_jar}" -i {interface} -o "{output_dir}"'
         subprocess.Popen(cmd, shell=True)
         
         return JsonResponse({
             'success': True,
-            'message': f'已开始在接口 {interface} 上捕获流量，将持续 {duration} 秒'
+            'message': f'已开始在接口 {interface} 上捕获流量，将持续 {duration} 秒',
+            'output_dir': output_dir
         })
     except Exception as e:
         return JsonResponse({
@@ -266,30 +281,73 @@ def analyze_traffic(request):
     """使用ws-traffic-analyze-kit分析流量"""
     try:
         traffic_file = request.data.get('traffic_file')
-        if not traffic_file:
+        if not traffic_file or not os.path.exists(traffic_file):
             return JsonResponse({
                 'success': False,
-                'error': '请指定流量文件'
+                'error': '指定的流量文件不存在'
             }, status=400)
         
+        # 检查分析脚本是否存在
+        analyze_script = os.path.join(settings.WS_ANALYZER_PATH, 'analyze.py')
+        if not os.path.exists(analyze_script):
+            return JsonResponse({
+                'success': False,
+                'error': f'分析脚本不存在: {analyze_script}'
+            }, status=400)
+        
+        # 确保输出目录存在
+        output_dir = os.path.join(settings.BASE_DIR, 'traffic_data', 'ws_output')
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # 构建输出文件名
+        filename = os.path.basename(traffic_file)
+        output_file = os.path.join(output_dir, f"analysis_{filename}.json")
+        
         # 运行ws-traffic-analyze-kit分析
-        analyze_script = os.path.join(settings.BASE_DIR, 'third_party', 'ws-traffic-analyze-kit', 'analyze.py')
-        result = subprocess.check_output(['python', analyze_script, traffic_file], stderr=subprocess.STDOUT)
+        cmd = [
+            'python', analyze_script,
+            '-f', traffic_file,
+            '-o', output_file
+        ]
         
-        # 解析结果
-        analysis_result = json.loads(result)
+        result = subprocess.run(
+            cmd, capture_output=True, text=True, encoding='utf-8'
+        )
         
+        if result.returncode != 0:
+            return JsonResponse({
+                'success': False,
+                'error': f'分析失败: {result.stderr}',
+                'return_code': result.returncode
+            }, status=500)
+        
+        # 验证输出文件
+        if not os.path.exists(output_file):
+            return JsonResponse({
+                'success': False,
+                'error': '分析完成但未生成输出文件'
+            }, status=500)
+            
         # 保存分析结果到数据库
-        analysis = TrafficAnalysis.objects.create(
-            analysis_type='full_analysis',
-            result_summary=analysis_result.get('summary', {}),
-            detailed_report=json.dumps(analysis_result.get('details', {}), indent=2)
+        with open(output_file, 'r') as f:
+            analysis_data = json.load(f)
+            
+        TrafficAnalysisResult.objects.create(
+            pcap_file_path=traffic_file,
+            analyzer_type="ws",
+            analysis_result=analysis_data,
+            packet_count=len(analysis_data.get('packets', [])),
+            protocol_distribution=analysis_data.get('protocol_distribution', {})
         )
         
         return JsonResponse({
             'success': True,
-            'analysis_id': analysis.id,
-            'result': analysis_result
+            'message': '流量分析完成',
+            'output_file': output_file,
+            'analysis_summary': {
+                'packet_count': len(analysis_data.get('packets', [])),
+                'protocols': list(analysis_data.get('protocol_distribution', {}).keys())
+            }
         })
     except Exception as e:
         return JsonResponse({

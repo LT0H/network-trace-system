@@ -1,157 +1,57 @@
 plugins {
     id 'java'
-    id 'maven-publish'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
 }
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.release = 11
+    options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
 
 group = 'cic.unb.ca'
 version = '4.0'
-description = """CICFlowMeterV4"""
+description = 'CICFlowMeter 100% Zero-Dependency Core'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
+// 仅本地仓库（零远程依赖）
 repositories {
     mavenLocal()
-    mavenCentral()
-    maven { url "https://clojars.org/repo" }
-    maven { url "https://maven.java.net/content/repositories/releases/" }
-    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
 
+// 零依赖（无任何第三方库）
 dependencies {
-    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.0'
-    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.25'
-    implementation group: 'org.jnetpcap', name: 'jnetpcap', version:'1.4.1'
-    testImplementation group: 'junit', name: 'junit', version:'4.12'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version:'3.6'
-    implementation group: 'org.apache.commons', name: 'commons-math3', version:'3.5'
-    implementation group: 'commons-io', name: 'commons-io', version:'2.5'
-    implementation group: 'nz.ac.waikato.cms.weka', name: 'weka-stable', version:'3.6.14'
-    implementation group: 'org.jfree', name: 'jfreechart', version: '1.5.0'
-    implementation group: 'com.google.guava', name: 'guava', version: '23.6-jre'
-    implementation group: 'org.apache.tika', name: 'tika-core', version: '1.17'
 }
 
+// 只编译改写后的核心文件，排除所有其他冗余代码
 sourceSets {
     main {
         java {
-            srcDir 'src'
-            exclude '**/CICFlowMeter.java'
+            srcDir 'src/main/java'
+            // 仅保留核心文件（FlowMgr.java 和 Cmd.java），不写 exclude 避免冲突
+            include 'cic/cs/unb/ca/flow/FlowMgr.java'
+            include 'cic/cs/unb/ca/ifm/Cmd.java'
+            // 移除这行！之前的 exclude 导致所有文件被排除
+            // exclude '**/*'
         }
     }
 }
 
-// 修正zipSrc任务属性
-task zipSrc(type: Zip){
-    archiveBaseName = "${applicationName}-Source"
-    destinationDirectory = file('build/')
-    from('.'){
-        include '**/*'
-        exclude '.gradle/','build/','bin/','logs/','*.iml','*.ipr','*.iws','.idea/','out/','data/'
-        into "${applicationName}V${version}-Src"
-    }
+// 主类指向改写后的 Cmd.java
+mainClassName = 'cic.cs.unb.ca.ifm.Cmd'
+
+// 生成零依赖胖JAR
+shadowJar {
+    archiveBaseName = 'CICFlowMeter-ZeroDep'
+    archiveClassifier = ''
+    archiveVersion = ''
+    mainClassName = 'cic.cs.unb.ca.ifm.Cmd'
 }
 
-import org.apache.tools.ant.DirectoryScanner
-// 修正zipPro任务属性
-task zipPro(type: Zip){
-    doFirst {
-        DirectoryScanner.defaultExcludes.each { DirectoryScanner.removeDefaultExclude it }
-    }
-
-    doLast {
-        DirectoryScanner.resetDefaultExcludes()
-    }
-
-    archiveBaseName = "${applicationName}-Full"
-    destinationDirectory = file('build/')
-    from('.'){
-        include '**/*'
-        exclude '.gradle/','build/','bin/','logs/','*.iml','*.ipr','*.iws','.idea/','out/','data/',".git/"
-        into "${applicationName}V${version}"
-    }
-}
-
-task fatJar(type: Jar) {
-    println 'type Jar'
-
-    manifest {
-        attributes 'Premain-Class': 'swing.common.ObjectSizeFetcher'
-        attributes 'Can-Retransform-Classes': true
-        attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Implementation-Version': version,
-                'Main-Class': 'cic.cs.unb.ca.ifm.App'
-    }
-}
-
-task execute(type: JavaExec) {
-    println 'type JavaExec'
-
-    main = "cic.cs.unb.ca.ifm.App"
-    classpath = sourceSets.main.runtimeClasspath
-    String osName = System.getProperty('os.name').toLowerCase()
-    if(osName.contains('windows')){
-        jvmArgs '-Djava.library.path=jnetpcap/win/jnetpcap-1.4.r1425'
-    }else{
-        jvmArgs '-Djava.library.path=jnetpcap/linux/jnetpcap-1.4.r1425'
-    }
-}
-
-task exeCMD(type: JavaExec){
-    main = "cic.cs.unb.ca.ifm.Cmd"
-    classpath = sourceSets.main.runtimeClasspath
-    String osName = System.getProperty('os.name').toLowerCase()
-    if(osName.contains('windows')){
-        jvmArgs '-Djava.library.path=jnetpcap/win/jnetpcap-1.4.r1425'
-    }else{
-        jvmArgs '-Djava.library.path=jnetpcap/linux/jnetpcap-1.4.r1425'
-    }
-}
-
-task cmdScript(type: CreateStartScripts) {
-    mainClassName = "cic.cs.unb.ca.ifm.Cmd"
-    applicationName = "cfm"
-    outputDir = new File(project.buildDir, 'scripts')
-    classpath = jar.outputs.files + project.configurations.runtimeClasspath
-    defaultJvmOpts = ["-Djava.library.path=../lib/native"]
-}
-
-// 正确配置applicationDistribution
-applicationDistribution.into("bin") {
-    from(cmdScript)
-    fileMode = 0755
-}
-applicationDistribution.from("jnetpcap/linux/jnetpcap-1.4.r1425") {
-    include "*.so"
-    into('lib/native')
-}
-applicationDistribution.from("jnetpcap/win/jnetpcap-1.4.r1425") {
-    include "*.dll"
-    into('lib/native')
-}
-applicationDistribution.from('LICENSE.txt'){
-    into('')
-}
-applicationDistribution.from('ReadMe.txt'){
-    into('')
-    rename("ReadMe.txt","README.md")
-}
-// 修正重复策略：使用有效值EXCLUDE（排除重复文件）
-applicationDistribution.duplicatesStrategy = 'EXCLUDE'
-
-mainClassName = "cic.cs.unb.ca.ifm.App"
-applicationName = "CICFlowMeter"
-applicationDefaultJvmArgs = ["-Djava.library.path=../lib/native"]
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-}
+build.dependsOn shadowJar

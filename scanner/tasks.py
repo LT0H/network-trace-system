@@ -2,6 +2,7 @@ from celery import shared_task
 from celery.schedules import crontab
 from trace_system.celery_config import app
 from .scanners import ScapyScanner
+from .ip_tracker import QQWryIPLocator
 import os
 import logging
 import json
@@ -18,6 +19,7 @@ traffic_monitor = TrafficMonitor()  # 确保此处初始化不会引发导入问
 @app.task
 def run_scan_task(task_id):
     """运行扫描任务"""
+    ip_locator = QQWryIPLocator()
     task = None
     try:
         task = ScanTask.objects.get(id=task_id)
@@ -39,8 +41,11 @@ def run_scan_task(task_id):
         # 根据扫描类型执行相应扫描
         targets = [t.strip() for t in task.target.split(',')]
         total_targets = len(targets)
-        
+    
         for target_idx, target in enumerate(targets):
+            # 获取IP地理位置信息
+            ip_location = ip_locator.query(target)
+                    
             if task.scan_type == 'SYN_SCAN':
                 scan_results = scanner.syn_scan(target, task.ports)
             elif task.scan_type == 'UDP_SCAN':
@@ -49,10 +54,17 @@ def run_scan_task(task_id):
             else:
                 # 对于其他扫描类型，也实现不依赖应答的扫描逻辑
                 scan_results = []
-                
+            
+            # 为每个结果添加地理位置信息
+            for res in scan_results:
+                res.update({
+                    'country': ip_location['country'],
+                    'city': ip_location['city']
+                })
+            
             results.extend(scan_results)
             
-            # 更新整体进度
+            # 更新整体进度（修复缩进，确保在循环内部执行）
             target_progress = int((target_idx + 1) / total_targets * 100)
             task.progress = target_progress
             task.save()
@@ -139,20 +151,14 @@ def analyze_traffic_periodically():
     logger.info("开始执行定时流量分析任务")
     
     try:
-        # 1. 先确保监控是停止的，避免文件被占用
-        if traffic_monitor.is_running:
-            traffic_monitor.stop_monitoring()
-            logger.info("为执行定时分析，已临时停止流量监控")
-        
-        # 2. 获取未分析的pcap文件或需要重新分析的文件
+        # 1. 获取未分析的pcap文件或需要重新分析的文件
         records = TrafficAnalysisResult.objects.filter(
             is_analyzed=False
         ).order_by('created_at')
         
         if not records:
             logger.info("没有需要分析的流量记录")
-            # 重新启动监控，传递默认时长（如3600秒）
-            traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
+            # 移除自动启动监控的代码，改为手动启动
             return
         
         # 3. 创建数据集目录
@@ -223,9 +229,4 @@ def analyze_traffic_periodically():
         
     except Exception as e:
         logger.error(f"定时流量分析任务出错: {e}")
-        # 尝试重新启动监控
-        try:
-            traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
-        except:
-            pass
         raise e

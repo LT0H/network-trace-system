@@ -45,15 +45,24 @@ class TrafficMonitor:
         try:
             # 优先用netifaces检测（需先装：pip install netifaces）
             import netifaces
-            default_gateway = netifaces.gateways()['default']
-            if default_gateway and netifaces.AF_INET in default_gateway:
+            default_gateway = netifaces.gateways().get('default', {})
+            if netifaces.AF_INET in default_gateway:
                 return default_gateway[netifaces.AF_INET][1]
-            # 备用：用scapy检测（需先装：pip install scapy）
-            from scapy.all import conf
-            return conf.iface.name
+            
+            # 如默认网关检测失败，列出所有可用接口供选择
+            interfaces = netifaces.interfaces()
+            logger.info(f"可用网络接口: {interfaces}")
+            if interfaces:
+               return interfaces[0]  # 返回第一个可用接口
+            
+        except ImportError:
+            logger.warning("未安装netifaces模块，请运行 'pip install netifaces' 安装")
         except Exception as e:
-            logger.warning(f"自动检测接口失败: {e}，默认用'Ethernet'（可手动改interface属性）")
-            return "Ethernet"
+            logger.warning(f"自动检测接口失败: {e}")
+        
+        # 检测失败时，提供手动配置指引
+        logger.warning("请手动配置网络接口，可用接口可通过 'dumpcap -D' 命令查看")
+        return "Ethernet"  # 默认值
     
     def start_monitoring(self, duration=None):
         """启动监听：同时抓pcap、跑CIC、跑WS"""
@@ -107,17 +116,37 @@ class TrafficMonitor:
     def _capture_traffic(self):
         """用dumpcap抓包，存到指定pcap目录"""
         try:
+            # 检查dumpcap是否可用
+            subprocess.run(["dumpcap", "-h"], capture_output=True, check=True)
+        
             timestamp = int(time.time())
             pcap_file = self.pcap_dir / f"capture_{timestamp}.pcap"
+        
+            # 检查接口是否存在
+            interfaces = subprocess.run(
+                ["dumpcap", "-D"], capture_output=True, text=True, encoding='utf-8'
+            ).stdout
+            
+            if self.interface not in interfaces:
+                logger.error(f"接口 {self.interface} 不存在，可用接口: {interfaces}")
+                return None
+                
             # dumpcap命令（Windows兼容，静默抓包）
             cmd = [
                 "dumpcap", "-i", self.interface, "-w", str(pcap_file),
                 "-a", f"duration:{self.capture_duration}", "-q"
             ]
-            subprocess.run(
+            
+            # 执行命令并捕获详细错误信息
+            result = subprocess.run(
                 cmd, capture_output=True, text=True, encoding='utf-8',
-                timeout=self.capture_duration + 5, check=True
+                timeout=self.capture_duration + 5
             )
+            
+            if result.returncode != 0:
+                logger.error(f"抓包命令错误输出: {result.stderr}")
+                return None
+                
             # 验证文件有效（非空）
             if pcap_file.exists() and pcap_file.stat().st_size > 0:
                 logger.info(f"抓包成功：{pcap_file}（大小：{pcap_file.stat().st_size}字节）")
@@ -127,6 +156,13 @@ class TrafficMonitor:
                 if pcap_file.exists():
                     pcap_file.unlink()
                 return None
+                
+        except FileNotFoundError:
+            logger.error("未找到dumpcap程序，请确保Wireshark已安装并添加到系统PATH")
+            return None
+        except subprocess.TimeoutExpired:
+            logger.error(f"抓包超时（超过{self.capture_duration + 5}秒）")
+            return None
         except Exception as e:
             logger.error(f"抓包失败: {e}")
             return None
