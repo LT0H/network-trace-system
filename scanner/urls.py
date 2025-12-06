@@ -5,7 +5,7 @@ urlpatterns = [
     # 流量监控页面
     path('traffic-monitor/', views.traffic_monitor_admin, name='traffic_monitor_admin'),
     # 启动监控API
-    path('start-monitor/', views.start_traffic_monitor, name='start_traffic_monitor'),
+    path('start-monitor/', views.start_traffic_capture, name='start_traffic_capture'),
     # 停止监控API
     path('stop-monitor/', views.stop_traffic_monitor, name='stop_traffic_monitor'),
     # 获取监控状态API
@@ -22,4 +22,6 @@ urlpatterns = [
     path('api/traffic/capture/', views.start_traffic_capture, name='start_traffic_capture'),
     path('api/traffic/analyze/', views.analyze_traffic, name='analyze_traffic'),
     path('api/traffic/recent/', views.get_traffic_records, name='get_traffic_records'),
+    path('api/tasks/<int:task_id>/start/', views.start_task_api, name='start_task_api'),
+    path('api/tasks/<int:task_id>/stop/', views.stop_task_api, name='stop_task_api'),
 ]

@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}任务详情 - {{ task.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>任务详情: {{ task.name }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>目标:</strong> {{ task.target }}
+                </div>
+                <div class="col-md-6">
+                    <strong>扫描类型:</strong> {{ task.get_scan_type_display }}
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>端口:</strong> {{ task.ports|default:"默认端口" }}
+                </div>
+                <div class="col-md-6">
+                    <strong>状态:</strong> 
+                    <span class="badge {% if task.status == 'COMPLETED' %}bg-success{% elif task.status == 'RUNNING' %}bg-primary{% elif task.status == 'FAILED' %}bg-danger{% else %}bg-secondary{% endif %}">
+                        {{ task.get_status_display }}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>进度:</strong>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ task.progress }}%" aria-valuenow="{{ task.progress }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ task.progress }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>创建时间:</strong> {{ task.created_at|date:"Y-m-d H:i:s" }}
+                </div>
+                <div class="col-md-6">
+                    <strong>创建者:</strong> {{ task.created_by.username }}
+                </div>
+            </div>
+            
+            {% if task.started_at %}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>开始时间:</strong> {{ task.started_at|date:"Y-m-d H:i:s" }}
+                </div>
+                {% if task.completed_at %}
+                <div class="col-md-6">
+                    <strong>完成时间:</strong> {{ task.completed_at|date:"Y-m-d H:i:s" }}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+            
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>描述:</strong>
+                    <p>{{ task.description|default:"无描述" }}</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <strong>操作:</strong>
+                    <div class="d-flex gap-2">
+                        {% if task.status in 'PENDING,FAILED' %}
+                        <button id="startTaskBtn" class="btn btn-primary" data-task-id="{{ task.id }}">
+                            开始任务
+                        </button>
+                        {% endif %}
+                        
+                        {% if task.status == 'RUNNING' %}
+                        <button id="stopTaskBtn" class="btn btn-warning" data-task-id="{{ task.id }}">
+                            停止任务
+                        </button>
+                        {% endif %}
+                        
+                        <a href="{% url 'task_list' %}" class="btn btn-secondary">
+                            返回列表
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            {% if task.status == 'COMPLETED' and task.result_summary %}
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h3>扫描结果摘要</h3>
+                    <pre>{{ task.result_summary|json_script }}</pre>
+                    <!-- 这里可以添加结果可视化展示 -->
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+// 实时更新任务状态
+setInterval(function() {
+    $.get("{% url 'task_status_api' task.id %}", function(data) {
+        if (data.success) {
+            // 更新状态标签
+            var statusBadge = $("span.badge");
+            statusBadge.text(data.status_text);
+            
+            // 更新进度条
+            var progressBar = $(".progress-bar");
+            progressBar.css("width", data.progress + "%");
+            progressBar.text(data.progress + "%");
+            
+            // 根据状态更新按钮
+            if (data.status === "RUNNING") {
+                $("#startTaskBtn").hide();
+                $("#stopTaskBtn").show();
+            } else if (data.status === "COMPLETED" || data.status === "FAILED") {
+                $("#stopTaskBtn").hide();
+                $("#startTaskBtn").show();
+            }
+        }
+    });
+}, 3000);
+
+// 开始任务
+$("#startTaskBtn").click(function() {
+    var taskId = $(this).data("task-id");
+    $.post("/api/tasks/" + taskId + "/start/", function(data) {
+        if (data.success) {
+            alert("任务已开始");
+        } else {
+            alert("启动任务失败: " + data.error);
+        }
+    });
+});
+
+// 停止任务
+$("#stopTaskBtn").click(function() {
+    var taskId = $(this).data("task-id");
+    $.post("/api/tasks/" + taskId + "/stop/", function(data) {
+        if (data.success) {
+            alert("任务已停止");
+        } else {
+            alert("停止任务失败: " + data.error);
+        }
+    });
+});
+</script>
+{% endblock %}

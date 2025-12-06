@@ -1,12 +1,12 @@
 from celery import shared_task
 from celery.schedules import crontab
 from trace_system.celery_config import app
-from .scanners import ScapyScanner
+from .scanners import ScapyScanner, NMAPScanner  # 导入NMAPScanner
 from .ip_tracker import QQWryIPLocator
 import os
 import logging
 import json
-import time  # 新增必要导入
+import time
 from django.conf import settings
 from .models import ScanTask, TrafficAnalysisResult
 from .traffic_monitor import TrafficMonitor
@@ -34,8 +34,12 @@ def run_scan_task(task_id):
         task.started_at = timezone.now()
         task.save()
         
-        # 初始化扫描器
-        scanner = ScapyScanner(task)
+        # 根据扫描类型选择合适的扫描器
+        if task.scan_type in ['SYN_SCAN', 'UDP_SCAN']:
+            scanner = ScapyScanner(task)
+        else:  # OS_DETECTION, SERVICE_DETECTION, FULL_SCAN 使用NMAP扫描器
+            scanner = NMAPScanner(task)
+            
         results = []
         
         # 根据扫描类型执行相应扫描
@@ -50,9 +54,13 @@ def run_scan_task(task_id):
                 scan_results = scanner.syn_scan(target, task.ports)
             elif task.scan_type == 'UDP_SCAN':
                 scan_results = scanner.udp_scan(target, task.ports)
-            # 其他扫描类型的处理...
+            elif task.scan_type == 'OS_DETECTION':
+                scan_results = scanner.os_detection(target)
+            elif task.scan_type == 'SERVICE_DETECTION':
+                scan_results = scanner.service_detection(target, task.ports)
+            elif task.scan_type == 'FULL_SCAN':
+                scan_results = scanner.full_scan(target, task.ports)
             else:
-                # 对于其他扫描类型，也实现不依赖应答的扫描逻辑
                 scan_results = []
             
             # 为每个结果添加地理位置信息
@@ -64,7 +72,7 @@ def run_scan_task(task_id):
             
             results.extend(scan_results)
             
-            # 更新整体进度（修复缩进，确保在循环内部执行）
+            # 更新整体进度
             target_progress = int((target_idx + 1) / total_targets * 100)
             task.progress = target_progress
             task.save()
@@ -78,6 +86,10 @@ def run_scan_task(task_id):
                 port=res.get('port'),
                 protocol=res.get('protocol', 'tcp'),
                 state=res['state'],
+                service=res.get('service', ''),
+                service_version=res.get('service_version', ''),
+                os_family=res.get('os_family', ''),
+                os_version=res.get('os_version', ''),
                 discovered_at=timezone.now()
             )
         
@@ -158,7 +170,6 @@ def analyze_traffic_periodically():
         
         if not records:
             logger.info("没有需要分析的流量记录")
-            # 移除自动启动监控的代码，改为手动启动
             return
         
         # 3. 创建数据集目录
@@ -223,7 +234,7 @@ def analyze_traffic_periodically():
         logger.info(f"定时流量分析完成: 共{len(records)}条记录，成功{analysis_summary['success_count']}条，失败{analysis_summary['fail_count']}条")
         
         # 7. 重新启动监控
-        traffic_monitor.start_monitoring(duration=3600)  # 明确指定参数名
+        traffic_monitor.start_monitoring(duration=3600)
         
         return analysis_summary
         

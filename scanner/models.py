@@ -28,7 +28,8 @@ class ScanTask(models.Model):
     description = models.TextField(blank=True, verbose_name="任务描述")
     target = models.TextField(verbose_name="扫描目标", help_text="IP地址、网段或域名，多个用逗号分隔")
     scan_type = models.CharField(max_length=50, choices=SCAN_TYPE_CHOICES, verbose_name="扫描类型")
-    
+    celery_task_id = models.CharField(max_length=255, blank=True, null=True, help_text="Celery任务ID")
+
     # 扫描参数
     ports = models.CharField(max_length=500, default="1-1000", verbose_name="端口范围", 
                            help_text="例如: 80,443,1-1000")

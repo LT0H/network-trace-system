@@ -2,18 +2,15 @@ import json
 import os
 import subprocess
 from django.conf import settings
-from .models import TrafficFlow, TrafficAnalysis
+from .models import TrafficFlow, TrafficAnalysis, TrafficAnalysisResult, ScanTask, ScanResult
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404, render
-from .models import ScanTask
 from django.http import JsonResponse
 from django.contrib import messages
 from django.utils import timezone
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from .traffic_monitor import TrafficMonitor
-from .models import TrafficAnalysisResult
-from .models import ScanTask, ScanResult
 import logging
 
 logger = logging.getLogger(__name__)
@@ -46,46 +43,61 @@ def traffic_monitor_admin(request):
     """流量监控管理员页面"""
     return render(request, 'scanner/traffic_monitor_admin.html')
 
-@staff_member_required
-def start_traffic_monitor(request):
-    """启动流量监控API"""
-    if request.method == 'POST':
-        try:
-            # 增加更严格的状态检查
-            if traffic_monitor.is_running:
-                return JsonResponse({
-                    'status': 'warning',
-                    'message': '流量监控已在运行中',
-                    'is_running': True,
-                    'errors': []
-                })
-            
-            # 启动监控并获取启动结果
-            start_result = traffic_monitor.start_monitoring()
-            if start_result.get("status") == "success":
-                return JsonResponse({
-                    'status': 'success',
-                    'message': '流量监控已启动',
-                    'is_running': True,
-                    'errors': []
-                })
-            else:
-                return JsonResponse({
-                    'status': 'error',
-                    'message': f'启动失败: {start_result.get("message", "")}',
-                    'is_running': traffic_monitor.is_running,
-                    'errors': [start_result.get("message", "")]
-                }, status=500)
-            
-        except Exception as e:
-            logger.error(f"启动流量监控失败: {str(e)}", exc_info=True)
+@api_view(['POST'])
+@login_required
+def start_traffic_capture(request):
+    """启动流量捕获和分析"""
+    try:
+        # 从请求数据获取参数，支持form-data和JSON
+        if request.content_type == 'application/json':
+            data = request.data
+        else:
+            data = request.POST
+        
+        interface = data.get('interface', '')
+        duration = int(data.get('duration', 300))  # 默认捕获5分钟
+        
+        # 验证接口参数
+        if not interface:
             return JsonResponse({
-                'status': 'error',
-                'message': f'启动失败: {str(e)}',
-                'is_running': traffic_monitor.is_running,
-                'errors': [str(e)]
-            }, status=500)
-    return JsonResponse({'status': 'error', 'message': '无效请求'}, status=400)
+                'success': False,
+                'error': '请指定网络接口'
+            }, status=400)
+        
+        # 检查CICFlowMeter是否存在
+        cicflow_jar = os.path.join(settings.CIC_FLOW_METER_PATH, 'target', 'CICFlowMeter-4.0.jar')
+        if not os.path.exists(cicflow_jar):
+            return JsonResponse({
+                'success': False,
+                'error': f'CICFlowMeter JAR文件不存在: {cicflow_jar}\n请确保已正确编译CICFlowMeter项目'
+            }, status=400)
+        
+        # 确保输出目录存在
+        output_dir = os.path.join(settings.BASE_DIR, 'traffic_data', 'cic_output')
+        os.makedirs(output_dir, exist_ok=True)
+        
+        # 启动后台进程运行CICFlowMeter
+        cmd = f'java -jar "{cicflow_jar}" -i {interface} -o "{output_dir}"'
+        subprocess.Popen(cmd, shell=True)
+        
+        # 设置定时器，在指定时间后停止捕获
+        from threading import Timer
+        def stop_capture():
+            # 这里添加停止捕获的逻辑
+            pass
+        
+        Timer(duration, stop_capture).start()
+        
+        return JsonResponse({
+            'success': True,
+            'message': f'已开始在接口 {interface} 上捕获流量，将持续 {duration} 秒',
+            'output_dir': output_dir
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
 
 @staff_member_required
 def task_create_view(request):
@@ -123,8 +135,8 @@ def task_create_view(request):
             # 4. 返回包含任务ID的成功响应（便于前端跳转）
             return JsonResponse({
                 'status': 'success', 
-                'message': '任务创建成功',
-                'task_id': task.id  # 新增任务ID，方便前端处理
+                'message': '任务创建成功，请手动启动任务',
+                'task_id': task.id
             })
             
         except Exception as e:
@@ -235,56 +247,84 @@ def traffic_monitor_view(request):
 
 @api_view(['POST'])
 @login_required
-def start_traffic_capture(request):
-    """启动流量捕获和分析"""
+def start_task_api(request, task_id):
+    """启动指定任务"""
     try:
-        interface = request.data.get('interface', '')
-        duration = request.data.get('duration', 300)  # 默认捕获5分钟
+        task = get_object_or_404(ScanTask, id=task_id)
         
-        # 验证接口参数
-        if not interface:
+        if task.status == 'RUNNING':
             return JsonResponse({
                 'success': False,
-                'error': '请指定网络接口'
+                'error': '任务正在运行中'
             }, status=400)
+            
+        # 更新任务状态
+        task.status = 'PENDING'
+        task.progress = 0
+        task.save()
         
-        # 检查CICFlowMeter是否存在
-        cicflow_jar = os.path.join(settings.CIC_FLOW_METER_PATH, 'target', 'CICFlowMeter-4.0.jar')
-        if not os.path.exists(cicflow_jar):
-            return JsonResponse({
-                'success': False,
-                'error': f'CICFlowMeter JAR文件不存在: {cicflow_jar}\n请确保已正确编译CICFlowMeter项目'
-            }, status=400)
-        
-        # 确保输出目录存在
-        output_dir = os.path.join(settings.BASE_DIR, 'traffic_data', 'cic_output')
-        os.makedirs(output_dir, exist_ok=True)
-        
-        # 启动后台进程运行CICFlowMeter
-        cmd = f'java -jar "{cicflow_jar}" -i {interface} -o "{output_dir}"'
-        subprocess.Popen(cmd, shell=True)
+        # 调用Celery任务
+        from .tasks import run_scan_task
+        run_scan_task.delay(task.id)
         
         return JsonResponse({
             'success': True,
-            'message': f'已开始在接口 {interface} 上捕获流量，将持续 {duration} 秒',
-            'output_dir': output_dir
+            'message': '任务已开始'
         })
     except Exception as e:
         return JsonResponse({
             'success': False,
             'error': str(e)
-        }, status=400)
+        }, status=500)
+
+@api_view(['POST'])
+@login_required
+def stop_task_api(request, task_id):
+    """停止指定任务"""
+    try:
+        task = get_object_or_404(ScanTask, id=task_id)
+        
+        if task.status != 'RUNNING':
+            return JsonResponse({
+                'success': False,
+                'error': '任务不在运行中'
+            }, status=400)
+            
+        # 这里需要根据实际情况实现停止任务的逻辑
+        # 例如，通过Celery的revoke方法撤销任务
+        from celery.task.control import revoke
+        revoke(task.celery_task_id, terminate=True)
+        
+        # 更新任务状态
+        task.status = 'STOPPED'
+        task.save()
+        
+        return JsonResponse({
+            'success': True,
+            'message': '任务已停止'
+        })
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'error': str(e)
+        }, status=500)
 
 @api_view(['POST'])
 @login_required
 def analyze_traffic(request):
-    """使用ws-traffic-analyze-kit分析流量"""
+    """分析流量数据"""
     try:
-        traffic_file = request.data.get('traffic_file')
-        if not traffic_file or not os.path.exists(traffic_file):
+        # 获取分析所需的参数
+        if request.content_type == 'application/json':
+            data = request.data
+        else:
+            data = request.POST
+            
+        file_path = data.get('file_path')
+        if not file_path or not os.path.exists(file_path):
             return JsonResponse({
                 'success': False,
-                'error': '指定的流量文件不存在'
+                'error': '无效的文件路径'
             }, status=400)
         
         # 检查分析脚本是否存在
@@ -300,13 +340,13 @@ def analyze_traffic(request):
         os.makedirs(output_dir, exist_ok=True)
         
         # 构建输出文件名
-        filename = os.path.basename(traffic_file)
+        filename = os.path.basename(file_path)
         output_file = os.path.join(output_dir, f"analysis_{filename}.json")
         
         # 运行ws-traffic-analyze-kit分析
         cmd = [
             'python', analyze_script,
-            '-f', traffic_file,
+            '-f', file_path,
             '-o', output_file
         ]
         
@@ -333,7 +373,7 @@ def analyze_traffic(request):
             analysis_data = json.load(f)
             
         TrafficAnalysisResult.objects.create(
-            pcap_file_path=traffic_file,
+            pcap_file_path=file_path,
             analyzer_type="ws",
             analysis_result=analysis_data,
             packet_count=len(analysis_data.get('packets', [])),
@@ -343,14 +383,10 @@ def analyze_traffic(request):
         return JsonResponse({
             'success': True,
             'message': '流量分析完成',
-            'output_file': output_file,
-            'analysis_summary': {
-                'packet_count': len(analysis_data.get('packets', [])),
-                'protocols': list(analysis_data.get('protocol_distribution', {}).keys())
-            }
+            'result': {}  # 这里添加分析结果
         })
     except Exception as e:
         return JsonResponse({
             'success': False,
             'error': str(e)
-        }, status=400)
+        }, status=500)
