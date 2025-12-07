@@ -1,166 +1,120 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from scanner.models import ScanTask, ScanResult
-from scanner.serializers import ScanTaskSerializer, ScanResultSerializer
-from scanner.models import TrafficAnalysisResult
-from django.utils import timezone
-from datetime import timedelta
+import logging
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
+from scanner.task_manager import TaskManager
+from scanner.topology import NetworkTopology
 import json
 
-@api_view(['GET'])
-def task_list_api(request):
-    """获取任务列表API"""
-    tasks = ScanTask.objects.all().order_by('-created_at')
-    serializer = ScanTaskSerializer(tasks, many=True)
-    return Response({
-        'success': True,
-        'data': serializer.data,
-        'total': tasks.count()
-    })
+logger = logging.getLogger(__name__)
 
-@api_view(['GET'])
-def task_status_api(request, task_id):
-    """获取任务状态API"""
-    task = get_object_or_404(ScanTask, id=task_id)
-    return Response({
-        'success': True,
-        'task_id': task_id,
-        'status': task.status,
-        'status_text': task.get_status_display(),
-        'progress': task.progress
-    })
+# 初始化任务管理器和拓扑生成器
+task_manager = TaskManager()
+topology_generator = NetworkTopology()
 
-@api_view(['POST'])
-def create_task_api(request):
-    """创建扫描任务API"""
-    from scanner.tasks import run_scan_task
-    from django.http import JsonResponse
-    
+@csrf_exempt
+@require_http_methods(["POST"])
+def create_task(request):
+    """创建扫描任务"""
     try:
-        # 验证必要参数
-        required_fields = ['name', 'target', 'scan_type']
-        for field in required_fields:
-            if field not in request.data or not request.data[field]:
-                return JsonResponse({
-                    'success': False,
-                    'error': f'缺少必要参数: {field}'
-                }, status=400)
+        data = json.loads(request.body)
+        target = data.get("target")
+        duration = int(data.get("duration", 3600))
+        interval = int(data.get("interval", 60))
         
-        # 创建扫描任务记录
-        task = ScanTask.objects.create(
-            name=request.data.get('name'),
-            target=request.data.get('target'),
-            scan_type=request.data.get('scan_type'),
-            ports=request.data.get('ports', '1-1000'),
-            created_by=request.user if request.user.is_authenticated else None
-        )
-        
-        # 异步执行扫描任务
-        run_scan_task.delay(task.id)
-        
+        if not target:
+            return JsonResponse({"status": "error", "message": "目标不能为空"})
+            
+        task_id = task_manager.create_task(target, duration, interval)
         return JsonResponse({
-            'success': True,
-            'task_id': task.id,
-            'message': '任务创建成功，正在后台执行'
-        })
-        
-    except Exception as e:
-        return JsonResponse({
-            'success': False,
-            'error': str(e)
-        }, status=400)
-
-@api_view(['GET'])
-def scan_results_api(request):
-    """获取扫描结果API"""
-    task_id = request.GET.get('task_id')
-    ip_address = request.GET.get('ip_address')
-    state = request.GET.get('state')
-    
-    results = ScanResult.objects.all()
-    
-    if task_id:
-        results = results.filter(task_id=task_id)
-    if ip_address:
-        results = results.filter(ip_address=ip_address)
-    if state:
-        results = results.filter(state=state)
-    
-    serializer = ScanResultSerializer(results, many=True)
-    return Response({
-        'success': True,
-        'data': serializer.data,
-        'total': results.count()
-    })
-
-@api_view(['GET'])
-def topology_data_api(request):
-    """获取网络拓扑数据API"""
-    from dashboard.views import get_topology_data
-    
-    try:
-        data = get_topology_data()
-        return Response({
-            'success': True,
-            'data': data
+            "status": "success", 
+            "task_id": task_id,
+            "message": "任务创建成功"
         })
     except Exception as e:
-        return Response({
-            'success': False,
-            'error': str(e)
-        }, status=500)
+        logger.error(f"创建任务失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})
 
-@api_view(['GET'])
-def traffic_analysis_results(request):
-    """获取流量分析结果API"""
-    # 支持按时间范围筛选
-    days = int(request.GET.get('days', 7))
-    start_date = timezone.now() - timedelta(days=days)
-    
-    results = TrafficAnalysisResult.objects.filter(created_at__gte=start_date)
-    
-    # 序列化结果
-    data = [{
-        'id': res.id,
-        'pcap_file_path': res.pcap_file_path,
-        'packet_count': res.packet_count,
-        'protocol_distribution': res.protocol_distribution,
-        'created_at': res.created_at
-    } for res in results]
-    
-    return Response({
-        'success': True,
-        'data': data,
-        'total': results.count()
-    })
+@csrf_exempt
+@require_http_methods(["POST"])
+def start_task(request):
+    """启动扫描任务"""
+    try:
+        data = json.loads(request.body)
+        task_id = data.get("task_id")
+        
+        if not task_id:
+            return JsonResponse({"status": "error", "message": "任务ID不能为空"})
+            
+        result = task_manager.start_task(task_id)
+        return JsonResponse(result)
+    except Exception as e:
+        logger.error(f"启动任务失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})
 
-@api_view(['POST'])
-def control_traffic_monitor(request):
-    """控制流量监听服务API"""
-    action = request.data.get('action')
-    
-    if action == 'start':
-        duration = request.data.get('duration')
-        from scanner.tasks import start_traffic_monitoring
-        result = start_traffic_monitoring.delay(duration)
-        return Response({
-            'success': True,
-            'message': '流量监听已启动',
-            'task_id': result.id
-        })
+@csrf_exempt
+@require_http_methods(["POST"])
+def stop_task(request):
+    """停止扫描任务"""
+    try:
+        data = json.loads(request.body)
+        task_id = data.get("task_id")
         
-    elif action == 'stop':
-        from scanner.tasks import stop_traffic_monitoring
-        result = stop_traffic_monitoring.delay()
-        return Response({
-            'success': True,
-            'message': '流量监听已停止',
-            'task_id': result.id
-        })
+        if not task_id:
+            return JsonResponse({"status": "error", "message": "任务ID不能为空"})
+            
+        result = task_manager.stop_task(task_id)
+        return JsonResponse(result)
+    except Exception as e:
+        logger.error(f"停止任务失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})
+
+@require_http_methods(["GET"])
+def get_task_status(request):
+    """获取任务状态"""
+    try:
+        task_id = request.GET.get("task_id")
         
-    else:
-        return Response({
-            'success': False,
-            'error': '无效的操作，支持的操作: start, stop'
-        }, status=400)
+        if not task_id:
+            return JsonResponse({"status": "error", "message": "任务ID不能为空"})
+            
+        status = task_manager.get_task_status(task_id)
+        return JsonResponse({"status": "success", "data": status})
+    except Exception as e:
+        logger.error(f"获取任务状态失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})
+
+@require_http_methods(["GET"])
+def list_tasks(request):
+    """列出所有任务"""
+    try:
+        tasks = task_manager.list_tasks()
+        return JsonResponse({"status": "success", "data": tasks})
+    except Exception as e:
+        logger.error(f"列出任务失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})
+
+@require_http_methods(["GET"])
+def get_task_results(request):
+    """获取任务结果"""
+    try:
+        task_id = request.GET.get("task_id")
+        
+        if not task_id:
+            return JsonResponse({"status": "error", "message": "任务ID不能为空"})
+            
+        results = task_manager.get_task_results(task_id)
+        
+        # 生成拓扑图
+        topology_generator.clear()
+        for result in results.get("results", []):
+            if "data" in result:
+                topology_generator.add_flow_data(result["data"])
+        
+        topology_image = topology_generator.generate_topology_image(task_id)
+        results["topology_image"] = topology_image
+        
+        return JsonResponse({"status": "success", "data": results})
+    except Exception as e:
+        logger.error(f"获取任务结果失败: {e}")
+        return JsonResponse({"status": "error", "message": str(e)})

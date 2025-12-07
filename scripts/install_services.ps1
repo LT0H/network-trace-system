@@ -1,5 +1,5 @@
-# WindowsæœåŠ¡å®‰è£…è„šæœ¬
-# éœ€è¦ä»¥ç®¡ç†å‘˜æƒé™è¿è¡Œ
+# Windows·şÎñ°²×°½Å±¾
+# ĞèÒªÒÔ¹ÜÀíÔ±È¨ÏŞÔËĞĞ
 
 param(
     [string]$ProjectPath = "C:\NetworkTraceSystem",
@@ -7,16 +7,33 @@ param(
     [string]$VirtualEnvPath = "C:\NetworkTraceSystem\venv"
 )
 
-# æ£€æŸ¥ç®¡ç†å‘˜æƒé™
-if (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-    Write-Error "éœ€è¦ç®¡ç†å‘˜æƒé™è¿è¡Œæ­¤è„šæœ¬"
+# ¼ì²é¹ÜÀíÔ±È¨ÏŞ
+if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
+    Write-Error "ĞèÒª¹ÜÀíÔ±È¨ÏŞÔËĞĞ´Ë½Å±¾"
     exit 1
 }
 
-# ä¸‹è½½NSSMï¼ˆå¦‚æœæ²¡æœ‰ï¼‰
+# ´´½¨ÈÕÖ¾Ä¿Â¼²¢ÉèÖÃÈ¨ÏŞ
+$LogsPath = "$ProjectPath\logs"
+if (-Not (Test-Path $LogsPath)) {
+    New-Item -ItemType Directory -Path $LogsPath -Force | Out-Null
+    # ÊÚÓèNetworkService¶ÔÏîÄ¿Ä¿Â¼µÄ·ÃÎÊÈ¨ÏŞ
+    $acl = Get-Acl $ProjectPath
+    $rule = New-Object System.Security.AccessControl.FileSystemAccessRule(
+        "NT AUTHORITY\NetworkService",
+        "ReadAndExecute, Write, Read",
+        "ContainerInherit, ObjectInherit",
+        "None",
+        "Allow"
+    )
+    $acl.AddAccessRule($rule)
+    Set-Acl $ProjectPath $acl
+}
+
+# ÏÂÔØNSSM£¨Èç¹ûÃ»ÓĞ£©
 $NSSMPath = "$PSScriptRoot\nssm.exe"
 if (-Not (Test-Path $NSSMPath)) {
-    Write-Host "ä¸‹è½½NSSM..." -ForegroundColor Yellow
+    Write-Host "ÏÂÔØNSSM..." -ForegroundColor Yellow
     $NSSMUrl = "https://nssm.cc/ci/nssm-2.24-101-g897c7ad.zip"
     $TempFile = "$env:TEMP\nssm.zip"
     
@@ -27,80 +44,81 @@ if (-Not (Test-Path $NSSMPath)) {
     Remove-Item "$env:TEMP\nssm" -Recurse -Force
 }
 
-# æœåŠ¡é…ç½®
+# ·şÎñÅäÖÃ
 $Services = @(
     @{
         Name = "NetworkTraceSystemWeb"
-        DisplayName = "ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ WebæœåŠ¡"
-        Description = "Django WebæœåŠ¡å™¨ for ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ"
+        DisplayName = "ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³ Web·şÎñ"
+        Description = "Django Web·şÎñÆ÷ for ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³"
         Command = "$VirtualEnvPath\Scripts\waitress-serve.exe"
         Arguments = "--host=0.0.0.0 --port=8000 trace_system.wsgi:application"
         WorkingDirectory = $ProjectPath
     },
     @{
         Name = "NetworkTraceSystemCelery"
-        DisplayName = "ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ Celery Worker"
-        Description = "Celery Worker for ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ"
+        DisplayName = "ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³ Celery Worker"
+        Description = "Celery Worker for ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³"
         Command = "$VirtualEnvPath\Scripts\celery.exe"
         Arguments = "-A trace_system worker --pool=solo -l INFO"
         WorkingDirectory = $ProjectPath
     },
     @{
         Name = "NetworkTraceSystemBeat"
-        DisplayName = "ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ Celery Beat"
-        Description = "Celery Beat Scheduler for ç½‘ç»œæ‰«ææº¯æºç³»ç»Ÿ"
+        DisplayName = "ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³ Celery Beat"
+        Description = "Celery Beat Scheduler for ÍøÂçÉ¨ÃèËİÔ´ÏµÍ³"
         Command = "$VirtualEnvPath\Scripts\celery.exe"
         Arguments = "-A trace_system beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler"
         WorkingDirectory = $ProjectPath
     }
 )
 
-# å®‰è£…æœåŠ¡
+# °²×°·şÎñ
 foreach ($Service in $Services) {
-    Write-Host "å®‰è£…æœåŠ¡: $($Service.Name)..." -ForegroundColor Yellow
+    Write-Host "°²×°·şÎñ: $($Service.Name)..." -ForegroundColor Yellow
     
-    # æ£€æŸ¥æœåŠ¡æ˜¯å¦å·²å­˜åœ¨
+    # ¼ì²é·şÎñÊÇ·ñÒÑ´æÔÚ
     $ExistingService = Get-Service -Name $Service.Name -ErrorAction SilentlyContinue
     if ($ExistingService) {
-        Write-Host "æœåŠ¡å·²å­˜åœ¨ï¼Œå…ˆåˆ é™¤..." -ForegroundColor Yellow
+        Write-Host "·şÎñÒÑ´æÔÚ£¬ÏÈÉ¾³ı..." -ForegroundColor Yellow
         & $NSSMPath stop $Service.Name
         & $NSSMPath remove $Service.Name confirm
         Start-Sleep -Seconds 2
     }
     
-    # å®‰è£…æ–°æœåŠ¡
+    # °²×°ĞÂ·şÎñ
     & $NSSMPath install $Service.Name $Service.Command
     & $NSSMPath set $Service.Name DisplayName $Service.DisplayName
     & $NSSMPath set $Service.Name Description $Service.Description
     & $NSSMPath set $Service.Name AppParameters $Service.Arguments
     & $NSSMPath set $Service.Name AppDirectory $Service.WorkingDirectory
     & $NSSMPath set $Service.Name Start SERVICE_AUTO_START
-    & $NSSMPath set $Service.Name AppStdout "$ProjectPath\logs\$($Service.Name).log"
-    & $NSSMPath set $Service.Name AppStderr "$ProjectPath\logs\$($Service.Name).log"
+    & $NSSMPath set $Service.Name AppStdout "$LogsPath\$($Service.Name).log"
+    & $NSSMPath set $Service.Name AppStderr "$LogsPath\$($Service.Name).log"
     & $NSSMPath set $Service.Name AppRotateFiles 1
     & $NSSMPath set $Service.Name AppRotateOnline 1
     & $NSSMPath set $Service.Name AppRotateSeconds 86400
     & $NSSMPath set $Service.Name AppRotateBytes 10485760
     
-    # è®¾ç½®æœåŠ¡è´¦æˆ·ï¼ˆä½¿ç”¨ç½‘ç»œæœåŠ¡è´¦æˆ·ï¼Œæƒé™è¾ƒä½ï¼‰
-    & $NSSMPath set $Service.Name ObjectName "NT AUTHORITY\NetworkService"
+    # Îª½â¾öÈ¨ÏŞÎÊÌâ£¬Ê¹ÓÃLocalSystemÕË»§£¨È¨ÏŞ¸ü¸ß£©
+    & $NSSMPath set $Service.Name ObjectName "LocalSystem"
     
-    Write-Host "æœåŠ¡ $($Service.Name) å®‰è£…å®Œæˆ" -ForegroundColor Green
+    Write-Host "·şÎñ $($Service.Name) °²×°Íê³É" -ForegroundColor Green
 }
 
-# å¯åŠ¨æœåŠ¡
-Write-Host "å¯åŠ¨æœåŠ¡..." -ForegroundColor Yellow
+# Æô¶¯·şÎñ
+Write-Host "Æô¶¯·şÎñ..." -ForegroundColor Yellow
 foreach ($Service in $Services) {
     & $NSSMPath start $Service.Name
     Start-Sleep -Seconds 3
     
     $ServiceStatus = Get-Service -Name $Service.Name
     if ($ServiceStatus.Status -eq 'Running') {
-        Write-Host "æœåŠ¡ $($Service.Name) å¯åŠ¨æˆåŠŸ" -ForegroundColor Green
+        Write-Host "·şÎñ $($Service.Name) Æô¶¯³É¹¦" -ForegroundColor Green
     } else {
-        Write-Warning "æœåŠ¡ $($Service.Name) å¯åŠ¨å¤±è´¥ï¼ŒçŠ¶æ€: $($ServiceStatus.Status)"
+        Write-Warning "·şÎñ $($Service.Name) Æô¶¯Ê§°Ü£¬×´Ì¬: $($ServiceStatus.Status)"
+        Write-Warning "Çë²é¿´ÈÕÖ¾ÎÄ¼ş: $LogsPath\$($Service.Name).log"
     }
 }
 
-Write-Host "æ‰€æœ‰æœåŠ¡å®‰è£…å®Œæˆï¼" -ForegroundColor Green
-Write-Host "WebæœåŠ¡è®¿é—®åœ°å€: http://localhost:8000" -ForegroundColor Yellow
+Write-Host "ËùÓĞ·şÎñ°²×°Íê³É£¡" -ForegroundColor Green
+Write-Host "Web·şÎñ·ÃÎÊµØÖ·: http://localhost:8000" -ForegroundColor Yellow
