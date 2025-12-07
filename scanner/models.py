@@ -3,10 +3,7 @@ from django.utils import timezone
 import json
 
 class ScanTask(models.Model):
-    """
-    扫描任务模型
-    存储扫描任务的基本信息和状态
-    """
+    """扫描任务模型，存储扫描任务的基本信息和状态"""
     SCAN_TYPE_CHOICES = (
         ('SYN_SCAN', 'SYN端口扫描'),
         ('UDP_SCAN', 'UDP端口扫描'),
@@ -44,14 +41,19 @@ class ScanTask(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     started_at = models.DateTimeField(null=True, blank=True, verbose_name="开始时间")
     completed_at = models.DateTimeField(null=True, blank=True, verbose_name="完成时间")
+    cancelled_at = models.DateTimeField(null=True, blank=True, verbose_name="取消时间")  # 新增取消时间字段
     
-    # 创建者（如果有多用户需求）
+    # 创建者
     created_by = models.ForeignKey('auth.User', on_delete=models.CASCADE, null=True, verbose_name="创建者")
     
     class Meta:
         verbose_name = "扫描任务"
         verbose_name_plural = "扫描任务"
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status']),
+            models.Index(fields=['created_at']),
+        ]
     
     def __str__(self):
         return f"{self.name} ({self.get_status_display()})"
@@ -68,17 +70,24 @@ class ScanTask(models.Model):
         self.progress = 0
         self.started_at = None
         self.completed_at = None
+        self.cancelled_at = None
         self.result_summary = {}
         self.save()
         
         # 删除关联的扫描结果
         self.results.all().delete()
 
+    def cancel_task(self):
+        """取消任务"""
+        if self.status in ['PENDING', 'RUNNING']:
+            self.status = 'CANCELLED'
+            self.cancelled_at = timezone.now()
+            self.save()
+            return True
+        return False
+
 class ScanResult(models.Model):
-    """
-    扫描结果模型
-    存储具体的扫描结果数据
-    """
+    """扫描结果模型，存储具体的扫描结果数据"""
     # 关联任务
     task = models.ForeignKey(ScanTask, on_delete=models.CASCADE, related_name='results', verbose_name="所属任务")
     
@@ -104,6 +113,10 @@ class ScanResult(models.Model):
     os_version = models.CharField(max_length=100, blank=True, verbose_name="操作系统版本")
     fingerprint = models.JSONField(default=dict, verbose_name="设备指纹")
     
+    # 地理位置信息
+    country = models.CharField(max_length=100, blank=True, verbose_name="国家/地区")
+    city = models.CharField(max_length=100, blank=True, verbose_name="城市")
+    
     # 时间戳
     discovered_at = models.DateTimeField(auto_now_add=True, verbose_name="发现时间")
     
@@ -114,6 +127,7 @@ class ScanResult(models.Model):
         indexes = [
             models.Index(fields=['ip_address']),
             models.Index(fields=['task', 'state']),
+            models.Index(fields=['discovered_at']),
         ]
     
     def __str__(self):
@@ -122,10 +136,7 @@ class ScanResult(models.Model):
         return f"{self.ip_address} ({self.state})"
 
 class NetworkTopology(models.Model):
-    """
-    网络拓扑模型
-    存储网络设备之间的关系
-    """
+    """网络拓扑模型，存储网络设备之间的关系"""
     task = models.ForeignKey(ScanTask, on_delete=models.CASCADE, verbose_name="关联任务")
     source_ip = models.GenericIPAddressField(verbose_name="源IP")
     destination_ip = models.GenericIPAddressField(verbose_name="目标IP")
@@ -137,6 +148,9 @@ class NetworkTopology(models.Model):
     class Meta:
         verbose_name = "网络拓扑"
         verbose_name_plural = "网络拓扑"
+        indexes = [
+            models.Index(fields=['source_ip', 'destination_ip']),
+        ]
 
 class TrafficAnalysisResult(models.Model):
     """流量分析结果模型"""
@@ -149,10 +163,16 @@ class TrafficAnalysisResult(models.Model):
     protocol_distribution = models.JSONField(default=dict, verbose_name="协议分布")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="创建时间")
     is_analyzed = models.BooleanField(default=False, verbose_name="是否已分析")
+    analysis_started_at = models.DateTimeField(null=True, blank=True, verbose_name="分析开始时间")
+    analysis_completed_at = models.DateTimeField(null=True, blank=True, verbose_name="分析完成时间")
     
     class Meta:
         verbose_name = "流量分析结果"
         verbose_name_plural = "流量分析结果"
+        indexes = [
+            models.Index(fields=['is_analyzed']),
+            models.Index(fields=['created_at']),
+        ]
         
     def __str__(self):
         return f"{self.analyzer_type} - {self.pcap_file_path} - {self.created_at}"
@@ -175,6 +195,10 @@ class TrafficFlow(models.Model):
     class Meta:
         verbose_name = "网络流量流"
         verbose_name_plural = "网络流量流"
+        indexes = [
+            models.Index(fields=['timestamp']),
+            models.Index(fields=['src_ip', 'dst_ip']),
+        ]
 
 class TrafficAnalysis(models.Model):
     """流量分析结果，用于存储ws-traffic-analyze-kit的分析结果"""

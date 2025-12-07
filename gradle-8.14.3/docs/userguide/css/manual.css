@@ -1,0 +1,58 @@
+/* 分析结果页面样式 */
+.analysis-result {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.result-section {
+    margin-bottom: 2rem;
+}
+
+.result-section h3 {
+    color: var(--header-color);
+    border-left: 4px solid #4CAF50;
+    padding-left: 0.75rem;
+}
+
+.packet-details {
+    font-family: monospace;
+    white-space: pre-wrap;
+    padding: 1rem;
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+/* 响应式调整 */
+@media screen and (max-width: 64rem) {
+    .monitor-panel {
+        flex-direction: column;
+    }
+    
+    .status-card {
+        min-width: auto;
+    }
+    
+    .traffic-table th:nth-child(5),
+    .traffic-table td:nth-child(5) {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+}
+
+/* 深色模式适配 */
+body.dark-theme .status-card {
+    background: #333;
+}
+
+body.dark-theme .traffic-table th,
+body.dark-theme .traffic-table td {
+    border-bottom-color: #555;
+}
+
+body.dark-theme .packet-details {
+    background: rgba(255,255,255,0.05);
+}

@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from .models import ScanTask, ScanResult, NetworkTopology
-from .models import ScanTask, TrafficAnalysisResult
+from .models import ScanTask, ScanResult, NetworkTopology, TrafficAnalysisResult, TrafficFlow, TrafficAnalysis
 
 @admin.register(ScanTask)
 class ScanTaskAdmin(admin.ModelAdmin):
@@ -29,9 +28,7 @@ class ScanTaskAdmin(admin.ModelAdmin):
     )
     
     def run_selected_tasks(self, request, queryset):
-        """
-        运行选中的扫描任务
-        """
+        """运行选中的扫描任务"""
         from .tasks import run_scan_task  # 延迟导入，避免循环依赖
         
         for task in queryset:
@@ -69,9 +66,7 @@ class ScanTaskAdmin(admin.ModelAdmin):
     run_selected_tasks.short_description = "运行选中的扫描任务"
     
     def reset_selected_tasks(self, request, queryset):
-        """
-        重置选中的扫描任务
-        """
+        """重置选中的扫描任务"""
         for task in queryset:
             task.status = 'PENDING'
             task.progress = 0
@@ -92,9 +87,7 @@ class ScanTaskAdmin(admin.ModelAdmin):
     reset_selected_tasks.short_description = "重置选中的扫描任务"
     
     def view_scan_results(self, request, queryset):
-        """
-        查看扫描结果
-        """
+        """查看扫描结果"""
         if queryset.count() == 1:
             task = queryset.first()
             # 重定向到任务详情页
@@ -132,15 +125,15 @@ class ScanTaskAdmin(admin.ModelAdmin):
 
 @admin.register(TrafficAnalysisResult)
 class TrafficAnalysisResultAdmin(admin.ModelAdmin):
-    list_display = ('id', 'pcap_file_path', 'packet_count', 'created_at')
+    list_display = ('id', 'pcap_file_path', 'analyzer_type', 'packet_count', 'created_at', 'is_analyzed')
     search_fields = ('pcap_file_path',)
-    list_filter = ('created_at',)
+    list_filter = ('analyzer_type', 'created_at', 'is_analyzed')
     readonly_fields = ('created_at',)  # 时间字段设为只读
 
 @admin.register(ScanResult)
 class ScanResultAdmin(admin.ModelAdmin):
     """扫描结果管理界面"""
-    list_display = ['ip_address', 'port', 'protocol', 'state', 'service', 'task']
+    list_display = ['ip_address', 'port', 'protocol', 'state', 'service', 'task', 'discovered_at']
     list_filter = ['state', 'protocol', 'discovered_at', 'task']
     search_fields = ['ip_address', 'hostname', 'service']
     readonly_fields = ['discovered_at']
@@ -152,9 +145,28 @@ class ScanResultAdmin(admin.ModelAdmin):
 @admin.register(NetworkTopology)
 class NetworkTopologyAdmin(admin.ModelAdmin):
     """网络拓扑管理界面"""
-    list_display = ['source_ip', 'destination_ip', 'connection_type', 'task']
+    list_display = ['source_ip', 'destination_ip', 'connection_type', 'task', 'created_at']
     list_filter = ['connection_type', 'created_at']
     search_fields = ['source_ip', 'destination_ip']
+    readonly_fields = ['created_at']  # 修正只读字段
+
+@admin.register(TrafficFlow)
+class TrafficFlowAdmin(admin.ModelAdmin):
+    """网络流量流管理界面"""
+    list_display = [
+        'id', 'src_ip', 'dst_ip', 'protocol', 
+        'total_fwd_packets', 'total_fwd_bytes', 'timestamp'
+    ]
+    list_filter = ['protocol', 'timestamp']
+    search_fields = ['src_ip', 'dst_ip']
+    readonly_fields = ['timestamp']
+
+@admin.register(TrafficAnalysis)
+class TrafficAnalysisAdmin(admin.ModelAdmin):
+    """流量分析结果管理界面"""
+    list_display = ['id', 'analysis_type', 'analysis_time', 'result_summary']
+    list_filter = ['analysis_type', 'analysis_time']
+    readonly_fields = ['analysis_time']
 
 # 设置Admin站点标题
 admin.site.site_header = "网络扫描溯源系统管理后台"
