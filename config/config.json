@@ -1,0 +1,33 @@
+{
+  "paths": {
+    "dumpcap": "C:\\Program Files\\Wireshark\\dumpcap.exe",
+    "analyzer": "C:\\Users\\z1395\\network_trace_system\\ws-traffic-analyze-kit-main\\target\\debug\\common_ip.exe",
+    "output_dir": "C:\\Users\\z1395\\network_trace_system\\data\\catched_data",
+    "qqwry": "C:\\Users\\z1395\\network_trace_system\\data\\qqwry.dat"
+
+  "capture": {
+    "default_interface": "Ethernet",
+    "default_duration": 60,
+    "snaplen": 1514,
+    "buffer_size": 1024
+  },
+  "visualization": {
+    "node_colors": {
+      "host": "#1f77b4",
+      "router": "#ff7f0e",
+      "server": "#2ca02c",
+      "unknown": "#d62728"
+    },
+    "edge_width": {
+      "low": 1,
+      "medium": 2,
+      "high": 3
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "file": "logs/network_trace.log",
+    "max_bytes": 10485760,
+    "backup_count": 5
+  }
+}

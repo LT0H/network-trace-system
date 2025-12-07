@@ -1,0 +1,165 @@
+{
+  "summary": {
+    "total_flows": 1250,
+    "total_packets": 87520,
+    "total_bytes": 12546800,
+    "duration": 60.5,
+    "start_time": "2023-07-21T10:15:30.000",
+    "end_time": "2023-07-21T10:16:30.500"
+  },
+  "flows": [
+    {
+      "src_ip": "192.168.1.100",
+      "src_port": 54321,
+      "dst_ip": "8.8.8.8",
+      "dst_port": 53,
+      "protocol": "UDP",
+      "packets": 15,
+      "bytes": 1250,
+      "duration": 2.3
+    },
+    {
+      "src_ip": "192.168.1.100",
+      "src_port": 49152,
+      "dst_ip": "1.1.1.1",
+      "dst_port": 443,
+      "protocol": "TCP",
+      "packets": 45,
+      "bytes": 12500,
+      "duration": 5.6
+    },
+    {
+      "src_ip": "192.168.1.101",
+      "src_port": 51234,
+      "dst_ip": "192.168.1.1",
+      "dst_port": 80,
+      "protocol": "TCP",
+      "packets": 28,
+      "bytes": 8500,
+      "duration": 3.2
+    },
+    {
+      "src_ip": "192.168.1.102",
+      "src_port": 60123,
+      "dst_ip": "192.168.1.100",
+      "dst_port": 22,
+      "protocol": "TCP",
+      "packets": 120,
+      "bytes": 25600,
+      "duration": 45.8
+    },
+    {
+      "src_ip": "192.168.1.1",
+      "src_port": 80,
+      "dst_ip": "192.168.1.101",
+      "dst_port": 51234,
+      "protocol": "TCP",
+      "packets": 25,
+      "bytes": 7800,
+      "duration": 3.0
+    },
+    {
+      "src_ip": "192.168.1.100",
+      "src_port": 22,
+      "dst_ip": "192.168.1.102",
+      "src_port": 60123,
+      "protocol": "TCP",
+      "packets": 115,
+      "bytes": 24200,
+      "duration": 45.5
+    },
+    {
+      "src_ip": "192.168.1.103",
+      "src_port": 58765,
+      "dst_ip": "10.0.0.1",
+      "dst_port": 443,
+      "protocol": "TCP",
+      "packets": 67,
+      "bytes": 18900,
+      "duration": 12.3
+    },
+    {
+      "src_ip": "10.0.0.1",
+      "src_port": 443,
+      "dst_ip": "192.168.1.103",
+      "dst_port": 58765,
+      "protocol": "TCP",
+      "packets": 62,
+      "bytes": 17500,
+      "duration": 12.0
+    },
+    {
+      "src_ip": "192.168.1.100",
+      "src_port": 52345,
+      "dst_ip": "192.168.1.104",
+      "dst_port": 8080,
+      "protocol": "TCP",
+      "packets": 89,
+      "bytes": 32400,
+      "duration": 23.5
+    },
+    {
+      "src_ip": "192.168.1.104",
+      "src_port": 8080,
+      "dst_ip": "192.168.1.100",
+      "dst_port": 52345,
+      "protocol": "TCP",
+      "packets": 85,
+      "bytes": 30800,
+      "duration": 23.2
+    }
+  ],
+  "protocols": {
+    "TCP": {
+      "packets": 651,
+      "bytes": 169700,
+      "flows": 8
+    },
+    "UDP": {
+      "packets": 15,
+      "bytes": 1250,
+      "flows": 1
+    },
+    "ICMP": {
+      "packets": 8,
+      "bytes": 560,
+      "flows": 1
+    }
+  },
+  "top_talkers": {
+    "senders": [
+      {
+        "ip": "192.168.1.100",
+        "packets": 274,
+        "bytes": 71450
+      },
+      {
+        "ip": "192.168.1.102",
+        "packets": 120,
+        "bytes": 25600
+      },
+      {
+        "ip": "192.168.1.103",
+        "packets": 67,
+        "bytes": 18900
+      }
+    ],
+    "receivers": [
+      {
+        "ip": "192.168.1.100",
+        "packets": 200,
+        "bytes": 55000
+      },
+      {
+        "ip": "192.168.1.102",
+        "packets": 115,
+        "bytes": 24200
+      },
+      {
+        "ip": "192.168.1.103",
+        "packets": 62,
+        "bytes": 17500
+      }
+    ]
+  }
+}

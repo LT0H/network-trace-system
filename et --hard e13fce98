@@ -1,0 +1,29 @@
+[33ma0e49ad9[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m 重构后安装服务失败，已有日志文件，修改时返回已写入，还需要生成全新的requirements和部署安装方式
+[33mf562c185[m 依旧未能完全剥离CICFlowMeter，需要关注templates文件夹
+[33m57be71ca[m 移除了CICFlowMeter，但是仍然存在其调用，需要再次构建
+[33m41730e9f[m 描述
+[33m761b1ea0[m 描述
+[33m91f79377[m 成功编译CIC，等待技术验证，但是删除了大量功能仅保留了PCAP功能，可能存在集成使用问题
+[33m7c835a08[m 需要修改如下：抓包失败、分析失败
+[33me13fce98[m 试图将CICFlowMeter和WS集成到系统，需要解决抓包失败问题，CIC将抓包结果保存为,csv文件，但是WS需要.pcap文件进行分析才能生成.json文件，需要解决此问题
+[33mc18958e6[m 成功编译CICFlowMetre，下一步解决undifine问题并使系统正常运行，同时使枫叶数据分析被正确调用
+[33ma233f888[m 已能正常进入管理平台，但某些功能如创建任务、自动扫描缺失，后者运行时返回undifined
+[33m57435ed6[m 无法正确启动，151091
+[33mc84bfbb3[m xiaoxiugai
+[33m121fda0a[m xiaoxiugai
+[33mdf34215c[m 需要解决使用CICF失败问题
+[33ma8542ad0[m 需要解决使用CICF失败问题
+[33m2caae5fa[m 增加了流量监控页面但是未能正常使用
+[33m43f1c697[m 完善系统，构建管理按钮失败
+[33m3b809e82[m 增加包分析，待完善，需要改进包存储管理和抓包控制
+[33m0ffc301a[m 加入CICFlowMeter
+[33md2bb6cc3[m 增加包获取
+[33m43107678[m 解决了无法进入管理平台的问题
+[33ma6e6f462[m 回退版本，优化文件夹结构，但是尚未解决无法访问的问题
+[33md232a100[m Initial commit: network trace system project
+[33m455c94da[m Initial commit: network trace system project
+[33m15f7e64e[m Merge branch 'main' of https://github.com/LT0H/network-trace-system
+[33m6309c95d[m Initial commit: network trace system project
+[33m7856834d[m README.md
+[33m0b3848c3[m Initial commit: network trace system project
+[33m96d76412[m Initial commit
