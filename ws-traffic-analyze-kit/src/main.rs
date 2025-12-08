@@ -1,4 +1,3 @@
-// main.rs
 mod ip_counter;
 
 use std::error::Error;
