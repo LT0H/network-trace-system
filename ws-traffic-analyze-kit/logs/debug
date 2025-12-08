@@ -1,0 +1,1101 @@
+2025-12-08 16:19:36 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-12-08 16:19:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 99 flow
+2025-12-08 16:19:48 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:19:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 99 flow
+2025-12-08 16:20:13 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\data\daily\2025-12-08_Flow.csv
+2025-12-08 16:20:13 DEBUG cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    break Packet loop
+2025-12-08 16:20:13 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    Pcap stop listening
+2025-12-08 16:24:10 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-12-08 16:24:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 168 flow
+2025-12-08 16:24:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:14 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:17 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:19 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:24 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:24:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 294 flow
+2025-12-08 16:24:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:24:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 300 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 394 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 393 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 392 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 391 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 390 flow
+2025-12-08 16:24:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 389 flow
+2025-12-08 16:24:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 513 flow
+2025-12-08 16:24:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 514 flow
+2025-12-08 16:24:44 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:09 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:09 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 789 flow
+2025-12-08 16:25:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 822 flow
+2025-12-08 16:25:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 866 flow
+2025-12-08 16:25:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 883 flow
+2025-12-08 16:25:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 893 flow
+2025-12-08 16:25:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 899 flow
+2025-12-08 16:25:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 900 flow
+2025-12-08 16:25:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 901 flow
+2025-12-08 16:25:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 940 flow
+2025-12-08 16:25:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 956 flow
+2025-12-08 16:25:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:25:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 960 flow
+2025-12-08 16:25:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 960 flow
+2025-12-08 16:26:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1054 flow
+2025-12-08 16:26:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1064 flow
+2025-12-08 16:26:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1064 flow
+2025-12-08 16:26:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1072 flow
+2025-12-08 16:26:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1083 flow
+2025-12-08 16:26:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1101 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1101 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1100 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1101 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1100 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1100 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1100 flow
+2025-12-08 16:26:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1100 flow
+2025-12-08 16:26:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1104 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1107 flow
+2025-12-08 16:26:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1107 flow
+2025-12-08 16:26:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1111 flow
+2025-12-08 16:26:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1116 flow
+2025-12-08 16:26:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1119 flow
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1120 flow
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1120 flow
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1123 flow
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1122 flow
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1123 flow
+2025-12-08 16:26:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1123 flow
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1123 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1123 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1122 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1121 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1120 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1121 flow
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1121 flow
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1120 flow
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1121 flow
+2025-12-08 16:26:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1121 flow
+2025-12-08 16:26:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1121 flow
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1121 flow
+2025-12-08 16:26:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1120 flow
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1120 flow
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1120 flow
+2025-12-08 16:26:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1120 flow
+2025-12-08 16:26:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1122 flow
+2025-12-08 16:26:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1127 flow
+2025-12-08 16:26:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1130 flow
+2025-12-08 16:26:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1129 flow
+2025-12-08 16:26:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1128 flow
+2025-12-08 16:26:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1127 flow
+2025-12-08 16:26:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1126 flow
+2025-12-08 16:26:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1125 flow
+2025-12-08 16:26:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1127 flow
+2025-12-08 16:26:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1126 flow
+2025-12-08 16:26:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1134 flow
+2025-12-08 16:26:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1139 flow
+2025-12-08 16:26:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1139 flow
+2025-12-08 16:26:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1140 flow
+2025-12-08 16:26:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1144 flow
+2025-12-08 16:26:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1144 flow
+2025-12-08 16:26:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1144 flow
+2025-12-08 16:26:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1144 flow
+2025-12-08 16:26:46 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:26:46 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:26:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1156 flow
+2025-12-08 16:26:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1155 flow
+2025-12-08 16:26:51 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1156 flow
+2025-12-08 16:27:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1225 flow
+2025-12-08 16:27:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1225 flow
+2025-12-08 16:27:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1227 flow
+2025-12-08 16:27:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1241 flow
+2025-12-08 16:27:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1257 flow
+2025-12-08 16:27:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1259 flow
+2025-12-08 16:27:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1266 flow
+2025-12-08 16:27:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1272 flow
+2025-12-08 16:27:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1274 flow
+2025-12-08 16:27:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1280 flow
+2025-12-08 16:27:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1288 flow
+2025-12-08 16:27:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1288 flow
+2025-12-08 16:27:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1288 flow
+2025-12-08 16:27:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1287 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1291 flow
+2025-12-08 16:27:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1291 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1291 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1290 flow
+2025-12-08 16:27:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1290 flow
+2025-12-08 16:27:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1290 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1290 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1289 flow
+2025-12-08 16:27:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1289 flow
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1288 flow
+2025-12-08 16:27:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1288 flow
+2025-12-08 16:27:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1288 flow
+2025-12-08 16:27:31 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:27:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1288 flow
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1288 flow
+2025-12-08 16:27:31 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1287 flow
+2025-12-08 16:27:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1287 flow
+2025-12-08 16:27:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1291 flow
+2025-12-08 16:27:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1290 flow
+2025-12-08 16:27:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1292 flow
+2025-12-08 16:27:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1325 flow
+2025-12-08 16:27:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1327 flow
+2025-12-08 16:27:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1327 flow
+2025-12-08 16:27:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1327 flow
+2025-12-08 16:27:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:44 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1334 flow
+2025-12-08 16:27:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1334 flow
+2025-12-08 16:27:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1335 flow
+2025-12-08 16:27:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1335 flow
+2025-12-08 16:27:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1335 flow
+2025-12-08 16:27:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1339 flow
+2025-12-08 16:27:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:27:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1355 flow
+2025-12-08 16:28:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1450 flow
+2025-12-08 16:28:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1450 flow
+2025-12-08 16:28:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1462 flow
+2025-12-08 16:28:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1471 flow
+2025-12-08 16:28:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1472 flow
+2025-12-08 16:28:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1479 flow
+2025-12-08 16:28:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1481 flow
+2025-12-08 16:28:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1490 flow
+2025-12-08 16:28:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1491 flow
+2025-12-08 16:28:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1491 flow
+2025-12-08 16:28:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1491 flow
+2025-12-08 16:28:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1497 flow
+2025-12-08 16:28:37 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1539 flow
+2025-12-08 16:28:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1559 flow
+2025-12-08 16:28:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:49 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:28:49 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1571 flow
+2025-12-08 16:29:00 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1600 flow
+2025-12-08 16:29:03 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:03 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:03 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:29:04 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:29:04 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:04 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1629 flow
+2025-12-08 16:29:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1629 flow
+2025-12-08 16:29:05 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:29:05 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:29:05 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:29:06 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:29:06 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:29:06 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:29:08 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 6 FIN packets
+2025-12-08 16:29:08 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 6 FIN packets
+2025-12-08 16:29:08 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 6 FIN packets
+2025-12-08 16:29:13 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 7 FIN packets
+2025-12-08 16:29:13 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 7 FIN packets
+2025-12-08 16:29:13 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 7 FIN packets
+2025-12-08 16:29:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1693 flow
+2025-12-08 16:29:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1699 flow
+2025-12-08 16:29:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1698 flow
+2025-12-08 16:29:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1699 flow
+2025-12-08 16:29:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1721 flow
+2025-12-08 16:29:40 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1772 flow
+2025-12-08 16:29:44 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1780 flow
+2025-12-08 16:29:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1780 flow
+2025-12-08 16:29:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1780 flow
+2025-12-08 16:29:49 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:29:49 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1796 flow
+2025-12-08 16:29:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1808 flow
+2025-12-08 16:29:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:20 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1895 flow
+2025-12-08 16:30:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 1900 flow
+2025-12-08 16:30:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1904 flow
+2025-12-08 16:30:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1906 flow
+2025-12-08 16:30:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1908 flow
+2025-12-08 16:30:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1922 flow
+2025-12-08 16:30:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:30:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2021 flow
+2025-12-08 16:31:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2039 flow
+2025-12-08 16:31:01 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:08 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2049 flow
+2025-12-08 16:31:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2055 flow
+2025-12-08 16:31:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:15 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2079 flow
+2025-12-08 16:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2085 flow
+2025-12-08 16:31:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2093 flow
+2025-12-08 16:31:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2097 flow
+2025-12-08 16:31:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2100 flow
+2025-12-08 16:31:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2117 flow
+2025-12-08 16:31:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2119 flow
+2025-12-08 16:31:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2119 flow
+2025-12-08 16:31:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2125 flow
+2025-12-08 16:31:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2138 flow
+2025-12-08 16:31:51 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:31:51 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2186 flow
+2025-12-08 16:32:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2250 flow
+2025-12-08 16:32:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2250 flow
+2025-12-08 16:32:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2269 flow
+2025-12-08 16:32:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2280 flow
+2025-12-08 16:32:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2291 flow
+2025-12-08 16:32:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2314 flow
+2025-12-08 16:32:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2357 flow
+2025-12-08 16:32:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2357 flow
+2025-12-08 16:32:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2357 flow
+2025-12-08 16:32:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2359 flow
+2025-12-08 16:32:52 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2368 flow
+2025-12-08 16:32:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2368 flow
+2025-12-08 16:32:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:32:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2369 flow
+2025-12-08 16:33:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 16:33:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 16:33:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 16:33:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 16:33:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 16:33:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:33:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2434 flow
+2025-12-08 16:33:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:33:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2449 flow
+2025-12-08 16:34:10 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2548 flow
+2025-12-08 16:34:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2550 flow
+2025-12-08 16:34:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2610 flow
+2025-12-08 16:34:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2612 flow
+2025-12-08 16:34:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2612 flow
+2025-12-08 16:34:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2638 flow
+2025-12-08 16:34:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2638 flow
+2025-12-08 16:34:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2679 flow
+2025-12-08 16:34:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2679 flow
+2025-12-08 16:34:33 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2721 flow
+2025-12-08 16:34:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2733 flow
+2025-12-08 16:34:44 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:34:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2742 flow
+2025-12-08 16:34:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 16:34:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 16:34:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 16:34:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 16:35:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2793 flow
+2025-12-08 16:35:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:35:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2798 flow
+2025-12-08 16:35:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2798 flow
+2025-12-08 16:35:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2798 flow
+2025-12-08 16:35:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:35:16 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:35:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:35:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2848 flow
+2025-12-08 16:35:46 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:35:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2881 flow
+2025-12-08 16:35:49 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2900 flow
+2025-12-08 16:35:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2906 flow
+2025-12-08 16:35:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:01 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2927 flow
+2025-12-08 16:36:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2927 flow
+2025-12-08 16:36:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2927 flow
+2025-12-08 16:36:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2947 flow
+2025-12-08 16:36:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2955 flow
+2025-12-08 16:36:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2969 flow
+2025-12-08 16:36:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2969 flow
+2025-12-08 16:36:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3012 flow
+2025-12-08 16:36:40 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3049 flow
+2025-12-08 16:36:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3049 flow
+2025-12-08 16:36:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 16:36:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 16:36:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 16:36:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:36:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3057 flow
+2025-12-08 16:37:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3101 flow
+2025-12-08 16:37:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3111 flow
+2025-12-08 16:37:17 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:17 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3115 flow
+2025-12-08 16:37:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3124 flow
+2025-12-08 16:37:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3128 flow
+2025-12-08 16:37:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3129 flow
+2025-12-08 16:37:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3137 flow
+2025-12-08 16:37:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3137 flow
+2025-12-08 16:37:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3144 flow
+2025-12-08 16:37:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3143 flow
+2025-12-08 16:37:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3142 flow
+2025-12-08 16:37:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3147 flow
+2025-12-08 16:37:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3159 flow
+2025-12-08 16:37:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3158 flow
+2025-12-08 16:37:41 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3170 flow
+2025-12-08 16:37:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3169 flow
+2025-12-08 16:37:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3180 flow
+2025-12-08 16:37:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:37:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3182 flow
+2025-12-08 16:37:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3198 flow
+2025-12-08 16:37:55 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3200 flow
+2025-12-08 16:37:56 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3200 flow
+2025-12-08 16:38:10 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:38:11 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:38:11 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:38:13 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:38:15 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 5 FIN packets
+2025-12-08 16:38:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:38:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3237 flow
+2025-12-08 16:38:20 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 6 FIN packets
+2025-12-08 16:38:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3250 flow
+2025-12-08 16:38:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:38:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3260 flow
+2025-12-08 16:38:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3268 flow
+2025-12-08 16:38:49 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:38:49 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3302 flow
+2025-12-08 16:38:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3306 flow
+2025-12-08 16:38:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3360 flow
+2025-12-08 16:39:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3371 flow
+2025-12-08 16:39:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3387 flow
+2025-12-08 16:39:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:39:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3440 flow
+2025-12-08 16:40:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3523 flow
+2025-12-08 16:40:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3531 flow
+2025-12-08 16:40:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3533 flow
+2025-12-08 16:40:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3580 flow
+2025-12-08 16:40:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3582 flow
+2025-12-08 16:40:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3600 flow
+2025-12-08 16:40:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3610 flow
+2025-12-08 16:40:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3610 flow
+2025-12-08 16:40:35 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3610 flow
+2025-12-08 16:40:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3610 flow
+2025-12-08 16:40:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3640 flow
+2025-12-08 16:40:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3672 flow
+2025-12-08 16:40:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3672 flow
+2025-12-08 16:40:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3672 flow
+2025-12-08 16:40:52 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:40:53 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:41:10 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:10 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3710 flow
+2025-12-08 16:41:10 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3710 flow
+2025-12-08 16:41:10 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3710 flow
+2025-12-08 16:41:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3711 flow
+2025-12-08 16:41:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3716 flow
+2025-12-08 16:41:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3729 flow
+2025-12-08 16:41:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3743 flow
+2025-12-08 16:41:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3773 flow
+2025-12-08 16:41:52 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3781 flow
+2025-12-08 16:41:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:41:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3782 flow
+2025-12-08 16:41:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3788 flow
+2025-12-08 16:41:58 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:42:00 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3788 flow
+2025-12-08 16:42:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:42:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3833 flow
+2025-12-08 16:42:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3841 flow
+2025-12-08 16:42:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:42:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3852 flow
+2025-12-08 16:42:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3866 flow
+2025-12-08 16:42:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3871 flow
+2025-12-08 16:42:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3889 flow
+2025-12-08 16:42:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:42:52 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3900 flow
+2025-12-08 16:42:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3908 flow
+2025-12-08 16:42:55 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3908 flow
+2025-12-08 16:42:56 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3908 flow
+2025-12-08 16:42:56 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:42:56 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:42:58 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 3 FIN packets
+2025-12-08 16:43:01 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 4 FIN packets
+2025-12-08 16:43:01 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3916 flow
+2025-12-08 16:43:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3988 flow
+2025-12-08 16:43:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:43:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4000 flow
+2025-12-08 16:43:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:43:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4002 flow
+2025-12-08 16:43:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4002 flow
+2025-12-08 16:43:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4002 flow
+2025-12-08 16:43:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:43:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4004 flow
+2025-12-08 16:43:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4008 flow
+2025-12-08 16:43:31 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:43:36 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:43:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4018 flow
+2025-12-08 16:43:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4018 flow
+2025-12-08 16:43:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4018 flow
+2025-12-08 16:44:02 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:44:02 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4075 flow
+2025-12-08 16:44:02 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:44:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4150 flow
+2025-12-08 16:44:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4150 flow
+2025-12-08 16:44:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:44:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4201 flow
+2025-12-08 16:44:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:44:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4218 flow
+2025-12-08 16:44:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4273 flow
+2025-12-08 16:44:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:45:02 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:45:02 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4291 flow
+2025-12-08 16:45:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:45:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4369 flow
+2025-12-08 16:45:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:45:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4373 flow
+2025-12-08 16:45:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4400 flow
+2025-12-08 16:45:46 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:45:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4406 flow
+2025-12-08 16:45:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4406 flow
+2025-12-08 16:45:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4406 flow
+2025-12-08 16:46:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4458 flow
+2025-12-08 16:46:06 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4461 flow
+2025-12-08 16:46:06 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4477 flow
+2025-12-08 16:46:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4518 flow
+2025-12-08 16:46:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4563 flow
+2025-12-08 16:46:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4562 flow
+2025-12-08 16:46:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4561 flow
+2025-12-08 16:46:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4579 flow
+2025-12-08 16:46:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4578 flow
+2025-12-08 16:46:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4582 flow
+2025-12-08 16:46:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4597 flow
+2025-12-08 16:46:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4628 flow
+2025-12-08 16:46:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4635 flow
+2025-12-08 16:46:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4635 flow
+2025-12-08 16:46:37 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:37 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:46:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4635 flow
+2025-12-08 16:46:38 WARN  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow received 2 FIN packets
+2025-12-08 16:46:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4662 flow
+2025-12-08 16:47:02 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4700 flow
+2025-12-08 16:47:07 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:08 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4708 flow
+2025-12-08 16:47:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4717 flow
+2025-12-08 16:47:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4744 flow
+2025-12-08 16:47:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4745 flow
+2025-12-08 16:47:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4751 flow
+2025-12-08 16:47:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4753 flow
+2025-12-08 16:47:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4763 flow
+2025-12-08 16:47:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4769 flow
+2025-12-08 16:47:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4769 flow
+2025-12-08 16:47:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4773 flow
+2025-12-08 16:47:32 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4779 flow
+2025-12-08 16:47:32 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4782 flow
+2025-12-08 16:47:35 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4784 flow
+2025-12-08 16:47:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4802 flow
+2025-12-08 16:47:38 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4809 flow
+2025-12-08 16:47:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4819 flow
+2025-12-08 16:47:47 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:47:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4822 flow
+2025-12-08 16:47:47 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4822 flow
+2025-12-08 16:47:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4822 flow
+2025-12-08 16:47:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4832 flow
+2025-12-08 16:47:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:08 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:08 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4875 flow
+2025-12-08 16:48:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4883 flow
+2025-12-08 16:48:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4883 flow
+2025-12-08 16:48:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4898 flow
+2025-12-08 16:48:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4898 flow
+2025-12-08 16:48:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4899 flow
+2025-12-08 16:48:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4916 flow
+2025-12-08 16:48:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4933 flow
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:39 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:48:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4936 flow
+2025-12-08 16:48:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4937 flow
+2025-12-08 16:49:10 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:10 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4984 flow
+2025-12-08 16:49:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5036 flow
+2025-12-08 16:49:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:28 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5048 flow
+2025-12-08 16:49:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5052 flow
+2025-12-08 16:49:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5089 flow
+2025-12-08 16:49:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5091 flow
+2025-12-08 16:49:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5091 flow
+2025-12-08 16:49:38 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:40 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:49:41 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5103 flow
+2025-12-08 16:49:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5109 flow
+2025-12-08 16:50:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5165 flow
+2025-12-08 16:50:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5207 flow
+2025-12-08 16:50:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5209 flow
+2025-12-08 16:50:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5232 flow
+2025-12-08 16:50:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5235 flow
+2025-12-08 16:50:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5234 flow
+2025-12-08 16:50:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5250 flow
+2025-12-08 16:50:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5257 flow
+2025-12-08 16:50:36 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5257 flow
+2025-12-08 16:50:41 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:50:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5284 flow
+2025-12-08 16:50:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5306 flow
+2025-12-08 16:50:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:51:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:51:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5348 flow
+2025-12-08 16:51:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5348 flow
+2025-12-08 16:51:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5348 flow
+2025-12-08 16:51:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5347 flow
+2025-12-08 16:51:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:51:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5350 flow
+2025-12-08 16:51:29 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:51:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5393 flow
+2025-12-08 16:51:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5405 flow
+2025-12-08 16:51:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:51:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5419 flow
+2025-12-08 16:52:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5497 flow
+2025-12-08 16:52:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5550 flow
+2025-12-08 16:52:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5550 flow
+2025-12-08 16:52:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5581 flow
+2025-12-08 16:52:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5581 flow
+2025-12-08 16:52:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5581 flow
+2025-12-08 16:52:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5582 flow
+2025-12-08 16:52:29 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5600 flow
+2025-12-08 16:52:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5606 flow
+2025-12-08 16:52:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5607 flow
+2025-12-08 16:52:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5607 flow
+2025-12-08 16:52:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5607 flow
+2025-12-08 16:52:33 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5618 flow
+2025-12-08 16:52:36 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5642 flow
+2025-12-08 16:52:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5647 flow
+2025-12-08 16:52:39 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5650 flow
+2025-12-08 16:52:41 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:41 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5651 flow
+2025-12-08 16:52:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5667 flow
+2025-12-08 16:52:46 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5674 flow
+2025-12-08 16:52:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5674 flow
+2025-12-08 16:52:48 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:52:55 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5687 flow
+2025-12-08 16:53:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5707 flow
+2025-12-08 16:53:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:53:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:53:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5714 flow
+2025-12-08 16:53:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5731 flow
+2025-12-08 16:53:23 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:53:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5731 flow
+2025-12-08 16:53:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 5731 flow
+2025-12-08 16:53:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:53:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5749 flow
+2025-12-08 16:53:44 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:53:44 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5772 flow
+2025-12-08 16:53:53 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5801 flow
+2025-12-08 16:53:53 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:54:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:54:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5865 flow
+2025-12-08 16:54:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5900 flow
+2025-12-08 16:54:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5900 flow
+2025-12-08 16:54:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 5900 flow
+2025-12-08 16:54:30 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:54:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 5917 flow
+2025-12-08 16:54:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 16:54:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 6032 flow
+2025-12-08 16:54:49 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\data\daily\2025-12-08_Flow.csv
+2025-12-08 16:54:49 DEBUG cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    break Packet loop
+2025-12-08 16:54:49 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    Pcap stop listening
+2025-12-08 17:21:01 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-12-08 17:21:03 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:03 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 26 flow
+2025-12-08 17:21:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 145 flow
+2025-12-08 17:21:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 184 flow
+2025-12-08 17:21:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 260 flow
+2025-12-08 17:21:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 271 flow
+2025-12-08 17:21:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 314 flow
+2025-12-08 17:21:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1150 flow
+2025-12-08 17:21:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1150 flow
+2025-12-08 17:21:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1150 flow
+2025-12-08 17:21:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1476 flow
+2025-12-08 17:21:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1489 flow
+2025-12-08 17:21:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1494 flow
+2025-12-08 17:21:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1500 flow
+2025-12-08 17:21:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1505 flow
+2025-12-08 17:21:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1802 flow
+2025-12-08 17:21:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1850 flow
+2025-12-08 17:21:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:49 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1897 flow
+2025-12-08 17:21:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1897 flow
+2025-12-08 17:21:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1934 flow
+2025-12-08 17:21:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1936 flow
+2025-12-08 17:21:59 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:21:59 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1944 flow
+2025-12-08 17:21:59 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 1944 flow
+2025-12-08 17:22:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 1994 flow
+2025-12-08 17:22:04 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2099 flow
+2025-12-08 17:22:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2170 flow
+2025-12-08 17:22:20 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2180 flow
+2025-12-08 17:22:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2180 flow
+2025-12-08 17:22:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2179 flow
+2025-12-08 17:22:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2179 flow
+2025-12-08 17:22:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2179 flow
+2025-12-08 17:22:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2251 flow
+2025-12-08 17:22:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:22:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2257 flow
+2025-12-08 17:22:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2296 flow
+2025-12-08 17:22:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2341 flow
+2025-12-08 17:22:58 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2371 flow
+2025-12-08 17:23:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2371 flow
+2025-12-08 17:23:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2372 flow
+2025-12-08 17:23:04 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2376 flow
+2025-12-08 17:23:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2399 flow
+2025-12-08 17:23:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2400 flow
+2025-12-08 17:23:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2415 flow
+2025-12-08 17:23:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:17 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2446 flow
+2025-12-08 17:23:17 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:20 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2464 flow
+2025-12-08 17:23:20 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2486 flow
+2025-12-08 17:23:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2485 flow
+2025-12-08 17:23:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2486 flow
+2025-12-08 17:23:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2486 flow
+2025-12-08 17:23:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2493 flow
+2025-12-08 17:23:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2494 flow
+2025-12-08 17:23:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2494 flow
+2025-12-08 17:23:28 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2503 flow
+2025-12-08 17:23:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2511 flow
+2025-12-08 17:23:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2510 flow
+2025-12-08 17:23:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2509 flow
+2025-12-08 17:23:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2514 flow
+2025-12-08 17:23:34 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2513 flow
+2025-12-08 17:23:34 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:35 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:23:35 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2519 flow
+2025-12-08 17:23:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2527 flow
+2025-12-08 17:24:05 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:05 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2595 flow
+2025-12-08 17:24:06 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2596 flow
+2025-12-08 17:24:06 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2694 flow
+2025-12-08 17:24:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2694 flow
+2025-12-08 17:24:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2695 flow
+2025-12-08 17:24:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2697 flow
+2025-12-08 17:24:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2700 flow
+2025-12-08 17:24:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2700 flow
+2025-12-08 17:24:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2700 flow
+2025-12-08 17:24:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2734 flow
+2025-12-08 17:24:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2743 flow
+2025-12-08 17:24:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2746 flow
+2025-12-08 17:24:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2747 flow
+2025-12-08 17:24:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 17:24:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2750 flow
+2025-12-08 17:24:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2761 flow
+2025-12-08 17:24:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2768 flow
+2025-12-08 17:24:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:24 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2770 flow
+2025-12-08 17:24:36 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:24:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2814 flow
+2025-12-08 17:24:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2830 flow
+2025-12-08 17:24:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:25:08 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:25:08 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2909 flow
+2025-12-08 17:25:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:25:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2924 flow
+2025-12-08 17:25:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 2928 flow
+2025-12-08 17:25:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:25:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2950 flow
+2025-12-08 17:25:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 2950 flow
+2025-12-08 17:25:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 2995 flow
+2025-12-08 17:25:38 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:25:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3009 flow
+2025-12-08 17:25:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 17:25:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 17:25:54 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 17:25:56 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 17:25:56 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3050 flow
+2025-12-08 17:26:09 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:09 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3094 flow
+2025-12-08 17:26:09 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3094 flow
+2025-12-08 17:26:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3108 flow
+2025-12-08 17:26:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3113 flow
+2025-12-08 17:26:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3116 flow
+2025-12-08 17:26:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3149 flow
+2025-12-08 17:26:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3156 flow
+2025-12-08 17:26:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3183 flow
+2025-12-08 17:26:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3183 flow
+2025-12-08 17:26:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3183 flow
+2025-12-08 17:26:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3183 flow
+2025-12-08 17:26:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3185 flow
+2025-12-08 17:26:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3187 flow
+2025-12-08 17:26:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3189 flow
+2025-12-08 17:26:22 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3189 flow
+2025-12-08 17:26:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3189 flow
+2025-12-08 17:26:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3189 flow
+2025-12-08 17:26:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3228 flow
+2025-12-08 17:26:39 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:39 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3248 flow
+2025-12-08 17:26:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:26:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3271 flow
+2025-12-08 17:26:59 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3300 flow
+2025-12-08 17:27:09 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:09 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3332 flow
+2025-12-08 17:27:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3338 flow
+2025-12-08 17:27:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3346 flow
+2025-12-08 17:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3350 flow
+2025-12-08 17:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3350 flow
+2025-12-08 17:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3350 flow
+2025-12-08 17:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3350 flow
+2025-12-08 17:27:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3350 flow
+2025-12-08 17:27:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3364 flow
+2025-12-08 17:27:36 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:36 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3397 flow
+2025-12-08 17:27:40 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:40 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3420 flow
+2025-12-08 17:27:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3422 flow
+2025-12-08 17:27:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:27:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3423 flow
+2025-12-08 17:27:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3450 flow
+2025-12-08 17:28:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:28:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3482 flow
+2025-12-08 17:28:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:28:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3497 flow
+2025-12-08 17:28:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:28:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3516 flow
+2025-12-08 17:28:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3533 flow
+2025-12-08 17:28:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:28:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3578 flow
+2025-12-08 17:28:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3600 flow
+2025-12-08 17:29:11 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:11 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3658 flow
+2025-12-08 17:29:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3663 flow
+2025-12-08 17:29:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3666 flow
+2025-12-08 17:29:17 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:17 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3687 flow
+2025-12-08 17:29:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3700 flow
+2025-12-08 17:29:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3729 flow
+2025-12-08 17:29:37 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3750 flow
+2025-12-08 17:29:42 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:42 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3765 flow
+2025-12-08 17:29:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3779 flow
+2025-12-08 17:29:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:29:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3797 flow
+2025-12-08 17:30:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:30:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3834 flow
+2025-12-08 17:30:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:30:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3842 flow
+2025-12-08 17:30:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:30:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3882 flow
+2025-12-08 17:30:30 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3900 flow
+2025-12-08 17:30:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3900 flow
+2025-12-08 17:30:31 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3900 flow
+2025-12-08 17:30:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:30:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3934 flow
+2025-12-08 17:30:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 3950 flow
+2025-12-08 17:31:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 3986 flow
+2025-12-08 17:31:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3986 flow
+2025-12-08 17:31:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 3986 flow
+2025-12-08 17:31:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4009 flow
+2025-12-08 17:31:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4016 flow
+2025-12-08 17:31:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4034 flow
+2025-12-08 17:31:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4034 flow
+2025-12-08 17:31:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4034 flow
+2025-12-08 17:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4050 flow
+2025-12-08 17:31:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:19 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:19 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4054 flow
+2025-12-08 17:31:21 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4062 flow
+2025-12-08 17:31:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4062 flow
+2025-12-08 17:31:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4064 flow
+2025-12-08 17:31:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4080 flow
+2025-12-08 17:31:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4084 flow
+2025-12-08 17:31:24 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4085 flow
+2025-12-08 17:31:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4084 flow
+2025-12-08 17:31:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4086 flow
+2025-12-08 17:31:26 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4089 flow
+2025-12-08 17:31:26 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4089 flow
+2025-12-08 17:31:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4090 flow
+2025-12-08 17:31:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4090 flow
+2025-12-08 17:31:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4089 flow
+2025-12-08 17:31:45 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:31:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4119 flow
+2025-12-08 17:31:45 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4119 flow
+2025-12-08 17:31:50 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4125 flow
+2025-12-08 17:31:50 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:00 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4150 flow
+2025-12-08 17:32:00 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4150 flow
+2025-12-08 17:32:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4186 flow
+2025-12-08 17:32:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:14 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4195 flow
+2025-12-08 17:32:14 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4196 flow
+2025-12-08 17:32:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4199 flow
+2025-12-08 17:32:18 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4201 flow
+2025-12-08 17:32:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:21 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4206 flow
+2025-12-08 17:32:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4211 flow
+2025-12-08 17:32:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4212 flow
+2025-12-08 17:32:25 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:32:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4212 flow
+2025-12-08 17:33:04 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4300 flow
+2025-12-08 17:33:06 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:06 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4305 flow
+2025-12-08 17:33:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4319 flow
+2025-12-08 17:33:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4319 flow
+2025-12-08 17:33:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:16 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4319 flow
+2025-12-08 17:33:16 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:18 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:22 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4350 flow
+2025-12-08 17:33:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4353 flow
+2025-12-08 17:33:23 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4352 flow
+2025-12-08 17:33:25 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4356 flow
+2025-12-08 17:33:38 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:38 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4382 flow
+2025-12-08 17:33:43 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4392 flow
+2025-12-08 17:33:43 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:33:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4400 flow
+2025-12-08 17:33:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4400 flow
+2025-12-08 17:33:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4400 flow
+2025-12-08 17:33:48 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    Timeout current has 4400 flow
+2025-12-08 17:34:08 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:34:08 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4439 flow
+2025-12-08 17:34:08 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:34:13 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:34:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4456 flow
+2025-12-08 17:34:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4456 flow
+2025-12-08 17:34:13 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 4456 flow
+2025-12-08 17:34:15 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 17:34:15 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 4481 flow
+2025-12-08 17:34:32 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\data\daily\2025-12-08_Flow.csv
+2025-12-08 17:34:33 DEBUG cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    break Packet loop
+2025-12-08 17:34:33 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    Pcap stop listening
