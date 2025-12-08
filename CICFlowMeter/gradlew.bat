@@ -13,8 +13,8 @@ if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
 set APP_HOME=%DIRNAME%
 
-@rem Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
-set DEFAULT_JVM_OPTS=
+@rem JDK 21 兼容的 JVM 参数（调整内存设置）
+set DEFAULT_JVM_OPTS="-Xmx512m" "-Xms256m" "--add-opens=java.base/java.lang=ALL-UNNAMED"
 
 @rem Find java.exe
 if defined JAVA_HOME goto findJavaFromJavaHome

@@ -1,0 +1,19 @@
+2025-12-08 13:51:04 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\CICFlowMeter\target\classes (拒绝访问。)
+2025-12-08 13:51:04 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\CICFlowMeter\target\generated-sources (拒绝访问。)
+2025-12-08 13:51:04 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\CICFlowMeter\target\logs (拒绝访问。)
+2025-12-08 13:51:04 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\CICFlowMeter\target\maven-archiver (拒绝访问。)
+2025-12-08 13:51:04 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\CICFlowMeter\target\maven-status (拒绝访问。)
+2025-12-08 13:51:13 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
+2025-12-08 13:51:27 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 170 flow
+2025-12-08 13:51:27 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 13:51:51 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 13:51:51 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 304 flow
+2025-12-08 13:51:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 361 flow
+2025-12-08 13:51:58 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 13:51:58 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 361 flow
+2025-12-08 13:52:12 INFO  cic.cs.unb.ca.jnetpcap.FlowGenerator    Forward flow closed due to FIN Flag
+2025-12-08 13:52:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagFIN current has 416 flow
+2025-12-08 13:52:12 DEBUG cic.cs.unb.ca.jnetpcap.FlowGenerator    FlagRST current has 416 flow
+2025-12-08 13:52:20 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\CICFlowMeter\target\data\daily\2025-12-08_Flow.csv
+2025-12-08 13:52:20 DEBUG cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    break Packet loop
+2025-12-08 13:52:20 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    Pcap stop listening
