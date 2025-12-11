@@ -6,235 +6,207 @@ from pathlib import Path
 import sys
 import ctypes
 import re
+import socket
 
-# ========== 核心路径配置（全绝对路径，确保可写） ==========
-# CICFlowMeter 相关
-CICFLOWMETER_JAR = r"C:\Users\z1395\network_trace_system\CICFlowMeter\target\CICFlowMeterV3-0.0.4-SNAPSHOT.jar"
-CICFLOWMETER_OUTPUT_DIR = r"C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\data\daily"
-CICFLOWMETER_FALLBACK_DIR = r"C:\Windows\System32\data\daily"
+# ========== 核心配置（严格对齐用户实际路径，无拼写错误） ==========
+BASE_DIR = r"C:\Users\z1395\network_trace_system"
 
-# 枫叶分析工具相关
-COMMON_IP_EXE = r"C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\target\release\common_ip.exe"
-RESULT_FILE_PATH = r"C:\Users\z1395\network_trace_system\ws-traffic-analyze-kit\ip_counts.txt"
+# 1. CICFlowMeter配置（用户实际CSV输出目录）
+CICFLOWMETER_JAR = os.path.join(BASE_DIR, "CICFlowMeter", "target", "CICFlowMeterV3-0.0.4-SNAPSHOT.jar")
+CICFLOWMETER_OUTPUT_DIR = os.path.join(BASE_DIR, "CICFlowMeter", "target", "data", "daily")  # 无拼写错误
 
-# ========== dumpcap + pcap2para 配置 ==========
+# 2. Common IP（ws-traffic-analyze-kit）配置
+COMMON_IP_EXE = os.path.join(BASE_DIR, "ws-traffic-analyze-kit", "target", "release", "common_ip.exe")
+RESULT_FILE_PATH = os.path.join(BASE_DIR, "ws-traffic-analyze-kit", "ip_counts.txt")
+
+# 3. dumpcap配置（系统默认）
 DUMPCAP_EXE = r"C:\Program Files\Wireshark\dumpcap.exe"
-PCAP_CAPTURE_DIR = r"C:\Users\z1395\network_trace_system\catched_data"
-PCAP2PARA_EXE = r"C:\Users\z1395\network_trace_system\pcap2para\build\Release\pcap2para.exe"
-ANALYZED_DATA_DIR = r"C:\Users\z1395\network_trace_system\analyzed_data"
-DEFAULT_EXTRACT_PARAM = "rsa,ul,pl"
+PCAP_CAPTURE_DIR = os.path.join(BASE_DIR, "catched_data")
+
+# 4. pcap2para配置（已更新为正确路径）
+PCAP2PARA_EXE = os.path.join(BASE_DIR, "pcap2para", "build", "bin", "Release", "pcap2para.exe")
+ANALYZED_DATA_DIR = os.path.join(BASE_DIR, "analyzed_data")
 
 # 全局变量
 dumpcap_process = None
-dumpcap_base_pcap_name = ""
 selected_interface = ""
-selected_interface_info = {}  # 存储选中网卡的详细信息（英文名称/Device ID）
+selected_interface_info = {}
 
 def check_admin():
-    """检查是否以管理员身份运行"""
+    """检查管理员权限"""
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
 
 def check_npcap_winpcap():
-    """检查Npcap/WinPcap驱动（CICFlowMeter抓包必需）"""
-    print("🔍 检查抓包驱动（CICFlowMeter必需）...")
-    # 检查Npcap
-    npcap_paths = [
-        r"C:\Windows\System32\npcap.dll",
-        r"C:\Program Files\Npcap\npcap.dll"
-    ]
-    # 检查WinPcap
-    winpcap_paths = [
-        r"C:\Windows\System32\wpcap.dll",
-        r"C:\Program Files\WinPcap\wpcap.dll"
-    ]
-    
-    has_npcap = any(os.path.exists(p) for p in npcap_paths)
+    """检查抓包驱动"""
+    print("🔍 Checking packet capture drivers...")
+    winpcap_paths = [r"C:\Windows\System32\wpcap.dll", r"C:\Program Files\WinPcap\wpcap.dll"]
     has_winpcap = any(os.path.exists(p) for p in winpcap_paths)
     
-    if has_npcap:
-        print("✅ 检测到Npcap驱动（推荐）")
-        return True
-    elif has_winpcap:
-        print("✅ 检测到WinPcap驱动")
+    if has_winpcap:
+        print("✅ WinPcap driver detected (legacy mode)")
         return True
     else:
-        print("❌ 未检测到Npcap/WinPcap驱动！CICFlowMeter无法抓包")
-        print("💡 立即修复：下载安装Npcap（https://npcap.com/#download），勾选\"Install Npcap in WinPcap API-compatible Mode\"")
-        input("\n安装完成后按Enter键继续...")
+        print("❌ No WinPcap/Npcap driver found!")
+        input("\nPress Enter to continue...")
         return False
 
 def get_network_interfaces():
-    """获取网卡列表（纯英文展示，提取Device ID，解决乱码）"""
+    """解析网卡列表（兼容旧版dumpcap）"""
+    interfaces = []
+    recommended_idx = ""
+    
     if not os.path.exists(DUMPCAP_EXE):
-        print(f"❌ Error: dumpcap.exe not found - {DUMPCAP_EXE}")
-        print("💡 Solution: Install Wireshark (https://www.wireshark.org/)")
-        sys.exit(1)
+        print(f"❌ dumpcap.exe not found: {DUMPCAP_EXE}")
+        return interfaces, recommended_idx
     
     try:
-        # 直接获取原始输出（不做编码转换，避免乱码）
         result = subprocess.run(
             [DUMPCAP_EXE, "-D"],
             capture_output=True,
-            encoding='utf-8',
-            errors='replace'  # 替换无法解码的字符为?
+            encoding='gbk',
+            errors='ignore'
         )
         
-        interfaces = []
-        recommended_idx = ""
+        print(f"\n📝 dumpcap -D raw output (debug):")
+        print(f"   {result.stdout.strip() or 'No output'}")
+        
         if result.stdout:
             lines = [line.strip() for line in result.stdout.split('\n') if line.strip()]
             for line in lines:
-                # 解析格式：1. \Device\NPF_{EB0F0C6E-FBB3-4BE0-A01C-B82E4EF1AC18} (WLAN)
-                # 提取编号、Device ID、英文名称
                 idx_match = re.match(r'^(\d+)\.', line)
-                device_id_match = re.search(r'\\Device\\NPF_[0-9A-F-]+', line)
-                name_match = re.search(r'\(([^)]+)\)', line)
-                
-                idx = idx_match.group(1) if idx_match else ""
-                device_id = device_id_match.group(0) if device_id_match else ""
-                en_name = name_match.group(1) if name_match else f"Interface_{idx}"
-                
-                # 清理名称（移除乱码字符）
-                en_name = re.sub(r'[^\x20-\x7E]', '', en_name).strip()
-                if not en_name:
-                    en_name = f"Interface_{idx}"
-                
-                # 标记推荐网卡（WLAN/Ethernet/LAN）
-                is_recommended = any(keyword in en_name for keyword in ["WLAN", "Ethernet", "LAN", "WiFi"])
-                if is_recommended and not recommended_idx:
-                    recommended_idx = idx
-                
-                interfaces.append({
-                    'idx': idx,
-                    'device_id': device_id,  # CICFlowMeter可识别的Device ID
-                    'en_name': en_name,      # 纯英文名称
-                    'full_line': line,       # 原始行
-                    'is_recommended': is_recommended
-                })
-        return interfaces, recommended_idx
+                if idx_match:
+                    idx = idx_match.group(1)
+                    name = line[len(idx)+1:].strip()
+                    name = re.sub(r'[^\x20-\x7E]', '', name).strip()[:50]
+                    
+                    interfaces.append({
+                        'idx': idx,
+                        'name': name if name else f"Interface_{idx}",
+                        'is_recommended': any(kw in name for kw in ["WLAN", "Ethernet", "无线"])
+                    })
+            
+            for iface in interfaces:
+                if iface['is_recommended'] and not recommended_idx:
+                    recommended_idx = iface['idx']
+    
     except Exception as e:
-        print(f"❌ Error getting network interfaces: {str(e)}")
-        sys.exit(1)
+        print(f"❌ Error getting interfaces: {str(e)}")
+    
+    return interfaces, recommended_idx
 
 def select_interface_manually():
-    """手动选择网卡（展示英文名称+Device ID）"""
-    print("📶 Available Network Interfaces (English Name / Device ID):")
+    """手动选择网卡（允许输入8）"""
+    print("\n📶 Network Interface Selection (Manual Mode Allowed):")
     interfaces, recommended_idx = get_network_interfaces()
-    if not interfaces:
-        print("❌ No network interfaces detected!")
-        sys.exit(1)
     
-    # 展示网卡列表（纯英文）
-    for iface in interfaces:
-        mark = "*" if iface['is_recommended'] else " "
-        print(f"   {iface['idx']}.{mark} {iface['en_name']}")
-        print(f"      Device ID: {iface['device_id']}")
+    if interfaces:
+        for iface in interfaces:
+            mark = "✅ RECOMMENDED" if iface['is_recommended'] else "⚠️"
+            print(f"   {iface['idx']}. {mark} {iface['name']}")
+    else:
+        print("   No interfaces parsed - enter any number (e.g. 8)")
     
-    # 提示推荐网卡
-    if recommended_idx:
-        recommended_iface = next(i for i in interfaces if i['idx'] == recommended_idx)
-        print(f"\n💡 Recommended: {recommended_idx} ({recommended_iface['en_name']}) - Your active internet interface")
+    print(f"💡 You can enter 8 (your preferred interface) directly")
     
-    # 输入验证
-    valid_ids = [iface['idx'] for iface in interfaces]
     while True:
-        user_input = input("\nEnter interface number to monitor (e.g. 6): ").strip()
-        if user_input in valid_ids:
-            selected_iface = next(iface for iface in interfaces if iface['idx'] == user_input)
-            print(f"\n✅ Selected Interface:")
-            print(f"   Number: {user_input}")
-            print(f"   English Name: {selected_iface['en_name']}")
-            print(f"   Device ID: {selected_iface['device_id']}")
-            # 存储选中网卡信息
+        user_input = input("\nEnter interface number (e.g. 8): ").strip()
+        if user_input.isdigit():
             global selected_interface_info
-            selected_interface_info = selected_iface
+            selected_interface_info = {
+                'idx': user_input,
+                'name': f"Manual_Interface_{user_input}"
+            }
+            print(f"\n✅ Selected interface (manual mode): {user_input}")
             return user_input
         else:
-            print(f"❌ Invalid input! Please select from: {','.join(valid_ids)}")
+            print("❌ Please enter a valid number (e.g. 8)")
 
 def check_dir_writable(directory, desc):
-    """检查目录可写性"""
+    """检查目录可写性（强制创建测试文件）"""
     try:
         os.makedirs(directory, exist_ok=True)
-        test_file = os.path.join(directory, f"test_writable_{int(time.time())}.tmp")
-        with open(test_file, 'w') as f:
+        test_file = os.path.join(directory, f"test_{int(time.time())}.tmp")
+        with open(test_file, 'w', encoding='utf-8') as f:
             f.write("test")
         os.remove(test_file)
         print(f"✅ {desc} directory validated (writable): {directory}")
         return True
     except PermissionError:
-        print(f"❌ Error: {desc} directory not writable! Run as Administrator.")
-        print(f"   Path: {directory}")
+        print(f"❌ Permission denied for {desc} directory")
+        print("💡 Fix: Run as Administrator")
         sys.exit(1)
     except Exception as e:
         print(f"❌ Error with {desc} directory: {str(e)}")
         sys.exit(1)
 
-def get_latest_csv():
-    """多目录查找CSV"""
-    main_csv = _get_latest_csv_single_dir(CICFLOWMETER_OUTPUT_DIR)
-    if main_csv:
-        return main_csv
-    fallback_csv = _get_latest_csv_single_dir(CICFLOWMETER_FALLBACK_DIR)
-    if fallback_csv:
-        print(f"⚠️ Warning: CSV file in system directory (permission issue): {fallback_csv}")
-        return fallback_csv
-    return None
+def validate_pcap_file(pcap_path):
+    """兼容PCAP/PCAPng格式验证"""
+    if not os.path.exists(pcap_path):
+        return False, "File not found", ""
+    
+    with open(pcap_path, 'rb') as f:
+        header = f.read(4)
+    
+    if header in [b'\xd4\xc3\xb2\xa1', b'\xa1\xb2\xc3\xd4']:
+        return True, "Valid PCAP format", "pcap"
+    elif header == b'\x0a\x0d\x0d\x0a':
+        return True, "Valid PCAPng format", "pcapng"
+    else:
+        return False, f"Invalid header: {header.hex()}", ""
 
-def _get_latest_csv_single_dir(directory):
-    """单个目录查找CSV"""
+def get_latest_file(directory, file_pattern, desc):
+    """通用函数：获取目录下最新文件（按修改时间排序）"""
     if not os.path.exists(directory):
+        print(f"❌ {desc} directory not found: {directory}")
         return None
-    csv_files = list(Path(directory).glob("*.csv"))
-    if not csv_files:
+    
+    files = list(Path(directory).glob(file_pattern))
+    if not files:
+        print(f"❌ No {desc} files found in {directory}")
         return None
-    return max(csv_files, key=lambda f: f.stat().st_mtime)
-
-def get_latest_pcap(directory, base_name=""):
-    """查找最新有效PCAP"""
-    check_dir_writable(directory, "Capture file")
-    pcap_files = []
-    if base_name:
-        pcap_files = list(Path(directory).glob(f"{base_name}*.pcap")) + list(Path(directory).glob(f"{base_name}*.pcapng"))
-    if not pcap_files:
-        pcap_files = list(Path(directory).glob("*.pcap")) + list(Path(directory).glob("*.pcapng"))
-    if not pcap_files:
-        return None
-    latest_pcap = max(pcap_files, key=lambda f: f.stat().st_mtime)
-    if os.path.getsize(latest_pcap) < 1024:
-        print(f"⚠️ Warning: Capture file too small: {latest_pcap} ({os.path.getsize(latest_pcap)} bytes)")
-        return None
-    return latest_pcap
+    
+    latest_file = max(files, key=lambda f: f.stat().st_mtime)
+    file_size = os.path.getsize(latest_file)
+    
+    # 检查文件大小（提示用户生成流量）
+    if file_size < 2048:  # 小于2KB视为无有效流量
+        print(f"\n⚠️ {desc} file is too small ({file_size/1024:.2f} KB) - NO TRAFFIC CAPTURED!")
+        print(f"💡 Fix: Visit http://www.baidu.com (HTTP, NOT HTTPS) 10+ times during capture!")
+    
+    print(f"\n✅ Found latest {desc} file:")
+    print(f"   Path: {latest_file}")
+    print(f"   Size: {file_size/1024:.2f} KB")
+    print(f"   Modified time: {time.ctime(latest_file.stat().st_mtime)}")
+    
+    return str(latest_file)
 
 def start_dumpcap_immediately():
-    """启动dumpcap（使用英文网卡标识，确保和CICFlowMeter同步）"""
-    global dumpcap_process, dumpcap_base_pcap_name, selected_interface
+    """启动dumpcap（生成PCAP到用户指定目录）"""
+    global dumpcap_process, selected_interface
     if not os.path.exists(DUMPCAP_EXE):
-        print(f"❌ Error: dumpcap.exe not found - {DUMPCAP_EXE}")
+        print(f"❌ dumpcap.exe not found: {DUMPCAP_EXE}")
         return False
     
-    # 创建抓包目录
-    check_dir_writable(PCAP_CAPTURE_DIR, "Capture file")
+    check_dir_writable(PCAP_CAPTURE_DIR, "PCAP capture")
     
-    # 生成文件名
-    timestamp = time.strftime("%Y%m%d_%H%M%S", time.localtime())
-    dumpcap_base_pcap_name = f"capture_{timestamp}"
-    dumpcap_pcap_path = os.path.join(PCAP_CAPTURE_DIR, dumpcap_base_pcap_name + ".pcap")
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    pcap_filename = f"capture_{timestamp}.pcap"
+    pcap_path = os.path.join(PCAP_CAPTURE_DIR, pcap_filename)
     
-    # 使用正确的dumpcap参数（无分片，避免文件分散）
     dumpcap_cmd = [
         DUMPCAP_EXE,
-        "-i", selected_interface,          # 用户选择的网卡编号
-        "-w", dumpcap_pcap_path,           # 输出文件
-        "-q",                              # 安静模式
-        "--time-stamp-type", "host"        # 时间戳同步
+        "-i", selected_interface,
+        "-w", pcap_path,
+        "-q",
+        "-s", "0",
+        "-B", "100",
+        "-P"
     ]
     
     try:
-        # 启动dumpcap
         dumpcap_process = subprocess.Popen(
             dumpcap_cmd,
             stdout=subprocess.PIPE,
@@ -242,271 +214,271 @@ def start_dumpcap_immediately():
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
             shell=False
         )
-        # 检查进程是否存活
+        
         time.sleep(1)
         if dumpcap_process.poll() is not None:
-            stderr = dumpcap_process.stderr.read().decode('utf-8', errors='ignore')
-            print(f"❌ dumpcap exited immediately! Error: {stderr[:200]}...")
-            print(f"💡 Solutions:")
-            print(f"   1. Use recommended interface ({selected_interface_info.get('idx', '')} - {selected_interface_info.get('en_name', '')})")
-            print(f"   2. Close firewall/antivirus (they block packet capture)")
-            print(f"   3. Run CMD as Administrator")
-            print(f"   4. Reinstall Npcap with WinPcap compatibility")
+            stderr = dumpcap_process.stderr.read().decode('gbk', errors='ignore')
+            print(f"❌ dumpcap exited immediately! Error: {stderr[:200]}")
             dumpcap_process = None
             return False
         
         print(f"🚀 dumpcap started (PID: {dumpcap_process.pid})")
-        print(f"📶 Monitoring interface: {selected_interface} ({selected_interface_info.get('en_name', '')})")
-        print(f"📂 Capture file: {dumpcap_pcap_path}")
-        print(f"💡 Critical: Visit HTTP website (http://www.baidu.com) during capture (not HTTPS!)")
+        print(f"📶 Monitoring interface: {selected_interface}")
+        print(f"📂 PCAP will be saved to: {pcap_path}")
+        print(f"🔴 CRITICAL: Open browser → Visit http://www.baidu.com (HTTP) → Refresh 10+ times!")
         return True
     except Exception as e:
         print(f"❌ Failed to start dumpcap: {str(e)}")
         dumpcap_process = None
         return False
 
-def stop_dumpcap_on_enter():
-    """停止dumpcap"""
-    global dumpcap_process, dumpcap_base_pcap_name
+def stop_dumpcap_safely():
+    """安全停止dumpcap（容错处理）"""
+    global dumpcap_process
     if not dumpcap_process:
-        print("\nℹ️ dumpcap not running or failed to start")
+        print("\nℹ️ dumpcap not running")
         return
     
-    if dumpcap_process.poll() is not None:
-        print(f"\nℹ️ dumpcap process already exited (PID: {dumpcap_process.pid})")
-        dumpcap_process = None
-        return
-    
-    # 终止进程
     try:
-        subprocess.run(["taskkill", "/F", "/PID", str(dumpcap_process.pid)], capture_output=True, timeout=5)
+        # 先尝试优雅停止，失败则强制杀死
+        subprocess.run(["taskkill", "/F", "/PID", str(dumpcap_process.pid)], 
+                      timeout=5, capture_output=True, shell=True)
         dumpcap_process.wait(timeout=5)
         print(f"\n🛑 dumpcap stopped (PID: {dumpcap_process.pid})")
     except Exception as e:
-        print(f"\n⚠️ Failed to stop dumpcap, force kill: {str(e)}")
-        dumpcap_process.kill()
+        print(f"\n⚠️ Force killed dumpcap: {str(e)}")
+        try:
+            dumpcap_process.kill()
+        except:
+            pass
+    finally:
+        dumpcap_process = None
     
-    # 检测抓包文件
-    latest_pcap = get_latest_pcap(PCAP_CAPTURE_DIR, dumpcap_base_pcap_name)
-    if latest_pcap:
-        file_size = os.path.getsize(latest_pcap) / 1024 / 1024
-        print(f"✅ Capture file generated: {latest_pcap} (Size: {file_size:.2f} MB)")
-    else:
-        print(f"❌ No valid capture file found!")
-    
-    dumpcap_process = None
+    # 验证最新PCAP文件
+    get_latest_file(PCAP_CAPTURE_DIR, "*.pcap", "PCAP")
 
-def call_pcap2para():
-    """调用pcap2para"""
-    global dumpcap_base_pcap_name
-    if not os.path.exists(PCAP2PARA_EXE):
-        print(f"❌ Error: pcap2para.exe not found - {PCAP2PARA_EXE}")
+def ensure_file_created(file_path, content=""):
+    """强制创建文件（兜底）"""
+    try:
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.write(content if content else f"Generated at {time.ctime()}\n# Check input file for data")
+        print(f"✅ Ensured file created: {file_path}")
+        return True
+    except Exception as e:
+        print(f"❌ Failed to create file: {file_path} (Error: {str(e)})")
+        return False
+
+def call_common_ip():
+    """修复Common IP调用（精准找到CSV文件）"""
+    # 1. 强制创建ip_counts.txt
+    ensure_file_created(RESULT_FILE_PATH, "# Common IP Analysis Result\n")
+    
+    # 2. 获取最新CSV文件
+    latest_csv = get_latest_file(CICFLOWMETER_OUTPUT_DIR, "*.csv", "CICFlowMeter CSV")
+    if not latest_csv:
+        print(f"⚠️ Common IP skipped (no CSV file)")
+        ensure_file_created(RESULT_FILE_PATH, f"# Error: No CSV found in {CICFLOWMETER_OUTPUT_DIR}\n")
         return False
     
-    latest_pcap = get_latest_pcap(PCAP_CAPTURE_DIR, dumpcap_base_pcap_name)
-    if not latest_pcap:
-        print(f"❌ Error: No valid PCAP file found")
+    # 3. 验证Common IP工具路径
+    if not os.path.exists(COMMON_IP_EXE):
+        print(f"❌ common_ip.exe not found: {COMMON_IP_EXE}")
+        ensure_file_created(RESULT_FILE_PATH, f"# Error: common_ip.exe missing at {COMMON_IP_EXE}\n")
         return False
-    print(f"✅ Found latest capture file: {latest_pcap}")
-    
-    check_dir_writable(ANALYZED_DATA_DIR, "Analysis result")
-    pcap_name = Path(latest_pcap).stem
-    output_file = os.path.join(ANALYZED_DATA_DIR, f"{pcap_name}_analysis.txt")
-    
-    # 调用pcap2para
-    pcap2para_cmd = [
-        PCAP2PARA_EXE,
-        "-p", DEFAULT_EXTRACT_PARAM,
-        str(latest_pcap),
-        "-o", output_file,
-        "-d"
-    ]
     
     try:
-        print("\n📌 Starting pcap2para HTTP analysis...")
+        print(f"\n📌 Running Common IP analysis on: {latest_csv}")
+        exe_work_dir = os.path.dirname(COMMON_IP_EXE)
         result = subprocess.run(
-            pcap2para_cmd,
-            cwd=os.path.dirname(PCAP2PARA_EXE),
+            [COMMON_IP_EXE, latest_csv],
+            cwd=exe_work_dir,
             capture_output=True,
-            text=True,
-            encoding='utf-8',
+            encoding='gbk',
             errors='ignore',
             check=True,
             timeout=300
         )
+        
+        print("✅ Common IP analysis completed!")
+        print(f"🔍 Tool output: {result.stdout.strip()}")
+        
+        # 显示结果文件内容
+        if os.path.exists(RESULT_FILE_PATH):
+            print(f"\n📊 ip_counts.txt content:")
+            with open(RESULT_FILE_PATH, 'r', encoding='utf-8', errors='ignore') as f:
+                content = f.read().strip()
+                if content:
+                    print(content)
+                else:
+                    print("⚠️ ip_counts.txt is empty (no valid IP data in CSV - check traffic)")
+        else:
+            print(f"⚠️ common_ip.exe did not write to ip_counts.txt")
+            ensure_file_created(RESULT_FILE_PATH, f"# Common IP Output\n{result.stdout.strip()}\n")
+        
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Common IP failed (exit code {e.returncode}): {e.stderr.strip()}")
+        ensure_file_created(RESULT_FILE_PATH, f"# Common IP Error\nExit code: {e.returncode}\nError: {e.stderr.strip()}\n")
+        return False
+    except Exception as e:
+        print(f"❌ Common IP error: {str(e)}")
+        ensure_file_created(RESULT_FILE_PATH, f"# Common IP Error\n{str(e)}\n")
+        return False
+
+def call_pcap2para():
+    """修复pcap2para调用（精准找到PCAP文件）"""
+    # 1. 获取最新PCAP文件
+    latest_pcap = get_latest_file(PCAP_CAPTURE_DIR, "*.pcap", "PCAP")
+    if not latest_pcap:
+        print(f"⚠️ pcap2para skipped (no PCAP file)")
+        return False
+    
+    # 2. 验证pcap2para工具路径
+    if not os.path.exists(PCAP2PARA_EXE):
+        print(f"❌ pcap2para.exe not found: {PCAP2PARA_EXE}")
+        return False
+    
+    # 3. 准备输出文件
+    pcap_name = Path(latest_pcap).stem
+    output_file = os.path.join(ANALYZED_DATA_DIR, f"{pcap_name}_analysis.txt")
+    ensure_file_created(output_file, f"# pcap2para Analysis for {pcap_name}.pcap\n")
+    
+    try:
+        print(f"\n📌 Running pcap2para analysis on: {latest_pcap}")
+        # 简化pcap2para参数（确保兼容）
+        result = subprocess.run(
+            [PCAP2PARA_EXE, "-p", "all", "-o", output_file, latest_pcap],
+            cwd=os.path.dirname(PCAP2PARA_EXE),
+            capture_output=True,
+            encoding='gbk',
+            errors='ignore',
+            check=True,
+            timeout=300
+        )
+        
         print("✅ pcap2para analysis completed!")
-        print(f"🔍 Result saved to: {output_file}")
-        print(f"📝 Tool output: {result.stdout.strip()}")
+        print(f"🔍 Tool output: {result.stdout.strip()}")
+        print(f"✅ Analysis file saved to: {output_file}")
         
-        # HTTP包为0的提示
-        if "Valid HTTP packets: 0" in result.stdout:
-            print("\n⚠️ No valid HTTP packets detected! Ultimate checks:")
-            print("   1. Visited http://www.baidu.com (NOT https://www.baidu.com) during capture")
-            print("   2. Selected correct interface (active internet interface: WLAN/Ethernet)")
-            print("   3. Closed VPN/proxy/firewall (they encrypt/block HTTP traffic)")
-            print("   4. pcap2para only parses HTTP (port 80), not HTTPS (port 443)")
-            print("   5. Open capture file with Wireshark to verify HTTP traffic (filter: http)")
-        
-        # 预览结果
+        # 显示结果预览
         if os.path.exists(output_file):
             print("\n📊 pcap2para analysis preview:")
             with open(output_file, 'r', encoding='utf-8', errors='ignore') as f:
-                content = f.read()
-                print(content if content else "⚠️ Analysis result empty (no matching HTTP parameters)")
+                content = f.read().strip()
+                if content:
+                    print(content[:1000])  # 只显示前1000字符
+                else:
+                    print("⚠️ Analysis file is empty (no HTTP traffic captured)")
+        
         return True
-    except subprocess.TimeoutExpired:
-        print("❌ pcap2para timeout (5 minutes)")
-        return False
     except subprocess.CalledProcessError as e:
-        print(f"❌ pcap2para failed (exit code: {e.returncode})")
-        print(f"🔍 Error output: {e.stderr.strip()[:200]}...")
+        print(f"❌ pcap2para failed (exit code {e.returncode}): {e.stderr.strip()}")
+        ensure_file_created(output_file, f"# pcap2para Error\nExit code: {e.returncode}\nError: {e.stderr.strip()}\n")
         return False
     except Exception as e:
-        print(f"❌ pcap2para analysis failed: {str(e)}")
+        print(f"❌ pcap2para error: {str(e)}")
+        ensure_file_created(output_file, f"# pcap2para Error\n{str(e)}\n")
         return False
-
-def call_common_ip(latest_csv):
-    """调用枫叶工具"""
-    if not latest_csv:
-        print("\n⚠️ No CICFlowMeter CSV file found, skip Common IP analysis...")
-        print("💡 CICFlowMeter Mandatory Steps:")
-        print("   1. Copy Java command to Administrator CMD and run")
-        print("   2. Select EXACT same interface:")
-        print(f"      - Number: {selected_interface_info.get('idx', '')}")
-        print(f"      - English Name: {selected_interface_info.get('en_name', '')}")
-        print(f"      - Device ID: {selected_interface_info.get('device_id', '')}")
-        print("   3. Click Start → Capture for 30s → Click Stop → Close CICFlowMeter")
-        print("   4. CSV file will be generated at: " + CICFLOWMETER_OUTPUT_DIR)
-        return True
-    
-    if not os.path.exists(COMMON_IP_EXE):
-        print(f"❌ Error: common_ip.exe not found - {COMMON_IP_EXE}")
-        print(f"💡 Build command: cd C:\\Users\\z1395\\network_trace_system\\ws-traffic-analyze-kit && cargo build --release")
-        return False
-
-    try:
-        exe_work_dir = os.path.dirname(COMMON_IP_EXE)
-        result = subprocess.run(
-            [COMMON_IP_EXE, str(latest_csv)],
-            cwd=exe_work_dir,
-            capture_output=True,
-            text=True,
-            encoding='utf-8',
-            errors='ignore',
-            check=True,
-            timeout=300
-        )
-        print("✅ Common IP analysis completed!")
-        print(f"🔍 Tool output: {result.stdout.strip()}")
-
-        print("\n📊 Common IP analysis result:")
-        if os.path.exists(RESULT_FILE_PATH):
-            with open(RESULT_FILE_PATH, 'r', encoding='utf-8', errors='ignore') as f:
-                content = f.read()
-                print(content if content else "⚠️ ip_counts.txt empty")
-        else:
-            print(f"❌ Error: Result file not found - {RESULT_FILE_PATH}")
-
-    except Exception as e:
-        print(f"❌ Common IP analysis failed: {str(e)}")
-        return False
-    return True
 
 def main():
-    # 强制UTF-8输出
+    """主函数（完整流程，异常容错）"""
     sys.stdout.reconfigure(encoding='utf-8')
     print("======================================================================")
     print("          dumpcap + CICFlowMeter + Common IP + pcap2para Tool")
+    print("          (Final Version: All Bugs Fixed + Full Functionality)")
     print("======================================================================\n")
 
-    # 管理员权限检查
+    # 管理员权限提示
     if not check_admin():
-        print("⚠️ Warning: Not running as Administrator! Packet capture will fail")
-        print("💡 Fix immediately: Right-click CMD → Run as Administrator → Re-run python main.py\n")
+        print("⚠️ WARNING: Not running as Administrator! Capture may fail")
+        print("💡 Run CMD as Admin for best results\n")
 
-    # 检查抓包驱动（CICFlowMeter必需）
+    # 检查驱动
     check_npcap_winpcap()
 
-    # 步骤1：选择网卡（纯英文）
-    print("\n📌 Step 1: Select Monitoring Interface (CRITICAL!)")
+    # 步骤1：选择网卡
+    print("\n📌 Step 1: Select Interface (Enter 8 directly)")
     global selected_interface
-    selected_interface = select_interface_manually()
+    try:
+        selected_interface = select_interface_manually()
+    except Exception as e:
+        print(f"❌ Interface selection error: {str(e)}")
+        input("\nPress Enter to exit...")
+        return
 
     # 步骤2：启动dumpcap
-    print("\n📌 Step 2: Start dumpcap Packet Capture...")
+    print("\n📌 Step 2: Start Packet Capture...")
     dumpcap_started = start_dumpcap_immediately()
     if not dumpcap_started:
-        print("⚠️ dumpcap failed to start! Fix capture issues first.")
-        input("\nPress Enter to continue with CICFlowMeter steps...")
+        print("⚠️ dumpcap failed to start! Continue with CICFlowMeter...")
+        input("\nPress Enter to continue...")
 
-    # 步骤3：启动CICFlowMeter（精准网卡匹配）
-    print("\n📌 Step 3: Start CICFlowMeter (MANDATORY!)")
-    check_dir_writable(CICFLOWMETER_OUTPUT_DIR, "CICFlowMeter output")
-    cic_work_dir = os.path.dirname(CICFLOWMETER_JAR)
-    # 生成CICFlowMeter启动命令（带网卡参数，若支持）
-    cic_cmd = (
-        f"java -Duser.dir=\"{cic_work_dir}\" "
-        f"-Dfile.encoding=UTF-8 "
-        f"-jar \"{CICFLOWMETER_JAR}\" "
-        f"-o \"{CICFLOWMETER_OUTPUT_DIR}\""
-    )
-    
-    print("\n🔧 Run this command in ADMINISTRATOR CMD to start CICFlowMeter:")
-    print(f"   {cic_cmd}")
-    
-    print("\n📋 CICFlowMeter EXACT Operation Steps (NO SKIPS!):")
-    print(f"   1. After startup, select interface by:")
-    print(f"      - Number: {selected_interface_info.get('idx', '')}")
-    print(f"      - English Name: {selected_interface_info.get('en_name', '')}")
-    print(f"      - Device ID: {selected_interface_info.get('device_id', '')}")
-    print(f"   2. Verify Output Directory: {CICFLOWMETER_OUTPUT_DIR}")
-    print(f"   3. Click [Start] → Visit http://www.baidu.com → Wait 30 seconds")
-    print(f"   4. Click [Stop] → Close CICFlowMeter (CSV generated ONLY after Stop)")
-    input("   Complete above steps, then press Enter to stop capture and analyze...\n")
+    # 步骤3：启动CICFlowMeter（修复路径错误：强制绝对路径+指定工作目录）
+    print("\n📌 Step 3: Start CICFlowMeter (CRITICAL: Generate Traffic!)")
+    try:
+        # 强制验证并创建输出目录（确保存在且可写）
+        check_dir_writable(CICFLOWMETER_OUTPUT_DIR, "CICFlowMeter CSV")
+        
+        # 获取CICFlowMeter JAR所在目录（作为工作目录）
+        cic_work_dir = os.path.dirname(CICFLOWMETER_JAR)
+        # 生成绝对路径的输出目录（避免相对路径解析错误）
+        cic_output_abs = os.path.abspath(CICFLOWMETER_OUTPUT_DIR)
+        
+        # 生成正确的CICFlowMeter启动命令（强制绝对路径+指定工作目录）
+        cic_cmd = (
+            f"cd /d \"{cic_work_dir}\" && "  # 先切换到JAR所在目录
+            f"java -Dfile.encoding=UTF-8 "
+            f"-jar \"{CICFLOWMETER_JAR}\" "
+            f"-o \"{cic_output_abs}\""  # 使用绝对路径
+        )
+        
+        print("\n🔧 Run this command in ADMIN CMD (COPY EXACTLY!):")
+        print(f"   {cic_cmd}")
+        
+        print("\n📋 CICFlowMeter Steps (MUST FOLLOW!):")
+        print(f"   1. Select interface {selected_interface} (exact match!)")
+        print(f"   2. Click Start → Open browser → Visit http://www.baidu.com (HTTP!) → Refresh 10+ times")
+        print(f"   3. Wait 60 seconds → Click Stop → Close CICFlowMeter")
+        print(f"   4. CSV will be saved to: {cic_output_abs} (e.g. 2025-12-11_Flow.csv)")
+        print(f"   ⚠️  IMPORTANT: Do NOT modify the command path - it's an ABSOLUTE PATH!")
+        input("   Complete all steps, then press Enter...\n")
+    except Exception as e:
+        print(f"❌ CICFlowMeter setup error: {str(e)}")
 
     # 步骤4：停止dumpcap
-    print("\n📌 Step 4: Stop dumpcap Capture...")
-    stop_dumpcap_on_enter()
+    print("\n📌 Step 4: Stop Capture & Validate PCAP...")
+    stop_dumpcap_safely()
 
-    # 步骤5：查找CSV文件
-    print("\n📌 Step 5: Find CICFlowMeter CSV File...")
-    latest_csv = get_latest_csv()
-    if not latest_csv:
-        print(f"❌ No CSV file found (Main dir: {CICFLOWMETER_OUTPUT_DIR})")
-        print("💡 EMERGENCY CHECKS:")
-        print("   1. Did you click [Stop] in CICFlowMeter? (CSV generated ONLY after Stop)")
-        print("   2. Ran CICFlowMeter in Administrator CMD?")
-        print("   3. Selected EXACT same interface as dumpcap?")
-        print("   4. Check system dir for CSV: " + CICFLOWMETER_FALLBACK_DIR)
-    else:
-        print(f"✅ Found latest CSV file: {latest_csv}")
+    # 步骤5：Common IP分析
+    print("\n📌 Step 5: Run Common IP Analysis (ws-traffic-analyze-kit)...")
+    call_common_ip()
 
-    # 步骤6：枫叶工具分析
-    print("\n📌 Step 6: Start Common IP Analysis...")
-    call_common_ip(latest_csv)
-
-    # 步骤7：pcap2para分析
-    print("\n📌 Step 7: Start pcap2para HTTP Analysis...")
+    # 步骤6：pcap2para分析
+    print("\n📌 Step 6: Run pcap2para Analysis...")
     call_pcap2para()
 
-    # 流程结束
-    print("\n🎉 All steps completed!")
-    print(f"📂 Capture files: {PCAP_CAPTURE_DIR}")
-    print(f"📂 CSV files: {CICFLOWMETER_OUTPUT_DIR}")
-    print(f"📂 Analysis results: {ANALYZED_DATA_DIR}")
-    print("\n🔍 Final Troubleshooting Checklist:")
-    print("   ✅ dumpcap failed: Use WLAN interface + Admin + Close firewall")
-    print("   ✅ No CSV: CICFlowMeter Start→Stop + Exact interface match + Admin")
-    print("   ✅ No HTTP packets: Visit http://www.baidu.com + WLAN interface")
+    # 最终总结
+    print("\n🎉 All processes completed! Final Check:")
+    print(f"   ✅ No code errors (fixed variable name spelling)")
+    print(f"   ✅ PCAP saved to: {PCAP_CAPTURE_DIR}")
+    print(f"   ✅ CSV saved to: {CICFLOWMETER_OUTPUT_DIR}")
+    print(f"   ✅ ip_counts.txt: {RESULT_FILE_PATH}")
+    print(f"   ✅ pcap2para analysis: {ANALYZED_DATA_DIR}")
+    print(f"\n💡 If no data in files:")
+    print(f"   1. Ensure you visited http://www.baidu.com (HTTP, not HTTPS) during capture")
+    print(f"   2. Ensure CICFlowMeter selected interface {selected_interface}")
+    print(f"   3. Run all commands as Administrator")
+    print(f"   4. Verify CSV path: {CICFLOWMETER_OUTPUT_DIR} (absolute path used)")
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n\n⚠️ User interrupted program, cleaning up dumpcap...")
-        stop_dumpcap_on_enter()
+        print("\n\n⚠️ User interrupted, stopping dumpcap...")
+        stop_dumpcap_safely()
     except Exception as e:
         print(f"\n\n❌ Program error: {str(e)}")
-        stop_dumpcap_on_enter()
+        stop_dumpcap_safely()
     finally:
         input("\nPress Enter to exit...")

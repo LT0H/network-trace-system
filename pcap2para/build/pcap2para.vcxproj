@@ -32,22 +32,22 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -59,25 +59,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\bin\Debug\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pcap2para.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pcap2para</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\bin\Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pcap2para.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pcap2para</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\MinSizeRel\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\bin\MinSizeRel\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">pcap2para.dir\MinSizeRel\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">pcap2para</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\RelWithDebInfo\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\z1395\network_trace_system\pcap2para\build\bin\RelWithDebInfo\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">pcap2para.dir\RelWithDebInfo\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">pcap2para</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
@@ -87,13 +87,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck></BufferSecurityCheck>
       <CallingConvention></CallingConvention>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <FloatingPointModel></FloatingPointModel>
@@ -109,12 +110,13 @@
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;C:\Boost\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -125,17 +127,38 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PostBuildEvent>
+      <Message>✅ 复制wpcap.dll到输出目录	✅ 复制Packet.dll到输出目录</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-gd-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-gd-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;dbghelp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Program Files/Npcap/SDK/Lib/x64;C:/Program Files/Npcap/SDK/Lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/Debug/pcap2para.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/lib/Debug/pcap2para.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/Debug/pcap2para.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/bin/Debug/pcap2para.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -146,12 +169,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck></BufferSecurityCheck>
       <CallingConvention></CallingConvention>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <FloatingPointModel></FloatingPointModel>
@@ -167,14 +191,15 @@
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;C:\Boost\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -185,17 +210,38 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PostBuildEvent>
+      <Message>✅ 复制wpcap.dll到输出目录	✅ 复制Packet.dll到输出目录</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;dbghelp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Program Files/Npcap/SDK/Lib/x64;C:/Program Files/Npcap/SDK/Lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/Release/pcap2para.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/lib/Release/pcap2para.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/Release/pcap2para.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/bin/Release/pcap2para.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -206,12 +252,13 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck></BufferSecurityCheck>
       <CallingConvention></CallingConvention>
       <ConformanceMode>true</ConformanceMode>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <FloatingPointModel></FloatingPointModel>
@@ -227,14 +274,15 @@
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;C:\Boost\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -245,17 +293,38 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PostBuildEvent>
+      <Message>✅ 复制wpcap.dll到输出目录	✅ 复制Packet.dll到输出目录</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;dbghelp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Program Files/Npcap/SDK/Lib/x64;C:/Program Files/Npcap/SDK/Lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/MinSizeRel/pcap2para.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/lib/MinSizeRel/pcap2para.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/MinSizeRel/pcap2para.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/bin/MinSizeRel/pcap2para.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -266,13 +335,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary</AdditionalOptions>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Boost/boost_1_81_0" /Zc:__cplusplus /Zc:ternary /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <BufferSecurityCheck></BufferSecurityCheck>
       <CallingConvention></CallingConvention>
       <ConformanceMode>true</ConformanceMode>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <FloatingPointModel></FloatingPointModel>
@@ -288,12 +358,13 @@
       <SupportJustMyCode></SupportJustMyCode>
       <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
       <UseFullPaths>false</UseFullPaths>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX20_FORMAT_DEPRECATION_WARNING;_NOMINMAX;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;BOOST_REGEX_NO_LIB;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Program Files\Npcap\SDK\Include;C:\Users\z1395\network_trace_system\pcapplusplus\include;C:\Users\z1395\network_trace_system\pcap2para\src;C:\Boost\boost_1_81_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -304,17 +375,38 @@
       <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
+    <PostBuildEvent>
+      <Message>✅ 复制wpcap.dll到输出目录	✅ 复制Packet.dll到输出目录</Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different C:/Windows/System32/Npcap/wpcap.dll C:/Users/z1395/network_trace_system/pcap2para/build/bin/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Boost\boost_1_81_0\lib64-msvc-14.3\libboost_regex-vc143-mt-x64-1_81.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Pcap++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Packet++.lib;C:\Users\z1395\network_trace_system\pcapplusplus\lib\Common++.lib;wpcap.lib;Packet.lib;ws2_32.lib;iphlpapi.lib;dbghelp.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Program Files/Npcap/SDK/Lib/x64;C:/Program Files/Npcap/SDK/Lib/x64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <DataExecutionPrevention></DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
-      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/RelWithDebInfo/pcap2para.lib</ImportLibrary>
+      <ImportLibrary>C:/Users/z1395/network_trace_system/pcap2para/build/lib/RelWithDebInfo/pcap2para.lib</ImportLibrary>
       <LinkErrorReporting></LinkErrorReporting>
-      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/RelWithDebInfo/pcap2para.pdb</ProgramDataBaseFile>
+      <ProgramDataBaseFile>C:/Users/z1395/network_trace_system/pcap2para/build/bin/RelWithDebInfo/pcap2para.pdb</ProgramDataBaseFile>
       <RandomizedBaseAddress></RandomizedBaseAddress>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -381,7 +473,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\z1395\network_trace_system\pcap2para\src\extract.cpp" />
+    <ClInclude Include="C:\Users\z1395\network_trace_system\pcap2para\src\extract.h" />
     <ClCompile Include="C:\Users\z1395\network_trace_system\pcap2para\src\packet_feature.cpp" />
+    <ClInclude Include="C:\Users\z1395\network_trace_system\pcap2para\src\packet_feature.h" />
     <ClCompile Include="C:\Users\z1395\network_trace_system\pcap2para\src\pcap2rsa.cpp" />
     <ClInclude Include="C:\Users\z1395\network_trace_system\pcap2para\src\progressbar.hpp" />
   </ItemGroup>
