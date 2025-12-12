@@ -22,8 +22,15 @@ def check_file_exists(path, desc):
         sys.exit(1)
     print(f"✅ 验证通过：{desc}")
 
+def check_admin():
+    """新增：检查管理员权限"""
+    try:
+        return ctypes.windll.shell32.IsUserAnAdmin()
+    except:
+        return False
+
 def start_cicflowmeter():
-    """启动CICFlowMeter JAR包（模拟双击运行）"""
+    """启动CICFlowMeter JAR包（修复：去掉不支持的-o参数）"""
     global cic_process
     # 前置检查
     check_file_exists(CICFLOWMETER_JAR, "CICFlowMeter JAR包")
@@ -31,12 +38,12 @@ def start_cicflowmeter():
     # 创建CSV目录（不存在则自动创建）
     os.makedirs(CSV_OUTPUT_DIR, exist_ok=True)
 
-    # 构造Java启动命令（指定原生库+JAR包）
+    # 构造Java启动命令（核心修复：去掉-o参数，GUI版不支持）
     java_cmd = [
         "java",
         f"-Djava.library.path={JNETPCAP_DLL_DIR}",
-        "-jar", CICFLOWMETER_JAR,
-        "-o", CSV_OUTPUT_DIR  # 若JAR支持指定输出目录，无则删除该行
+        "-Dfile.encoding=UTF-8",  # 新增：解决中文乱码
+        "-jar", CICFLOWMETER_JAR
     ]
 
     try:
@@ -49,15 +56,24 @@ def start_cicflowmeter():
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP  # Windows下支持信号终止
         )
         print(f"\n🚀 CICFlowMeter已启动（PID：{cic_process.pid}）")
-        print(f"📂 CSV输出目录：{CSV_OUTPUT_DIR}")
+        print(f"📂 请在CICFlowMeter GUI中手动设置CSV输出目录：{CSV_OUTPUT_DIR}")
+        print(f"📋 操作步骤：")
+        print(f"   1. 打开CICFlowMeter窗口后，点击'Output Directory'")
+        print(f"   2. 选择目录：{CSV_OUTPUT_DIR}")
+        print(f"   3. 选择正确的网卡，点击Start开始抓包")
+        print(f"   4. 访问http://www.baidu.com（HTTP）生成流量")
         
-        # 实时打印JAR输出日志（可选）
+        # 实时打印JAR输出日志（调试用）
         # for line in iter(cic_process.stdout.readline, ""):
         #     if line:
         #         print(f"[CICFlowMeter] {line.strip()}")
 
     except Exception as e:
         print(f"\n❌ 启动CICFlowMeter失败：{str(e)}")
+        print(f"💡 解决方案：")
+        print(f"   1. 以管理员身份运行本脚本")
+        print(f"   2. 确保已安装Java 8+（JDK/JRE）")
+        print(f"   3. 确保jnetpcap.dll在系统路径中")
         sys.exit(1)
 
 def stop_cicflowmeter():
@@ -83,6 +99,15 @@ def stop_cicflowmeter():
         print("\nℹ️  CICFlowMeter未运行")
 
 if __name__ == "__main__":
+    # 新增：管理员权限检查
+    try:
+        import ctypes
+        if not check_admin():
+            print("⚠️ 警告：未以管理员身份运行，可能导致抓包失败！")
+            input("\n按Enter继续（建议退出并以管理员身份运行）...\n")
+    except:
+        pass
+    
     try:
         start_cicflowmeter()
         input("\n按Enter键停止CICFlowMeter...\n")
