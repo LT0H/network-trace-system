@@ -1,0 +1,26 @@
+{
+    "port_signatures": [
+        {"id": 1, "port": 22, "risk": "high", "description": "SSH暴力破解常用端口", "attack_type": "brute_force", "cve_list": ["CVE-2020-14145", "CVE-2021-41617"]},
+        {"id": 2, "port": 445, "risk": "critical", "description": "SMB漏洞利用端口（永恒之蓝等）", "attack_type": "rce", "cve_list": ["CVE-2017-0144", "CVE-2022-24521"]},
+        {"id": 3, "port": 3389, "risk": "high", "description": "RDP远程桌面暴力破解/漏洞利用", "attack_type": "brute_force/rce", "cve_list": ["CVE-2019-0708", "CVE-2023-23397"]},
+        {"id": 4, "port": 8080, "risk": "medium", "description": "Web后台弱口令/未授权访问", "attack_type": "unauth_access", "cve_list": []},
+        {"id": 5, "port": 21, "risk": "medium", "description": "FTP匿名访问/暴力破解", "attack_type": "brute_force/unauth_access", "cve_list": ["CVE-2020-9273"]}
+    ],
+    "payload_signatures": [
+        {"id": 1, "pattern": "rm -rf /", "risk": "critical", "attack_type": "command_injection", "description": "Linux系统命令删除根目录"},
+        {"id": 2, "pattern": "<script>alert(", "risk": "medium", "attack_type": "xss", "description": "XSS跨站脚本攻击载荷"},
+        {"id": 3, "pattern": "UNION SELECT", "risk": "high", "attack_type": "sql_injection", "description": "SQL联合查询注入"},
+        {"id": 4, "pattern": "../../etc/passwd", "risk": "high", "attack_type": "path_traversal", "description": "Linux路径遍历试探"},
+        {"id": 5, "pattern": "cmd.exe /c", "risk": "critical", "attack_type": "command_injection", "description": "Windows系统命令执行"}
+    ],
+    "flow_signatures": [
+        {"id": 1, "duration_threshold_ms": 3600000, "risk": "medium", "description": "1小时以上异常长连接（疑似持久化控制）", "attack_type": "persistent_connection"},
+        {"id": 2, "packet_count_threshold": 10000, "risk": "high", "description": "短时间内大量数据包（疑似DDoS）", "attack_type": "ddos"},
+        {"id": 3, "ttl_variance_threshold": 10, "risk": "medium", "description": "TTL值波动过大（疑似伪造IP）", "attack_type": "ip_spoofing"}
+    ],
+    "update_info": {
+        "version": "1.0",
+        "last_update": "2025-12-14",
+        "update_url": "https://your-update-server.com/signatures/latest"
+    }
+}
