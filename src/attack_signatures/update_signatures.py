@@ -1,15 +1,20 @@
 import json
-import requests
-from pathlib import Path
 import hashlib
-from datetime import datetime
+import datetime
+import requests  # 确保已安装：pip install requests
+from pathlib import Path
 
-# 固定路径配置（适配你的环境）
-SIGNATURE_DB_PATH = Path(__file__).parent / "signature_db.json"
-BACKUP_SUFFIX = ".bak"
-# 生产环境提示：请替换为实际的远程更新地址，若无则注释该变量
-REMOTE_UPDATE_URL = ""  # 示例："https://your-production-server.com/signatures/latest"
-LOCAL_UPDATE_FILE = Path(__file__).parent / "local_update.json"  # 本地更新包路径
+# 新增：特征库相关路径配置（根据项目实际结构调整）
+# 项目根目录（通过当前文件路径向上推导）
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # src的父目录即项目根目录
+SIGNATURE_DB_PATH = PROJECT_ROOT / "data" / "signature_db.json"  # 特征库主文件路径
+BACKUP_SUFFIX = ".backup"  # 备份文件后缀
+LOCAL_UPDATE_FILE = PROJECT_ROOT / "data" / "local_update.json"  # 本地更新包路径
+REMOTE_UPDATE_URL = "https://your-update-server.com/signatures"  # 远程更新地址（替换为实际地址）
+
+# 确保数据目录存在
+SIGNATURE_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
 
 class SignatureManager:
     def __init__(self):
@@ -21,11 +26,15 @@ class SignatureManager:
         """加载本地特征库文件"""
         try:
             if not SIGNATURE_DB_PATH.exists():
-                raise FileNotFoundError("特征库文件不存在")
-            
-            with open(SIGNATURE_DB_PATH, "r", encoding="utf-8") as f:
-                self.db = json.load(f)
-            print(f"成功加载本地特征库，版本：{self.db.get('update_info', {}).get('version', '未知')}")
+                # 首次运行时创建默认特征库
+                self.db = self._get_default_db()
+                with open(SIGNATURE_DB_PATH, "w", encoding="utf-8") as f:
+                    json.dump(self.db, f, indent=2, ensure_ascii=False)
+                print(f"初始化默认特征库至：{SIGNATURE_DB_PATH}")
+            else:
+                with open(SIGNATURE_DB_PATH, "r", encoding="utf-8") as f:
+                    self.db = json.load(f)
+                print(f"成功加载本地特征库，版本：{self.db.get('update_info', {}).get('version', '未知')}")
         except Exception as e:
             print(f"加载特征库失败：{str(e)}")
             self.db = self._get_default_db()  # 加载默认库
@@ -36,7 +45,7 @@ class SignatureManager:
             "port_signatures": [],
             "payload_signatures": [],
             "flow_signatures": [],
-            "update_info": {"version": "0.0", "last_update": datetime.now().strftime("%Y-%m-%d")}
+            "update_info": {"version": "0.0", "last_update": datetime.datetime.now().strftime("%Y-%m-%d")}
         }
 
     def get_local_hash(self):
@@ -51,7 +60,10 @@ class SignatureManager:
     def backup_local_db(self):
         """备份当前特征库 - 生产环境必备"""
         try:
-            backup_path = f"{SIGNATURE_DB_PATH}{BACKUP_SUFFIX}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+            if not SIGNATURE_DB_PATH.exists():
+                print("特征库文件不存在，无需备份")
+                return ""
+            backup_path = f"{SIGNATURE_DB_PATH}{BACKUP_SUFFIX}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
             with open(SIGNATURE_DB_PATH, "r", encoding="utf-8") as src, open(backup_path, "w", encoding="utf-8") as dst:
                 json.dump(self.db, dst, indent=2, ensure_ascii=False)
             print(f"特征库已备份至：{backup_path}")

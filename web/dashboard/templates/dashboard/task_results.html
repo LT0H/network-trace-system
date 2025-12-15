@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>任务结果 - 网络监控系统</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result-container { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .back-link { color: #2196F3; text-decoration: none; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <h1>任务结果：{{ task.name }}</h1>
+    <p>任务类型：{{ task.get_task_type_display }}</p>
+    <p>目标：{{ task.target }}</p>
+    <p>执行状态：{{ task.status }}</p>
+    <a href="{% url 'task_list' %}" class="back-link">返回任务列表</a>
+    
+    <div class="result-container">
+        <h3>详细结果：</h3>
+        {% if results %}
+            <pre>{{ results|pprint }}</pre>
+        {% else %}
+            <p>无结果数据或结果文件已丢失</p>
+        {% endif %}
+    </div>
+</body>
+</html>
