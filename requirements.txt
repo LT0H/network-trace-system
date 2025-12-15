@@ -9,5 +9,6 @@ pywin32==307
 pandas==2.1.4
 openpyxl==3.1.2
 numpy==1.26.3
-scipy==1.11.4  
-ratelimit==2.2.1
+scipy==1.11.4
+jinja2==3.1.3  # 新增：用于HTML模板渲染
+psutil==5.9.8   # 新增：用于进程管理

@@ -1,6 +1,0 @@
-2025-12-15 15:16:38 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\src\attack_signatures (拒绝访问。)
-2025-12-15 15:16:38 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\src\logs (拒绝访问。)
-2025-12-15 15:16:38 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\src\task_manager (拒绝访问。)
-2025-12-15 15:16:38 DEBUG swing.common.SwingUtils    C:\Users\z1395\network_trace_system\src\__pycache__ (拒绝访问。)
-2025-12-15 15:16:47 INFO  cic.cs.unb.ca.jnetpcap.worker.TrafficFlowWorker    Pcap is listening...
-2025-12-15 15:17:18 INFO  cic.cs.unb.ca.flow.ui.FlowMonitorPane    path:C:\Users\z1395\network_trace_system\src\data\daily\2025-12-15_Flow.csv

@@ -1,1 +1,0 @@
-2025-12-15 15:18:42 DEBUG cic.cs.unb.ca.ifm.App    Cannot invoke "sun.awt.shell.Win32ShellFolder2.getIShellFolder()" because the return value of "sun.awt.shell.Win32ShellFolder2.getDesktop()" is null

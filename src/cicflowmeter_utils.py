@@ -9,83 +9,125 @@ CICFLOWMETER_JAR_PATH = r"C:\Users\z1395\network_trace_system\CICFlowMeter\targe
 PCAP_DIR = r"C:\Users\z1395\network_trace_system\catched_data"
 CSV_OUTPUT_DIR = r"C:\Users\z1395\network_trace_system\CICFlowMeter\target\data\daily"
 
-def get_latest_file(dir_path, file_suffix):
+def get_latest_file(directory, file_pattern, desc):
     """
-    获取指定目录下最新的文件（按修改时间排序）
-    :param dir_path: 目录路径
-    :param file_suffix: 文件后缀（如.pcap、.csv）
-    :return: 最新文件的绝对路径，无文件返回None
+    获取目录下最新的指定类型文件
+    :param directory: 目录路径
+    :param file_pattern: 文件模式，如".csv"
+    :param desc: 文件描述，用于日志
+    :return: 最新文件的路径或None
     """
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path, exist_ok=True)
+    if not os.path.exists(directory):
+        print(f"❌ {desc}目录不存在：{directory}")
         return None
     
-    # 匹配所有指定后缀的文件
-    file_pattern = os.path.join(dir_path, f"*{file_suffix}")
-    files = glob.glob(file_pattern)
+    # 获取目录下所有符合模式的文件
+    files = []
+    for filename in os.listdir(directory):
+        if filename.endswith(file_pattern):
+            file_path = os.path.join(directory, filename)
+            if os.path.isfile(file_path):
+                files.append(file_path)
     
     if not files:
+        print(f"❌ 在{directory}中未找到{desc}文件")
         return None
     
     # 按修改时间排序，取最新的
-    latest_file = max(files, key=os.path.getmtime)
+    files.sort(key=lambda x: os.path.getmtime(x), reverse=True)
+    latest_file = files[0]
+    
+    print(f"✅ 找到最新的{desc}文件：{latest_file}")
     return latest_file
 
-def run_cicflowmeter(pcap_file_path=None):
+def run_cicflowmeter(duration=60):
     """
-    启动CICFlowMeter生成流量CSV文件
-    :param pcap_file_path: 指定PCAP文件路径（None则自动取catched_data下最新PCAP）
-    :return: 生成的CSV文件路径，失败返回None
+    运行CICFlowMeter捕获流量并生成CSV文件
+    :param duration: 捕获时长（秒）
+    :return: 生成的CSV文件路径或None
     """
-    # 1. 校验JAR文件是否存在
-    if not os.path.exists(CICFLOWMETER_JAR_PATH):
-        print(f"错误：CICFlowMeter JAR文件不存在 - {CICFLOWMETER_JAR_PATH}")
+    # 检查必要文件
+    if not os.path.exists(CICFLOWMETER_JAR):
+        print(f"❌ CICFlowMeter JAR文件不存在：{CICFLOWMETER_JAR}")
         return None
     
-    # 2. 确定PCAP文件（自动取最新或指定）
-    if not pcap_file_path:
-        pcap_file_path = get_latest_file(PCAP_DIR, ".pcap")
-        if not pcap_file_path:
-            print("错误：catched_data目录下无PCAP文件")
-            return None
+    if not os.path.exists(JNETPCAP_DLL_DIR):
+        print(f"❌ JNetPcap目录不存在：{JNETPCAP_DLL_DIR}")
+        return None
     
-    # 3. 创建输出目录
+    # 创建输出目录
     os.makedirs(CSV_OUTPUT_DIR, exist_ok=True)
     
-    # 4. 构造启动命令（Java运行JAR，导入PCAP生成CSV）
+    # 记录启动前的最新文件，用于后续判断新生成的文件
+    pre_files = [f for f in os.listdir(CSV_OUTPUT_DIR) if f.endswith(".csv")]
+    
+    # 构造启动命令
     cmd = [
-        "java", "-jar", CICFLOWMETER_JAR_PATH,
-        "-i", pcap_file_path,  # 输入PCAP文件
-        "-o", CSV_OUTPUT_DIR   # 输出CSV目录
+        "java",
+        f"-Djava.library.path={JNETPCAP_DLL_DIR}",
+        "-Dfile.encoding=UTF-8",
+        "-jar", CICFLOWMETER_JAR,
+        "-i", "all",  # 监控所有接口
+        "-o", CSV_OUTPUT_DIR  # 输出目录
     ]
     
+    process = None
     try:
-        # 启动CICFlowMeter，等待执行完成
-        print(f"启动CICFlowMeter，命令：{' '.join(cmd)}")
-        result = subprocess.run(
+        # 启动CICFlowMeter
+        print(f"🚀 启动CICFlowMeter，将运行{duration}秒...")
+        process = subprocess.Popen(
             cmd,
             stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             encoding="utf-8",
-            timeout=300  # 超时时间5分钟
+            creationflags=subprocess.CREATE_NEW_PROCESS_GROUP
         )
         
-        if result.returncode != 0:
-            print(f"CICFlowMeter执行失败：{result.stderr}")
-            return None
+        # 运行指定时长
+        time.sleep(duration)
         
-        # 5. 获取生成的最新CSV文件
-        time.sleep(2)  # 等待文件写入完成
-        latest_csv = get_latest_file(CSV_OUTPUT_DIR, ".csv")
-        if latest_csv:
-            print(f"成功生成CSV文件：{latest_csv}")
+        # 停止进程
+        if process and process.poll() is None:
+            # 尝试优雅终止
+            process.terminate()
+            try:
+                process.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                # 强制终止
+                process.kill()
+        
+        # 查找新生成的CSV文件
+        post_files = [f for f in os.listdir(CSV_OUTPUT_DIR) if f.endswith(".csv")]
+        new_files = [f for f in post_files if f not in pre_files]
+        
+        if new_files:
+            # 按修改时间排序，取最新的
+            new_files.sort(key=lambda x: os.path.getmtime(os.path.join(CSV_OUTPUT_DIR, x)), reverse=True)
+            latest_csv = os.path.join(CSV_OUTPUT_DIR, new_files[0])
+            print(f"✅ CICFlowMeter已生成CSV文件：{latest_csv}")
             return latest_csv
         else:
-            print("错误：CICFlowMeter执行完成但未生成CSV文件")
+            print("❌ CICFlowMeter未生成新的CSV文件")
             return None
-    except subprocess.TimeoutExpired:
-        print("错误：CICFlowMeter执行超时（超过5分钟）")
-        return None
+            
     except Exception as e:
-        print(f"错误：启动CICFlowMeter异常 - {str(e)}")
+        print(f"❌ 运行CICFlowMeter时出错：{str(e)}")
+        if process:
+            try:
+                process.kill()
+            except:
+                pass
         return None
+
+def stop_all_cicflowmeter():
+    """停止所有CICFlowMeter进程"""
+    try:
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                if proc.info['name'] == 'java.exe' and CICFLOWMETER_JAR in ' '.join(proc.info['cmdline']):
+                    proc.kill()
+                    print(f"🛑 已终止CICFlowMeter进程（PID：{proc.info['pid']}）")
+            except:
+                continue
+    except Exception as e:
+        print(f"❌ 停止CICFlowMeter进程时出错：{str(e)}")

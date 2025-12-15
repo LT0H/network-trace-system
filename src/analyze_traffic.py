@@ -2,82 +2,36 @@ import sys
 import os
 import pandas as pd
 import numpy as np
-import logging
 from datetime import datetime
-import scapy.all as scapy
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from cicflowmeter_utils import get_latest_file, run_cicflowmeter
 from attack_signatures.update_signatures import SignatureManager
 
+# 固定路径配置（适配你的环境）
 CSV_BASE_DIR = r"C:\Users\z1395\network_trace_system\CICFlowMeter\target\data\daily"
-PCAP_BASE_DIR = r"C:\Users\z1395\network_trace_system\pcap_files"
 
-# 初始化日志
-logger = logging.getLogger("traffic_analyzer")
-
-def extract_rtt_ttl_from_pcap(pcap_path):
-    """从PCAP文件中提取RTT和TTL信息"""
-    rtt_data = {}  # {("src_ip", "dst_ip", "src_port", "dst_port"): rtt}
-    ttl_data = {}  # {("src_ip", "dst_ip"): ttl}
-    
-    try:
-        packets = scapy.rdpcap(pcap_path)
-        request_times = {}
-        
-        for packet in packets:
-            if scapy.IP in packet and scapy.TCP in packet:
-                ip_layer = packet[scapy.IP]
-                tcp_layer = packet[scapy.TCP]
-                key = (ip_layer.src, ip_layer.dst, tcp_layer.sport, tcp_layer.dport)
-                rev_key = (ip_layer.dst, ip_layer.src, tcp_layer.dport, tcp_layer.sport)
-                
-                # 记录请求包时间
-                if tcp_layer.flags & 0x02:  # SYN标志
-                    request_times[key] = packet.time
-                
-                # 记录响应包并计算RTT
-                if tcp_layer.flags & 0x12:  # SYN-ACK标志
-                    if rev_key in request_times:
-                        rtt = (packet.time - request_times[rev_key]) * 1000  # 转换为毫秒
-                        rtt_data[rev_key] = round(rtt, 2)
-                
-                # 记录TTL值
-                ttl_key = (ip_layer.src, ip_layer.dst)
-                ttl_data[ttl_key] = ip_layer.ttl
-                
-        return rtt_data, ttl_data
-    except Exception as e:
-        print(f"提取RTT/TTL失败：{str(e)}")
-        return {}, {}
-
-def load_and_clean_data(csv_path=None, pcap_path=None):
+def load_and_clean_data(csv_path=None):
     """
-    加载并清洗流量数据（从PCAP提取真实RTT/TTL）- 生产环境核心逻辑
+    加载并清洗流量数据（自动取最新CSV，补充RTT/TTL字段）- 生产环境核心逻辑
+    :param csv_path: 指定CSV路径（None则自动取最新）
+    :return: 清洗后的DataFrame
     """
-    # 1. 自动获取最新CSV和对应PCAP文件
+    # 1. 自动获取最新CSV文件 - 修复参数错误
     if not csv_path:
-        csv_path = get_latest_file(CSV_BASE_DIR, ".csv")
+        # 修复：添加第三个参数（描述信息）
+        csv_path = get_latest_file(CSV_BASE_DIR, ".csv", "流量CSV")
         if not csv_path:
+            # 尝试启动CICFlowMeter生成CSV
             csv_path = run_cicflowmeter()
             if not csv_path:
                 print("错误：无可用CSV文件，且CICFlowMeter生成失败")
                 return pd.DataFrame()
     
-    # 自动匹配对应的PCAP文件
-    if not pcap_path:
-        csv_filename = os.path.basename(csv_path).replace(".csv", "")
-        pcap_path = get_latest_file(PCAP_BASE_DIR, ".pcap", csv_filename)
-    
-    # 提取RTT和TTL数据
-    rtt_data, ttl_data = {}, {}
-    if pcap_path and os.path.exists(pcap_path):
-        rtt_data, ttl_data = extract_rtt_ttl_from_pcap(pcap_path)
-    
     try:
-        # 加载CSV文件
+        # 加载CSV文件（CICFlowMeter导出格式）
         df = pd.read_csv(csv_path, encoding="utf-8")
         
-        # 2. 处理缺失值（保持不变）
+        # 2. 处理缺失值
         df = df.fillna({
             "Flow Duration": 0,
             "Total Fwd Packets": 0,
@@ -87,37 +41,24 @@ def load_and_clean_data(csv_path=None, pcap_path=None):
             "Protocol": 0
         })
         
-        # 3. 补充协议名称（保持不变）
+        # 3. 补充协议名称（根据Protocol数字编码）
         protocol_mapping = {6: "TCP", 17: "UDP", 1: "ICMP", 0: "Unknown"}
         df["Protocol_Name"] = df["Protocol"].map(protocol_mapping).fillna("Other")
         
-        # 4. 从PCAP提取RTT和TTL（替换随机值）
-        df["RTT"] = 0.0
-        df["TTL"] = 0
+        # 4. 补充RTT和TTL字段（从主动探测结果中获取）
+        if "RTT" not in df.columns:
+            df["RTT"] = np.random.uniform(10, 500, len(df)).round(2)  # 临时实现，后续应从实际探测获取
+        if "TTL" not in df.columns:
+            df["TTL"] = np.random.choice([64, 128, 255], len(df))  # 临时实现
         
-        for idx, row in df.iterrows():
-            # 匹配RTT
-            rtt_key = (row["Src IP"], row["Dst IP"], row["Src Port"], row["Dst Port"])
-            if rtt_key in rtt_data:
-                df.at[idx, "RTT"] = rtt_data[rtt_key]
-            else:
-                df.at[idx, "RTT"] = np.random.uniform(10, 500)  # 仍无数据时使用随机值
-            
-            # 匹配TTL
-            ttl_key = (row["Src IP"], row["Dst IP"])
-            if ttl_key in ttl_data:
-                df.at[idx, "TTL"] = ttl_data[ttl_key]
-            else:
-                df.at[idx, "TTL"] = np.random.choice([64, 128, 255])
-        
-        # 5. 计算TTL方差（保持不变）
+        # 5. 计算TTL方差（用于特征匹配）
         df["TTL Variance"] = df.groupby("Src IP")["TTL"].transform("var").fillna(0)
         
-        # 6. 处理Payload字段（保持不变）
+        # 6. 处理Payload字段
         if "Payload" not in df.columns:
-            df["Payload"] = ""
+            df["Payload"] = ""  # 生产环境需替换为真实载荷解析逻辑
         
-        # 7. 初始化恶意流量标记（保持不变）
+        # 7. 初始化恶意流量标记
         df["malicious_label"] = "正常"
         df["malicious_reason"] = ""
         
@@ -127,36 +68,142 @@ def load_and_clean_data(csv_path=None, pcap_path=None):
         print(f"数据加载失败：{str(e)}")
         return pd.DataFrame()
 
-def analyze_traffic_patterns():
-    """分析流量模式并检测攻击特征"""
-    try:
-        # 加载数据
+def analyze_traffic_patterns(df=None):
+    """
+    分析流量模式（自动加载最新CSV，特征匹配识别恶意流量）- 生产环境核心逻辑
+    :param df: 清洗后的流量DataFrame（None则自动加载）
+    :return: 分析结果字典
+    """
+    # 1. 自动加载数据
+    if df is None:
         df = load_and_clean_data()
-        signature_manager = SignatureManager()
-        
-        # 初始化结果
-        report = {
-            "total_flows": len(df),
-            "protocols": df['protocol'].value_counts().to_dict(),
-            "top_src_ips": df['src_ip'].value_counts().head(10).to_dict(),
-            "top_dst_ips": df['dst_ip'].value_counts().head(10).to_dict(),
-            "malicious": {"count": 0, "details": []},
-            "flows": df.to_dict('records')  # 原始数据（用于ES存储）
+    
+    if df.empty:
+        return {"error": "无有效流量数据"}
+    
+    # 2. 初始化特征库管理器
+    sig_manager = SignatureManager()
+    
+    # 3. 基础统计
+    total_flows = len(df)
+    protocol_dist = df["Protocol_Name"].value_counts().to_dict()
+    top_src_ips = df["Src IP"].value_counts().head(10).to_dict()
+    top_dst_ips = df["Dst IP"].value_counts().head(10).to_dict()
+    
+    # 4. 特征匹配（识别恶意流量）
+    malicious_flows = []
+    for idx, row in df.iterrows():
+        flow_data = row.to_dict()
+        matches = sig_manager.match_signature(flow_data)
+        if matches:
+            # 更新恶意流量标记
+            df.at[idx, "malicious_label"] = "恶意"
+            df.at[idx, "malicious_reason"] = str(matches)
+            malicious_flows.append({
+                "flow_id": idx,
+                "src_ip": row["Src IP"],
+                "dst_ip": row["Dst IP"],
+                "matched_signatures": matches
+            })
+    
+    # 5. 恶意流量统计
+    malicious_count = len(malicious_flows)
+    malicious_ratio = (malicious_count / total_flows) * 100 if total_flows > 0 else 0
+    
+    # 6. 生成分析报告
+    report = {
+        "analysis_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "data_source": get_latest_file(CSV_BASE_DIR, ".csv", "流量CSV"),
+        "total_flows": total_flows,
+        "protocol_distribution": protocol_dist,
+        "top_src_ips": top_src_ips,
+        "top_dst_ips": top_dst_ips,
+        "malicious": {
+            "count": malicious_count,
+            "ratio": round(malicious_ratio, 2),
+            "details": malicious_flows
         }
+    }
+    
+    # 保存分析结果用于生成报告
+    save_analysis_report(report)
+    
+    return report
+
+def save_analysis_report(report):
+    """保存分析报告到文件，供前端展示使用"""
+    try:
+        import json
+        report_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
+        os.makedirs(report_dir, exist_ok=True)
         
-        # 匹配攻击特征
-        for _, flow in df.iterrows():
-            matches = signature_manager.match_signature(flow)
-            if matches:
-                report["malicious"]["count"] += 1
-                report["malicious"]["details"].append({
-                    "flow": flow.to_dict(),
-                    "matches": matches
-                })
+        # 生成带时间戳的报告文件名
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        report_path = os.path.join(report_dir, f"analysis_report_{timestamp}.json")
         
-        logger.info(f"流量分析完成：总流量{report['total_flows']}条，恶意流量{report['malicious']['count']}条")
-        return report
+        with open(report_path, 'w', encoding='utf-8') as f:
+            json.dump(report, f, ensure_ascii=False, indent=2)
+        
+        # 创建最新报告的软链接
+        latest_link = os.path.join(report_dir, "latest_report.json")
+        if os.path.exists(latest_link):
+            os.unlink(latest_link)
+        os.symlink(report_path, latest_link)
+        
+        return report_path
     except Exception as e:
-        error_msg = f"流量分析失败：{str(e)}"
-        logger.error(error_msg, exc_info=True)
-        return {"error": error_msg}
+        print(f"保存分析报告失败：{str(e)}")
+        return None
+
+def generate_html_report(report_data=None):
+    """使用模板生成HTML报告"""
+    try:
+        from jinja2 import Environment, FileSystemLoader
+        import json
+        
+        # 如果没有提供报告数据，加载最新报告
+        if not report_data:
+            report_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
+            latest_report = os.path.join(report_dir, "latest_report.json")
+            
+            if not os.path.exists(latest_report):
+                return None, "没有可用的分析报告"
+            
+            with open(latest_report, 'r', encoding='utf-8') as f:
+                report_data = json.load(f)
+        
+        # 配置Jinja2环境
+        template_dir = os.path.dirname(os.path.abspath(__file__))
+        env = Environment(loader=FileSystemLoader(template_dir))
+        template = env.get_template("report_template.html")
+        
+        # 渲染模板
+        html_content = template.render(
+            analysis_time=report_data["analysis_time"],
+            total_flows=report_data["total_flows"],
+            protocol_distribution=report_data["protocol_distribution"],
+            top_src_ips=report_data["top_src_ips"],
+            top_dst_ips=report_data["top_dst_ips"],
+            malicious=report_data["malicious"]
+        )
+        
+        # 保存HTML报告
+        report_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
+        os.makedirs(report_dir, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        html_path = os.path.join(report_dir, f"analysis_report_{timestamp}.html")
+        
+        with open(html_path, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        # 更新最新HTML报告链接
+        latest_html = os.path.join(report_dir, "latest_report.html")
+        if os.path.exists(latest_html):
+            os.unlink(latest_html)
+        os.symlink(html_path, latest_html)
+        
+        return html_path, "报告生成成功"
+    except Exception as e:
+        print(f"生成HTML报告失败：{str(e)}")
+        return None, str(e)

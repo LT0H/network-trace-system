@@ -1,59 +1,75 @@
-import scapy.all as scapy
-import nmap
+"""主动探测模块：发送异常流量并捕获响应，用于攻击特征提取"""
 import time
-import threading
 from datetime import datetime
-from ratelimit import limits, sleep_and_retry
+import scapy.all as scapy
 
 class ActiveProbe:
-    def __init__(self, max_scan_rate=10):
-        """初始化主动探测模块，增加速率控制参数"""
-        self.nm = nmap.PortScanner()
-        self.scan_results = {}
-        self.max_scan_rate = max_scan_rate  # 最大扫描速率（每秒包数）
-        self.scan_lock = threading.Lock()  # 扫描锁，防止并发冲突
+    def __init__(self):
+        """初始化主动探测模块"""
+        self.results_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "probe_results")
+        os.makedirs(self.results_dir, exist_ok=True)
+        print("主动探测模块初始化成功")
 
-    # 新增速率控制装饰器，限制扫描频率
-    @sleep_and_retry
-    @limits(calls=10, period=1)  # 1秒最多10次扫描
-    def _rate_limited_scan(self, target_ip, ports, arguments, timeout):
-        return self.nm.scan(target_ip, ports, arguments, timeout=timeout)
-
-    def tcp_syn_scan(self, target_ip, ports="1-1000", timeout=10, rate_limit=None):
-        """TCP SYN半开放扫描（增加速率控制）- 生产环境核心逻辑"""
-        start_time = datetime.now()
+    def tcp_syn_scan(self, target_ip, ports=range(1, 1000)):
+        """TCP SYN扫描"""
         try:
-            # 使用速率控制的扫描方法
-            self._rate_limited_scan(target_ip, ports, "-sS -v -n", timeout)
+            start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            open_ports = []
             
-            # 解析扫描结果（保持不变）
+            for port in ports:
+                # 发送SYN包
+                packet = scapy.IP(dst=target_ip)/scapy.TCP(dport=port, flags="S")
+                response = scapy.sr1(packet, timeout=1, verbose=0)
+                
+                if response:
+                    # 检查是否收到SYN-ACK响应
+                    if scapy.TCP in response and response[scapy.TCP].flags == "SA":
+                        open_ports.append({
+                            "port": port,
+                            "state": "open",
+                            "service": self._get_service_name(port),
+                            "product": ""  # 可扩展为获取服务版本信息
+                        })
+                        
+                        # 发送RST包关闭连接
+                        rst_packet = scapy.IP(dst=target_ip)/scapy.TCP(dport=port, flags="R")
+                        scapy.send(rst_packet, verbose=0)
+            
+            end_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            
+            # 保存扫描结果
             result = {
                 "target": target_ip,
-                "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
-                "end_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                "open_ports": []
+                "start_time": start_time,
+                "end_time": end_time,
+                "open_ports": open_ports
             }
             
-            if target_ip in self.nm.all_hosts():
-                for proto in self.nm[target_ip].all_protocols():
-                    ports = self.nm[target_ip][proto].keys()
-                    for port in ports:
-                        if self.nm[target_ip][proto][port]['state'] == 'open':
-                            result["open_ports"].append({
-                                "port": port,
-                                "state": self.nm[target_ip][proto][port]['state'],
-                                "service": self.nm[target_ip][proto][port].get('name', 'unknown'),
-                                "product": self.nm[target_ip][proto][port].get('product', 'unknown')
-                            })
-            
-            with self.scan_lock:
-                self.scan_results[target_ip] = result
+            self._save_probe_result("tcp_syn_scan", target_ip, result)
             return result
+            
         except Exception as e:
-            return {"error": f"SYN扫描失败: {str(e)}"}
+            return {"error": str(e)}
+
+    def _get_service_name(self, port):
+        """获取端口对应的服务名称"""
+        service_map = {
+            80: "http",
+            443: "https",
+            21: "ftp",
+            22: "ssh",
+            23: "telnet",
+            25: "smtp",
+            53: "dns",
+            135: "msrpc",
+            445: "microsoft-ds",
+            3306: "mysql",
+            3389: "rdp"
+        }
+        return service_map.get(port, "")
 
     def detect_anomaly_traffic(self, target_ip, duration=30):
-        """发送异常流量并捕获RTT/TTL，用于攻击特征提取 - 生产环境核心逻辑"""
+        """发送异常流量并捕获RTT/TTL，用于攻击特征提取"""
         anomaly_patterns = [
             {"flags": "FPU", "payload": b"malicious_test_payload_123"},  # 异常标志位（FIN+PSH+URG）
             {"flags": "S", "sport": 65535, "dport": 22, "payload": b"\x00"*1500},  # 超大SYN包
@@ -76,15 +92,17 @@ class ActiveProbe:
                 rtt = (time.time() - start) * 1000 if reply else None
                 
                 # 提取TTL和其他信息
-                results.append({
+                result_item = {
                     "pattern_id": idx + 1,
                     "pattern": pattern,
                     "has_response": bool(reply),
                     "rtt_ms": round(rtt, 2) if rtt else None,
                     "ttl": reply.ttl if reply else None,
                     "src_ip": reply.src if reply else None,
-                    "tcp_flags": scapy.TCP(reply.payload).flags if reply else None
-                })
+                    "tcp_flags": str(scapy.TCP(reply.payload).flags) if reply else None
+                }
+                results.append(result_item)
+
             except Exception as e:
                 results.append({
                     "pattern_id": idx + 1,
@@ -92,20 +110,56 @@ class ActiveProbe:
                     "error": str(e)
                 })
         
-        return {
+        # 整理最终结果
+        final_result = {
             "target": target_ip,
             "duration_seconds": duration,
             "scan_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "anomaly_results": results
         }
-
-    def run_background_scan(self, target_ip, callback=None):
-        """后台异步执行扫描（不阻塞主线程）- 生产环境核心逻辑"""
-        def task():
-            result = self.tcp_syn_scan(target_ip)
-            if callback:
-                callback(result)  # 扫描完成后执行回调（如存入ES）
         
-        scan_thread = threading.Thread(target=task, daemon=True)
-        scan_thread.start()
-        return {"status": "scan started", "thread_id": scan_thread.ident}
+        # 保存结果
+        self._save_probe_result("anomaly_detection", target_ip, final_result)
+        
+        return final_result
+
+    def _save_probe_result(self, scan_type, target_ip, result):
+        """保存探测结果到文件"""
+        try:
+            import json
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{scan_type}_{target_ip.replace('.', '_')}_{timestamp}.json"
+            filepath = os.path.join(self.results_dir, filename)
+            
+            with open(filepath, 'w', encoding='utf-8') as f:
+                json.dump(result, f, ensure_ascii=False, indent=2)
+            
+            # 更新最新结果链接
+            latest_link = os.path.join(self.results_dir, f"latest_{scan_type}_{target_ip.replace('.', '_')}.json")
+            if os.path.exists(latest_link):
+                os.unlink(latest_link)
+            os.symlink(filepath, latest_link)
+            
+            return filepath
+        except Exception as e:
+            print(f"保存探测结果失败：{str(e)}")
+            return None
+
+    def get_latest_anomaly_results(self, target_ip):
+        """获取最新的异常检测结果"""
+        try:
+            import json
+            latest_link = os.path.join(
+                self.results_dir, 
+                f"latest_anomaly_detection_{target_ip.replace('.', '_')}.json"
+            )
+            
+            if not os.path.exists(latest_link):
+                return None, "没有找到异常检测结果"
+            
+            with open(latest_link, 'r', encoding='utf-8') as f:
+                result = json.load(f)
+            
+            return result, "成功获取异常检测结果"
+        except Exception as e:
+            return None, f"获取异常检测结果失败：{str(e)}"
