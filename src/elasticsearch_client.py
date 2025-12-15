@@ -49,6 +49,14 @@ class ESClient:
 
     def bulk_insert(self, dataframe):
         """批量插入DataFrame数据"""
+
+        if self.es is None or df.empty:
+            return {"status": "failed", "message": "ES客户端未初始化或无数据"}
+
+        self._create_index_if_not_exists()
+    
+        docs = self.preprocess_data(df)
+
         if dataframe.empty:
             return {"success": False, "message": "无数据可插入"}
         

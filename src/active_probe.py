@@ -3,20 +3,30 @@ import nmap
 import time
 import threading
 from datetime import datetime
+from ratelimit import limits, sleep_and_retry
 
 class ActiveProbe:
-    def __init__(self):
+    def __init__(self, max_scan_rate=10):
+        """初始化主动探测模块，增加速率控制参数"""
         self.nm = nmap.PortScanner()
-        self.scan_results = {}  # 存储扫描结果
+        self.scan_results = {}
+        self.max_scan_rate = max_scan_rate  # 最大扫描速率（每秒包数）
+        self.scan_lock = threading.Lock()  # 扫描锁，防止并发冲突
 
-    def tcp_syn_scan(self, target_ip, ports="1-1000", timeout=10):
-        """TCP SYN半开放扫描（需管理员权限）- 生产环境核心逻辑"""
+    # 新增速率控制装饰器，限制扫描频率
+    @sleep_and_retry
+    @limits(calls=10, period=1)  # 1秒最多10次扫描
+    def _rate_limited_scan(self, target_ip, ports, arguments, timeout):
+        return self.nm.scan(target_ip, ports, arguments, timeout=timeout)
+
+    def tcp_syn_scan(self, target_ip, ports="1-1000", timeout=10, rate_limit=None):
+        """TCP SYN半开放扫描（增加速率控制）- 生产环境核心逻辑"""
         start_time = datetime.now()
         try:
-            # nmap SYN扫描：-sS（SYN扫描）、-v（详细输出）、-n（不解析DNS）
-            self.nm.scan(target_ip, ports, "-sS -v -n", timeout=timeout)
+            # 使用速率控制的扫描方法
+            self._rate_limited_scan(target_ip, ports, "-sS -v -n", timeout)
             
-            # 解析扫描结果
+            # 解析扫描结果（保持不变）
             result = {
                 "target": target_ip,
                 "start_time": start_time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -36,7 +46,8 @@ class ActiveProbe:
                                 "product": self.nm[target_ip][proto][port].get('product', 'unknown')
                             })
             
-            self.scan_results[target_ip] = result
+            with self.scan_lock:
+                self.scan_results[target_ip] = result
             return result
         except Exception as e:
             return {"error": f"SYN扫描失败: {str(e)}"}

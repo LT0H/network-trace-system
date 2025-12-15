@@ -1,0 +1,19 @@
+{
+  "target": "127.0.0.1",
+  "start_time": "2025-12-15 15:23:18",
+  "end_time": "2025-12-15 15:23:19",
+  "open_ports": [
+    {
+      "port": 135,
+      "state": "open",
+      "service": "msrpc",
+      "product": ""
+    },
+    {
+      "port": 445,
+      "state": "open",
+      "service": "microsoft-ds",
+      "product": ""
+    }
+  ]
+}

@@ -53,3 +53,70 @@ urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object
 2025-12-15 14:09:24,893 - INFO - CICFlowMeter初始化完成
 2025-12-15 14:10:40,986 - INFO - 服务已停止
 2025-12-15 14:10:41,199 - INFO - 服务停止
+2025-12-15 14:40:46,396 - INFO - 工作目录切换至：C:\Users\z1395\network_trace_system
+2025-12-15 14:40:46,397 - INFO - 服务启动成功
+2025-12-15 14:40:46,455 - INFO - GET http://localhost:9200/ [status:200 request:0.057s]
+2025-12-15 14:40:46,457 - INFO - HEAD http://localhost:9200/ [status:200 request:0.002s]
+2025-12-15 14:40:46,693 - INFO - PUT http://localhost:9200/network_traffic [status:200 request:0.232s]
+2025-12-15 14:40:46,693 - INFO - 索引network_traffic创建成功
+2025-12-15 14:40:46,693 - INFO - ES客户端初始化成功，索引：network_traffic
+2025-12-15 14:40:46,693 - INFO - ES客户端初始化成功
+2025-12-15 14:40:46,693 - INFO - 开始初始化CICFlowMeter...
+2025-12-15 14:40:46,694 - INFO - CICFlowMeter初始化完成
+2025-12-15 15:07:15,117 - INFO - 服务已停止
+2025-12-15 15:07:15,447 - INFO - 服务停止
+2025-12-15 15:18:38,060 - INFO - 工作目录切换至：C:\Users\z1395\network_trace_system
+2025-12-15 15:18:38,061 - INFO - 服务启动成功
+2025-12-15 15:18:42,156 - WARNING - GET http://localhost:9200/ [status:N/A request:4.095s]
+Traceback (most recent call last):
+  File "C:\Python311\Lib\site-packages\urllib3\connection.py", line 174, in _new_conn
+    conn = connection.create_connection(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\util\connection.py", line 95, in create_connection
+    raise err
+  File "C:\Python311\Lib\site-packages\urllib3\util\connection.py", line 85, in create_connection
+    sock.connect(sa)
+ConnectionRefusedError: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Python311\Lib\site-packages\elasticsearch\connection\http_urllib3.py", line 255, in perform_request
+    response = self.pool.urlopen(
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\connectionpool.py", line 802, in urlopen
+    retries = retries.increment(
+              ^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\util\retry.py", line 527, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\packages\six.py", line 770, in reraise
+    raise value
+  File "C:\Python311\Lib\site-packages\urllib3\connectionpool.py", line 716, in urlopen
+    httplib_response = self._make_request(
+                       ^^^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\connectionpool.py", line 416, in _make_request
+    conn.request(method, url, **httplib_request_kw)
+  File "C:\Python311\Lib\site-packages\urllib3\connection.py", line 244, in request
+    super(HTTPConnection, self).request(method, url, body=body, headers=headers)
+  File "C:\Python311\Lib\http\client.py", line 1303, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Python311\Lib\http\client.py", line 1349, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Python311\Lib\http\client.py", line 1298, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Python311\Lib\http\client.py", line 1058, in _send_output
+    self.send(msg)
+  File "C:\Python311\Lib\http\client.py", line 996, in send
+    self.connect()
+  File "C:\Python311\Lib\site-packages\urllib3\connection.py", line 205, in connect
+    conn = self._new_conn()
+           ^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\site-packages\urllib3\connection.py", line 186, in _new_conn
+    raise NewConnectionError(
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x0000013E3A4CE290>: Failed to establish a new connection: [WinError 10061] 由于目标计算机积极拒绝，无法连接。
+2025-12-15 15:18:42,239 - ERROR - ES客户端初始化失败：tuple index out of range
+2025-12-15 15:18:42,239 - INFO - 开始初始化CICFlowMeter...
+2025-12-15 15:18:45,845 - INFO - CICFlowMeter初始化完成
+2025-12-15 15:26:04,857 - INFO - 服务已停止
+2025-12-15 15:26:05,724 - INFO - 服务停止
