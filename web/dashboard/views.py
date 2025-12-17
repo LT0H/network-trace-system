@@ -90,14 +90,54 @@ def task_results(request, task_id):
     """查看任务结果"""
     task = get_object_or_404(Task, id=task_id, created_by=request.user)
     results = None
+    chart_data = None
     
     if task.result_path and os.path.exists(task.result_path):
         with open(task.result_path, 'r', encoding='utf-8') as f:
             results = json.load(f)
+        
+        # 如果是流量分析任务，准备图表数据
+        if task.task_type == 'traffic':
+            # 提取异常检测相关数据
+            anomaly_data = results.get('anomaly', {})
+            total_flows = results.get('total_flows', 0)
+            
+            # 准备饼图数据（正常vs异常）
+            pie_data = {
+                'labels': ['正常流量', '异常流量'],
+                'values': [
+                    total_flows - anomaly_data.get('count', 0),
+                    anomaly_data.get('count', 0)
+                ]
+            }
+            
+            # 准备柱状图数据（异常IP分布）
+            ip_counts = anomaly_data.get('ip_counts', {})
+            # 只取前10个IP，避免图表过于拥挤
+            top_ips = sorted(ip_counts.items(), key=lambda x: x[1], reverse=True)[:10]
+            bar_data = {
+                'labels': [ip for ip, _ in top_ips],
+                'values': [count for _, count in top_ips]
+            }
+            
+            # 准备协议分布数据
+            protocol_data = results.get('protocol_distribution', {})
+            protocol_chart = {
+                'labels': list(protocol_data.keys()),
+                'values': list(protocol_data.values())
+            }
+            
+            chart_data = {
+                'pie': pie_data,
+                'bar': bar_data,
+                'protocol': protocol_chart,
+                'anomaly_ratio': anomaly_data.get('ratio', 0)
+            }
     
     return render(request, 'dashboard/task_results.html', {
         'task': task,
-        'results': results
+        'results': results,
+        'chart_data': chart_data
     })
 
 def dashboard(request):
@@ -180,3 +220,18 @@ def get_anomaly_results(request):
     if result:
         return JsonResponse(result)
     return JsonResponse({"error": msg})
+
+@login_required
+def delete_task(request, task_id):
+    """删除任务"""
+    task = get_object_or_404(Task, id=task_id, created_by=request.user)
+    try:
+        # 如果有结果文件，删除文件
+        if task.result_path and os.path.exists(task.result_path):
+            os.remove(task.result_path)
+        # 删除任务记录
+        task.delete()
+        messages.success(request, "任务已成功删除")
+    except Exception as e:
+        messages.error(request, f"删除任务失败：{str(e)}")
+    return redirect('task_list')

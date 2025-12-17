@@ -1,4 +1,7 @@
 """主动探测模块：发送异常流量并捕获响应，用于攻击特征提取"""
+import os
+import subprocess
+import json
 import time
 from datetime import datetime
 import scapy.all as scapy

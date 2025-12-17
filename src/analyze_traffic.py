@@ -10,15 +10,26 @@ from attack_signatures.update_signatures import SignatureManager
 # 固定路径配置（适配你的环境）
 CSV_BASE_DIR = r"C:\Users\z1395\network_trace_system\CICFlowMeter\target\data\daily"
 
+# 关键列名映射（CICFlowMeter实际列名）
+REQUIRED_COLUMNS = {
+    "Flow_Duration": "Flow Duration",
+    "Total_Fwd_Packets": "Total Fwd Packets",
+    "Total_Bwd_Packets": "Total Bwd Packets",
+    "Src_Port": "Src Port",
+    "Dst_Port": "Dst Port",
+    "Protocol": "Protocol",
+    "Src_IP": "Src IP",
+    "Dst_IP": "Dst IP"
+}
+
 def load_and_clean_data(csv_path=None):
     """
     加载并清洗流量数据（自动取最新CSV，补充RTT/TTL字段）- 生产环境核心逻辑
     :param csv_path: 指定CSV路径（None则自动取最新）
     :return: 清洗后的DataFrame
     """
-    # 1. 自动获取最新CSV文件 - 修复参数错误
+    # 1. 自动获取最新CSV文件
     if not csv_path:
-        # 修复：添加第三个参数（描述信息）
         csv_path = get_latest_file(CSV_BASE_DIR, ".csv", "流量CSV")
         if not csv_path:
             # 尝试启动CICFlowMeter生成CSV
@@ -31,34 +42,40 @@ def load_and_clean_data(csv_path=None):
         # 加载CSV文件（CICFlowMeter导出格式）
         df = pd.read_csv(csv_path, encoding="utf-8")
         
-        # 2. 处理缺失值
+        # 2. 验证关键列是否存在
+        missing_cols = [col for col in REQUIRED_COLUMNS.keys() if col not in df.columns]
+        if missing_cols:
+            print(f"错误：CSV文件缺少必要列 {missing_cols}，请检查CICFlowMeter输出格式")
+            return pd.DataFrame()
+        
+        # 3. 处理缺失值
         df = df.fillna({
-            "Flow Duration": 0,
-            "Total Fwd Packets": 0,
-            "Total Bwd Packets": 0,
-            "Src Port": 0,
-            "Dst Port": 0,
+            "Flow_Duration": 0,
+            "Total_Fwd_Packets": 0,
+            "Total_Bwd_Packets": 0,
+            "Src_Port": 0,
+            "Dst_Port": 0,
             "Protocol": 0
         })
         
-        # 3. 补充协议名称（根据Protocol数字编码）
+        # 4. 补充协议名称（根据Protocol数字编码）
         protocol_mapping = {6: "TCP", 17: "UDP", 1: "ICMP", 0: "Unknown"}
         df["Protocol_Name"] = df["Protocol"].map(protocol_mapping).fillna("Other")
         
-        # 4. 补充RTT和TTL字段（从主动探测结果中获取）
+        # 5. 补充RTT和TTL字段（从主动探测结果中获取）
         if "RTT" not in df.columns:
             df["RTT"] = np.random.uniform(10, 500, len(df)).round(2)  # 临时实现，后续应从实际探测获取
         if "TTL" not in df.columns:
             df["TTL"] = np.random.choice([64, 128, 255], len(df))  # 临时实现
         
-        # 5. 计算TTL方差（用于特征匹配）
-        df["TTL Variance"] = df.groupby("Src IP")["TTL"].transform("var").fillna(0)
+        # 6. 计算TTL方差（用于特征匹配）
+        df["TTL_Variance"] = df.groupby("Src_IP")["TTL"].transform("var").fillna(0)
         
-        # 6. 处理Payload字段
+        # 7. 处理Payload字段
         if "Payload" not in df.columns:
             df["Payload"] = ""  # 生产环境需替换为真实载荷解析逻辑
         
-        # 7. 初始化恶意流量标记
+        # 8. 初始化恶意流量标记
         df["malicious_label"] = "正常"
         df["malicious_reason"] = ""
         
@@ -87,22 +104,27 @@ def analyze_traffic_patterns(df=None):
     # 3. 基础统计
     total_flows = len(df)
     protocol_dist = df["Protocol_Name"].value_counts().to_dict()
-    top_src_ips = df["Src IP"].value_counts().head(10).to_dict()
-    top_dst_ips = df["Dst IP"].value_counts().head(10).to_dict()
+    top_src_ips = df["Src_IP"].value_counts().head(10).to_dict()
+    top_dst_ips = df["Dst_IP"].value_counts().head(10).to_dict()
     
     # 4. 特征匹配（识别恶意流量）
     malicious_flows = []
     for idx, row in df.iterrows():
         flow_data = row.to_dict()
-        matches = sig_manager.match_signature(flow_data)
+        # 转换列名格式为报告友好型（下划线转空格）
+        flow_data_friendly = {
+            REQUIRED_COLUMNS.get(k, k): v 
+            for k, v in flow_data.items()
+        }
+        matches = sig_manager.match_signature(flow_data_friendly)
         if matches:
             # 更新恶意流量标记
             df.at[idx, "malicious_label"] = "恶意"
             df.at[idx, "malicious_reason"] = str(matches)
             malicious_flows.append({
                 "flow_id": idx,
-                "src_ip": row["Src IP"],
-                "dst_ip": row["Dst IP"],
+                "src_ip": row["Src_IP"],
+                "dst_ip": row["Dst_IP"],
                 "matched_signatures": matches
             })
     
