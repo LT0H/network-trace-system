@@ -1,0 +1,19 @@
+{
+  "target": "192.168.1.1",
+  "start_time": "2026-03-16 12:06:31",
+  "end_time": "2026-03-16 12:06:36",
+  "open_ports": [
+    {
+      "port": 80,
+      "state": "open",
+      "service": "http",
+      "product": ""
+    },
+    {
+      "port": 445,
+      "state": "open",
+      "service": "microsoft-ds",
+      "product": ""
+    }
+  ]
+}

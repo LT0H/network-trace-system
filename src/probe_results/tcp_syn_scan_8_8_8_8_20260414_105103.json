@@ -1,0 +1,13 @@
+{
+  "target": "8.8.8.8",
+  "start_time": "2026-04-14 10:34:21",
+  "end_time": "2026-04-14 10:51:03",
+  "open_ports": [
+    {
+      "port": 53,
+      "state": "open",
+      "service": "dns",
+      "product": ""
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "report": {
+    "analysis_time": "2026-04-14 10:39:54",
+    "data_source": "C:\\Users\\z1395\\network_trace_system\\CICFlowMeter\\target\\data\\daily\\icmpWXP_scan.pcap_Flow.csv",
+    "total_flows": 46,
+    "protocol_distribution": {
+      "Unknown": 24,
+      "UDP": 13,
+      "TCP": 9
+    },
+    "top_src_ips": {
+      "192.168.1.8": 19,
+      "134.221.96.8": 5,
+      "134.221.96.0": 5,
+      "134.221.96.2": 4,
+      "134.221.96.5": 3,
+      "134.221.96.12": 2,
+      "134.221.96.1": 2,
+      "124.236.26.167": 2,
+      "192.168.1.16": 1,
+      "255.250.8.0": 1
+    },
+    "top_dst_ips": {
+      "223.5.5.5": 12,
+      "142.251.45.142": 3,
+      "192.168.1.8": 2,
+      "251.159.0.51": 1,
+      "251.159.5.140": 1,
+      "8.0.6.4": 1,
+      "166.131.0.20": 1,
+      "5.240.0.20": 1,
+      "142.251.33.206": 1,
+      "62.146.0.51": 1
+    },
+    "malicious": {
+      "count": 0,
+      "ratio": 0.0,
+      "details": []
+    },
+    "anomaly": {
+      "count": 6,
+      "ratio": 13.04,
+      "ip_counts": {
+        "134.221.96.8": 2,
+        "124.236.26.167": 2,
+        "192.168.1.8": 1,
+        "255.250.8.0": 1
+      },
+      "thresholds": {
+        "flow_duration": 33585173.74078055,
+        "fwd_packets": 64.59398242941836,
+        "bwd_packets": 9.653435773675152,
+        "packet_rate": 0.005428308708594096
+      }
+    }
+  },
+  "json_path": "C:\\Users\\z1395\\network_trace_system\\web\\dashboard\\reports\\json\\analysis_report_20260414_103954.json",
+  "html_path": "C:\\Users\\z1395\\network_trace_system\\web\\dashboard\\reports\\network_traffic_report_20260414_103954.html",
+  "status": "success",
+  "message": "分析完成：HTML报告生成成功"
+}

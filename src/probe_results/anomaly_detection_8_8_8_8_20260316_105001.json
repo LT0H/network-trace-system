@@ -1,0 +1,10 @@
+{
+  "target": "8.8.8.8",
+  "duration_seconds": 30,
+  "scan_time": "2026-03-16 10:50:01",
+  "anomaly_results": [
+    {
+      "pattern_id": 1,
+      "pattern": {
+        "flags": "FPU",
+        "payload": 

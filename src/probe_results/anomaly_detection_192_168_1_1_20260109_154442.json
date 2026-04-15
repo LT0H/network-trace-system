@@ -1,0 +1,10 @@
+{
+  "target": "192.168.1.1",
+  "duration_seconds": 30,
+  "scan_time": "2026-01-09 15:44:42",
+  "anomaly_results": [
+    {
+      "pattern_id": 1,
+      "pattern": {
+        "flags": "FPU",
+        "payload": 

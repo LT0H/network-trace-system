@@ -1,0 +1,13 @@
+{
+  "target": "127.0.0.1",
+  "start_time": "2026-01-09 15:52:31",
+  "end_time": "2026-01-09 15:52:39",
+  "open_ports": [
+    {
+      "port": 445,
+      "state": "open",
+      "service": "microsoft-ds",
+      "product": ""
+    }
+  ]
+}

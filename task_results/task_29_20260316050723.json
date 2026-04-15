@@ -1,0 +1,36 @@
+{
+  "report": {
+    "analysis_time": "2026-03-16 13:07:23",
+    "data_source": "C:\\Users\\z1395\\network_trace_system\\CICFlowMeter\\target\\data\\daily\\ssh_brute.pcap_Flow.csv",
+    "total_flows": 1,
+    "protocol_distribution": {
+      "Unknown": 1
+    },
+    "top_src_ips": {
+      "0.0.0.0": 1
+    },
+    "top_dst_ips": {
+      "0.0.0.0": 1
+    },
+    "malicious": {
+      "count": 0,
+      "ratio": 0.0,
+      "details": []
+    },
+    "anomaly": {
+      "count": 0,
+      "ratio": 0.0,
+      "ip_counts": {},
+      "thresholds": {
+        "flow_duration": NaN,
+        "fwd_packets": NaN,
+        "bwd_packets": NaN,
+        "packet_rate": NaN
+      }
+    }
+  },
+  "json_path": "C:\\Users\\z1395\\network_trace_system\\web\\dashboard\\reports\\json\\analysis_report_20260316_130723.json",
+  "html_path": "C:\\Users\\z1395\\network_trace_system\\web\\dashboard\\reports\\network_traffic_report_20260316_130723.html",
+  "status": "success",
+  "message": "分析完成：HTML报告生成成功"
+}

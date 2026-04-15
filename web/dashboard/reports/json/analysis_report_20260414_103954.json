@@ -1,5 +1,5 @@
 {
-  "analysis_time": "2026-04-14 11:07:47",
+  "analysis_time": "2026-04-14 10:39:54",
   "data_source": "C:\\Users\\z1395\\network_trace_system\\CICFlowMeter\\target\\data\\daily\\icmpWXP_scan.pcap_Flow.csv",
   "total_flows": 46,
   "protocol_distribution": {
